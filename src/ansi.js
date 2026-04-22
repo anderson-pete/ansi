@@ -1,5 +1,7 @@
 "use strict";
 
+const rxCSI = /\x1b\[[0-?]*[ -/]*[@-~]/g;
+
 /** @type {(r: number, g: number, b: number, code: number) => string} */
 function rgb(r, g, b, code) {
 	if (r === g && g === b) {
@@ -84,6 +86,58 @@ const ansi = {
 	scrollUp   : lines => `\x1b[${lines}S`,
 	/** @type {(lines: number) => string} */
 	scrollDown : lines => `\x1b[${lines}T`,
+
+	/** @type {(text: string) => string} */
+	strip: text => text.replace(rxCSI, ''),
+
+	/** @type {(text: string, start: number, end: number) => string} */
+	slice(text, start, end) {
+		if (start < 0 || end < 0) {
+			const visibleLength = ansi.strip(text).length;
+			if (start < 0)
+				start = Math.max(0, visibleLength + start);
+			if (end < 0)
+				end = Math.max(0, visibleLength + end);
+		}
+		if (start > end)
+			return "";
+
+		let visibleIndex = 0;
+		let startIndex   = 0;
+
+		while (startIndex < text.length && visibleIndex < start) {
+			if (text[startIndex] === "\x1b") {
+				rxCSI.lastIndex = startIndex;
+				const match = rxCSI.exec(text);
+				if (match?.index === startIndex) {
+					startIndex += match[0].length;
+					continue;
+				}
+			}
+
+			startIndex++;
+			visibleIndex++;
+		}
+
+		let endIndex = startIndex;
+		let hasAnsi  = false;
+		while (endIndex < text.length && visibleIndex < end) {
+			if (text[endIndex] === "\x1b") {
+				rxCSI.lastIndex = endIndex;
+				const match = rxCSI.exec(text);
+				if (match?.index === endIndex) {
+					endIndex += match[0].length;
+					hasAnsi = true;
+					continue;
+				}
+			}
+
+			endIndex++;
+			visibleIndex++;
+		}
+
+		return text.slice(startIndex, endIndex) + (hasAnsi ? ansi.reset : "");
+	},
 };
 
 module.exports = ansi;

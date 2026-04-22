@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2026-04-22
+### Added
+ - `strip()` for removing ANSI sequences from a string
+ - `slice()` for slicing a string by visible characters, ignoring ANSI sequences
+
 ## [0.1.0] - 2026-04-22
 ### Added
  - `fg.default` and `bg.default` to reset colors
@@ -27,5 +32,6 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.1.1]: https://github.com/anderson-pete/ansi/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/anderson-pete/ansi/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/anderson-pete/ansi/releases/tag/v0.0.1

@@ -16,7 +16,8 @@ const ansi = require("@peteanderson/ansi");
 console.log(ansi.fg.red + "error: something went wrong" + ansi.fg.default);
 console.log(ansi.bg.blue + ansi.fg.white + "highlighted" + ansi.fg.default + ansi.bg.default);
 console.log(ansi.erase.screen);
-console.log(ansi.caret.show);
+console.log(ansi.slice(coloredText, 0, 10)); // slice by visible characters
+console.log(ansi.strip(coloredText)); // remove ANSI codes
 ```
 
 ## API
@@ -54,6 +55,11 @@ Raw sequences:
 ### `strip(text)`
 
 Removes ANSI CSI sequences from a string.
+
+### `slice(text, start, end)`
+
+Slices a string by visible characters, ignoring ANSI sequences. Works like `String.prototype.slice`
+but counts only visible characters.
 
 ## License
 
