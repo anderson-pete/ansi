@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.2] - 2026-04-29
+### Added
+ - `colorDepth` and `enabled` properties with separate `stdout` and `stderr` detection
+ - Caret movement: `up()`, `down()`, `forward()`, `backward()`, `nextLine()`, `prevLine()`, and
+   `x()` for absolute positioning
+ - VT100 `save` and `restore` caret sequences
+ - Extended color support: 4-bit bright colors and `x256` for 8-bit colors
+ - Expanded style options: `bold`, `dim`, `italic`, `hidden`, `strikethrough`, `doubleUnderline`,
+   `framed`, `encircled`, `overline`
+ - `sanitize()` function to remove unsafe CSI sequences
+ - SGR features (`fg`, `bg`, `style`) now include `open` and `close` properties
+
+### Changed
+ - Reorganized into feature-based modules (`sgr`, `strip`, `scroll`, etc.)
+ - SGR features are now callable functions that wrap text, restoring `color.js` behavior
+ - `scroll.up()` and `scroll.down()` replace `scrollUp` and `scrollDown`
+ - `erase` now uses nested objects: `erase.line` and `erase.screen` with `toStart`, `toEnd`, and
+   `full` properties
+ - Caret `position.set()` now uses 1-based indexing consistently
+
 ## [0.1.1] - 2026-04-22
 ### Added
  - `strip()` for removing ANSI sequences from a string
@@ -32,6 +52,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.1.2]: https://github.com/anderson-pete/ansi/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/anderson-pete/ansi/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/anderson-pete/ansi/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/anderson-pete/ansi/releases/tag/v0.0.1
