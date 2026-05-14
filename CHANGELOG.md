@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.0] - 2026-05-15
+### Removed
+ - Capability detection (`colorDepth` and `enabled`). This implementation was incomplete. I'll add
+   a more robust version in a future release.
+
 ## [0.1.2] - 2026-04-29
 ### Added
  - `colorDepth` and `enabled` properties with separate `stdout` and `stderr` detection
@@ -52,6 +57,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.2.0]: https://github.com/anderson-pete/ansi/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/anderson-pete/ansi/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/anderson-pete/ansi/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/anderson-pete/ansi/compare/v0.0.1...v0.1.0
