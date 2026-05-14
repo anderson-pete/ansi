@@ -19,6 +19,7 @@ console.log(ansi.style.bold("important"));
 console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
 console.log(ansi.strip("styled text")); // remove all ANSI codes
 console.log(ansi.slice("styled text", 0, 5)); // slice by visible length
+console.log(ansi.simplify(styledText)); // combine adjacent SGR sequences
 ```
 
 ## API
@@ -52,8 +53,7 @@ Functions that wrap text with style codes:
 `bold` `dim` `italic` `underline` `inverse` `hidden` `strikethrough` `doubleUnderline` `framed`
 `encircled` `overline`
 
-All return functions with `open` and `close` properties for raw sequences. SGR functions also have a
-`combine()` method for appending additional styles.
+All return functions with `open` and `close` properties for raw sequences.
 
 ### `caret`
 
@@ -89,6 +89,11 @@ but counts only visible characters.
 ### `sanitize(text)`
 
 Removes "unsafe" CSI sequences (non-SGR), leaving only color and style codes.
+
+### `simplify(text)`
+
+Simplifies ANSI SGR sequences by combining adjacent sequences and removing redundant codes. Useful
+for optimizing styled strings.
 
 ## License
 

@@ -4,6 +4,7 @@ const caret                    = require("./caret");
 const erase                    = require("./erase");
 const scroll                   = require("./scroll");
 const {bg, fg, reset, style}   = require("./sgr");
+const {simplify}               = require("./simplify");
 const {sanitize, slice, strip} = require("./strip");
 
 const ansi = {
@@ -19,6 +20,7 @@ const ansi = {
 	strip,
 	sanitize,
 	slice,
+	simplify,
 };
 
 module.exports = ansi;

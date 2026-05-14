@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.2] - 2026-05-15
+### Added
+ - `simplify()` function to remove redundant SGR codes from a string
+
 ## [0.2.1] - 2026-05-15
 ### Added
 - `[$codes]` property on SGR functions to access original codes
@@ -70,6 +74,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.2.2]: https://github.com/anderson-pete/ansi/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/anderson-pete/ansi/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/anderson-pete/ansi/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/anderson-pete/ansi/compare/v0.1.1...v0.1.2
