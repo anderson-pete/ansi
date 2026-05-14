@@ -14,7 +14,7 @@ npm install @peteanderson/ansi
 const ansi = require("@peteanderson/ansi");
 
 console.log(ansi.fg.red("error: something went wrong"));
-console.log(ansi.bg.blue(ansi.fg.white("highlighted")));
+console.log(ansi.bg.blue.combine(ansi.fg.white)("highlighted"));
 console.log(ansi.style.bold("important"));
 console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
 console.log(ansi.strip("styled text")); // remove all ANSI codes
@@ -31,7 +31,7 @@ Functions that wrap text with color codes:
 - Bright colors: `brightBlack` `brightRed` `brightGreen` `brightYellow` `brightBlue` `brightMagenta`
   `brightCyan` `brightWhite`
 - `fg.rgb(r, g, b)(text)` - 24-bit RGB color (r, g, b in 0–5 or grayscale 232–255)
-- `fg.x256(code)(text)` - 256-color palette
+- `fg.x256(code)(text)` or `fg.x256(r, g, b)(text)` - 256-color palette
 
 All return functions with `open` and `close` properties for raw sequences.
 
@@ -43,7 +43,7 @@ Functions that wrap text with color codes:
 - Bright colors: `brightBlack` `brightRed` `brightGreen` `brightYellow` `brightBlue` `brightMagenta`
   `brightCyan` `brightWhite`
 - `bg.rgb(r, g, b)(text)` - 24-bit RGB color
-- `bg.x256(code)(text)` - 256-color palette
+- `bg.x256(code)(text)` or `bg.x256(r, g, b)(text)` - 256-color palette
 
 ### `style`
 
@@ -52,7 +52,8 @@ Functions that wrap text with style codes:
 `bold` `dim` `italic` `underline` `inverse` `hidden` `strikethrough` `doubleUnderline` `framed`
 `encircled` `overline`
 
-All return functions with `open` and `close` properties for raw sequences.
+All return functions with `open` and `close` properties for raw sequences. SGR functions also have a
+`combine()` method for appending additional styles.
 
 ### `caret`
 

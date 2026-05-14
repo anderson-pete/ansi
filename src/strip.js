@@ -3,7 +3,7 @@
 const {reset} = require("./sgr");
 
 const rxCSI    = /\x1b\[[0-?]*[ -/]*[@-~]/g;
-const rxUnsafe = /\x1b\[[0-?]*[ -/]*[@-ln-~]/g; // Everything except SGR (m) codes.
+const rxUnsafe = /\x1b\[[0-?]*[ -/]*[@-ln-~]/g; // Everything except SGR codes (m).
 
 /**
  * Remove all ANSI escape codes from the given text.
@@ -12,7 +12,7 @@ const rxUnsafe = /\x1b\[[0-?]*[ -/]*[@-ln-~]/g; // Everything except SGR (m) cod
 const strip = text => text.replace(rxCSI, '');
 
 /**
- * Remove all ANSI escape codes except SGR (m) codes, which are used for color and styling.
+ * Remove all ANSI escape codes except SGR codes (m), which are used for color and styling.
  * @type {(text: string) => string}
  */
 const sanitize = text => text.replace(rxUnsafe, '');

@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.1] - 2026-05-15
+### Added
+- `[$codes]` property on SGR functions to access original codes
+- `combine()` method on SGR functions for appending additional styles
+- `x256()` overload to accept a single 256-color code instead of RGB components
+
+### Changed
+- Reorganized `sgr` module into multiple files in `sgr/` directory
+- SGR functions now accept `number | number[]` instead of `number | string`
+
+### Fixed
+- Dim and bold styles now properly handle nesting within each other
+
 ## [0.2.0] - 2026-05-15
 ### Removed
  - Capability detection (`colorDepth` and `enabled`). This implementation was incomplete. I'll add
@@ -57,6 +70,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.2.1]: https://github.com/anderson-pete/ansi/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/anderson-pete/ansi/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/anderson-pete/ansi/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/anderson-pete/ansi/compare/v0.1.0...v0.1.1
