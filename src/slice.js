@@ -21,17 +21,22 @@ function scanCSI(text, fromStringIndex, visibleCount) {
 	let index  = fromStringIndex;
 
 	while (index < text.length && length < visibleCount) {
-		if (text[index] === "\x1b") {
-			rx.lastIndex = index;
-			const match = rx.exec(text);
-			if (match?.index === index) {
-				index += match[0].length;
-				continue;
-			}
+		rx.lastIndex = index;
+		const match = rx.exec(text);
+
+		if (!match) {
+			const visibleLength = Math.min(text.length - index, visibleCount - length);
+			index  += visibleLength;
+			length += visibleLength;
+			return {index, length};
 		}
 
-		index++;
-		length++;
+		if (match.index > index) {
+			const visibleLength = Math.min(match.index - index, visibleCount - length);
+			index  += visibleLength;
+			length += visibleLength;
+		} else
+			index += match[0].length;
 	}
 
 	return {index, length};
