@@ -14,4 +14,21 @@ const erase = {
 	},
 };
 
-module.exports = erase;
+/** @type {typeof erase} */
+const disabled = {
+	line: {
+		toStart : "",
+		toEnd   : "",
+		full    : "",
+	},
+	screen: {
+		toStart    : "",
+		toEnd      : "",
+		full       : "",
+		scrollback : "",
+	},
+};
+
+const makeErase = (enabled = true) => enabled ? erase : disabled;
+
+module.exports = {makeErase};

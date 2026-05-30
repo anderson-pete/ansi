@@ -7,4 +7,12 @@ const scroll = {
 	down : lines => `\x1b[${lines ?? 1}T`,
 };
 
-module.exports = scroll;
+/** @type {typeof scroll} */
+const disabled = {
+	up   : () => "",
+	down : () => "",
+};
+
+const makeScroll = (enabled = true) => enabled ? scroll : disabled;
+
+module.exports = {makeScroll};

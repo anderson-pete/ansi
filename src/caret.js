@@ -1,8 +1,10 @@
 "use strict";
 
 /** @type {(code: string) => (count?: number) => string} */
-const move = code =>
-	count => `\x1b[${count === undefined ? "" : count ? count : "?"}${code}`;
+const move = code => count => `\x1b[${count === undefined ? "" : count ? count : "?"}${code}`;
+
+/** @type {(count?: number) => string} */
+const noop = () => "";
 
 const caret = {
 	up       : move("A"),
@@ -46,4 +48,39 @@ const caret = {
 	},
 };
 
-module.exports = caret;
+/** @type {typeof caret} */
+const disabled = {
+	up       : noop,
+	down     : noop,
+	forward  : noop,
+	backward : noop,
+	nextLine : noop,
+	prevLine : noop,
+
+	x: noop,
+
+	save    : "",
+	restore : "",
+
+	hide : "",
+	show : "",
+
+	position: {
+		get: "",
+		set: noop,
+	},
+
+	shape: {
+		steadyBlock       : "",
+		steadyBar         : "",
+		steadyUnderline   : "",
+		blinkingBlock     : "",
+		blinkingBar       : "",
+		blinkingUnderline : "",
+		default           : "",
+	},
+};
+
+const makeCaret = (enabled = true) => enabled ? caret : disabled;
+
+module.exports = {makeCaret};

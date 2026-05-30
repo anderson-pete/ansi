@@ -1,3 +1,3 @@
-const reset = "\x1b[0m";
+const makeReset = (enabled = true) => enabled ? "\x1b[0m" : "";
 
-module.exports = {reset};
+module.exports = {makeReset};

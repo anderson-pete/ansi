@@ -1,15 +1,13 @@
 "use strict";
 
-const $codes = Symbol();
-
 /**
 @typedef {number | number[]} Code
 @typedef {{
 	(text: string): string;
-	open     : string;
-	close    : string;
-	[$codes] : {open: Code, close: Code};
-	combine  : (...styles: SGR[]) => SGR;
+	open    : string;
+	close   : string;
+	codes   : {open: Code, close: Code};
+	combine : (...styles: SGR[]) => SGR;
 }} SGR
 */
 
@@ -48,19 +46,32 @@ function sgr(open, close, reset = false) {
 	const replace = `$<start>${reopenCode}$<end>`;
 
 	/** @type {(text: string) => string} */
-	const func = s => openSequence + s.replace(rxClose, replace) + closeSequence
+	const func = s => openSequence + s.replace(rxClose, replace) + closeSequence;
 
 	return Object.assign(func, {
-		[$codes] : {open, close},
-		open     : openSequence,
-		close    : closeSequence,
+		codes : {open, close},
+		open  : openSequence,
+		close : closeSequence,
 
 		/** @type {(...styles: SGR[]) => SGR} */
 		combine: (...styles) => sgr(
-			combine(open, styles.map(s => s[$codes].open)),
-			combine(close, styles.map(s => s[$codes].close)),
+			combine(open, styles.map(s => s.codes.open)),
+			combine(close, styles.map(s => s.codes.close)),
 		),
 	});
-}
+};
 
-module.exports = {sgr};
+/** @type {SGR} */
+const disabledSGR = Object.assign(/** @type {(text: string) => string} */ s => s, {
+	codes   : {open: 0, close: 0},
+	open    : "",
+	close   : "",
+	combine : () => disabledSGR,
+});
+
+/** @type {typeof sgr} */
+const disabled = () => disabledSGR;
+
+const makeSGR = (enabled = true) => enabled ? sgr : disabled;
+
+module.exports = {makeSGR};

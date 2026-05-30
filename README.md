@@ -1,6 +1,7 @@
 # @peteanderson/ansi
 
-ANSI escape sequence helpers for Node.js terminal output.
+ANSI escape sequence helpers for Node.js terminal output. Automatically detects terminal
+capabilities and adapts output accordingly.
 
 ## Installation
 
@@ -17,46 +18,79 @@ console.log(ansi.fg.red("error: something went wrong"));
 console.log(ansi.bg.blue.combine(ansi.fg.white)("highlighted"));
 console.log(ansi.style.bold("important"));
 console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
-console.log(ansi.strip("styled text")); // remove all ANSI codes
-console.log(ansi.visibleLength(styledText)); // get display width
-console.log(ansi.slice("styled text", 0, 5)); // slice by visible length
-console.log(ansi.simplify(styledText)); // combine adjacent SGR sequences
+
+// Disable colors for a specific stream
+const ansiNoColor = ansi(1); // force 1-bit (no color)
+console.log(ansiNoColor.fg.red("this won't be colored"));
+
+// Override specific features
+const customAnsi = ansi({colorDepth: 8, caret: false});
 ```
+
+## Feature Detection
+
+The module automatically detects:
+
+- **Color depth**: 1 (none), 4 (16 colors), 8 (256 colors), 24 (true color)
+- **Style support**: enabled if color depth > 1
+- **Other features**: caret, erase, scroll — enabled if output is a TTY and `TERM` is not `dumb`
+
+When disabled, features output empty strings. Color outputs plain text. This can be overridden:
+
+- Pass a boolean to force color on/off
+- Pass a number to set specific color depth (1, 3, 4, 8, or 24)
+- Pass a stream to use for detection
+- Pass a partial features object to override individual features
 
 ## API
 
+### Default Export
+
+The module exports a callable function with detection-based properties:
+
+```js
+const ansi = require("@peteanderson/ansi");
+const customAnsi = ansi(options); // returns configured instance
+```
+
 ### `fg` — foreground colors
 
-Functions that wrap text with color codes:
+Functions that wrap text with color codes (or plain text if disabled):
 
 - Basic colors: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `default`
 - Bright colors: `brightBlack` `brightRed` `brightGreen` `brightYellow` `brightBlue` `brightMagenta`
   `brightCyan` `brightWhite`
-- `fg.rgb(r, g, b)(text)` - 24-bit RGB color (r, g, b in 0–5 or grayscale 232–255)
-- `fg.x256(code)(text)` or `fg.x256(r, g, b)(text)` - 256-color palette
+- `fg.rgb(r, g, b)(text)` - 24-bit RGB color, downscaled for lower color depths
+- `fg.x256(code)(text)` or `fg.x256(r, g, b)(text)` - 256-color palette, downscaled as needed
 
 All return functions with `open` and `close` properties for raw sequences.
 
 ### `bg` — background colors
 
-Functions that wrap text with color codes:
+Functions that wrap text with color codes (or plain text if disabled):
 
 - Basic colors: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `default`
 - Bright colors: `brightBlack` `brightRed` `brightGreen` `brightYellow` `brightBlue` `brightMagenta`
   `brightCyan` `brightWhite`
-- `bg.rgb(r, g, b)(text)` - 24-bit RGB color
-- `bg.x256(code)(text)` or `bg.x256(r, g, b)(text)` - 256-color palette
+- `bg.rgb(r, g, b)(text)` - 24-bit RGB color, downscaled for lower color depths
+- `bg.x256(code)(text)` or `bg.x256(r, g, b)(text)` - 256-color palette, downscaled as needed
 
 ### `style`
 
-Functions that wrap text with style codes:
+Functions that wrap text with style codes (disabled if color depth = 1):
 
 `bold` `dim` `italic` `underline` `inverse` `hidden` `strikethrough` `doubleUnderline` `framed`
 `encircled` `overline`
 
 All return functions with `open` and `close` properties for raw sequences.
 
+### `reset`
+
+The SGR reset sequence. Empty string if color is disabled.
+
 ### `caret`
+
+Available if feature is enabled:
 
 - `caret.show` / `caret.hide` - show or hide the cursor
 - `caret.position.get` - get the current cursor position (terminal sends position to stdin)
@@ -69,36 +103,53 @@ All return functions with `open` and `close` properties for raw sequences.
 
 ### `erase`
 
+Available if feature is enabled:
+
 - `erase.line.toStart` / `erase.line.toEnd` / `erase.line.full` - erase line
 - `erase.screen.toStart` / `erase.screen.toEnd` / `erase.screen.full` - erase screen
 - `erase.screen.scrollback` - erase screen and scrollback buffer
 
 ### `scroll`
 
+Available if feature is enabled:
+
 - `scroll.up(lines)` - scroll up (default 1 line)
 - `scroll.down(lines)` - scroll down (default 1 line)
 
 ### `strip(text)`
 
-Removes all ANSI CSI sequences from a string.
+Removes all ANSI CSI sequences from a string (always available).
 
 ### `slice(text, start, end)`
 
-Slices a string by visible characters, ignoring ANSI sequences. Works like `String.prototype.slice`
-but counts only visible characters. Properly maintains terminal state at slice boundaries.
+Slices a string by visible characters, ignoring ANSI sequences (always available).
 
 ### `sanitize(text)`
 
-Removes "unsafe" CSI sequences (non-SGR), leaving only color and style codes.
+Removes "unsafe" CSI sequences, leaving only color and style codes (always available).
 
 ### `simplify(text)`
 
-Simplifies ANSI SGR sequences by combining adjacent sequences and removing redundant codes. Useful
-for optimizing styled strings.
+Simplifies ANSI SGR sequences by combining adjacent sequences and removing redundant codes (always
+available).
 
 ### `visibleLength(text)`
 
-Returns the visible length of a string with all ANSI sequences removed.
+Returns the visible length of a string with all ANSI sequences removed (always available).
+
+### `features`
+
+Object containing the detected feature configuration:
+
+```ts
+{
+    colorDepth : 1 | 3 | 4 | 8 | 24;
+    style      : boolean;
+    caret      : boolean;
+    erase      : boolean;
+    scroll     : boolean;
+}
+```
 
 ## License
 

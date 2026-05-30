@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] - 2026-05-30
+### Added
+- Automatic feature detection for terminal capabilities (color depth, style, caret, erase, scroll)
+- Color downscaling for terminals with limited color support (3-bit, 4-bit, 8-bit)
+- Configurable feature overrides via default export function with multiple override formats:
+  boolean, number, stream, or partial feature config
+- Support for manual stream selection and per-feature toggles
+
+### Changed
+- Default export is now a function for feature configuration (maintains backward compatibility via
+  properties)
+- SGR `$codes` property changed from symbol to regular property
+
 ## [0.2.3] - 2026-05-29
 ### Added
 - `visibleLength()` function to get string length with ANSI sequences removed
@@ -86,6 +99,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.3.0]: https://github.com/anderson-pete/ansi/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/anderson-pete/ansi/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/anderson-pete/ansi/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/anderson-pete/ansi/compare/v0.2.0...v0.2.1
