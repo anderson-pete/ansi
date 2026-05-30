@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.3] - 2026-05-29
+### Added
+- `visibleLength()` function to get string length with ANSI sequences removed
+
+### Changed
+- `slice()` now simplifies SGR sequences at boundaries to maintain correct terminal state, instead
+  of blindly appending a reset
+
+### Fixed
+- SGR pattern now correctly matches all valid SGR sequences, including those with omitted codes
+  (e.g., `\x1b[m`, `\x1b[1;m`)
+
 ## [0.2.2] - 2026-05-15
 ### Added
  - `simplify()` function to remove redundant SGR codes from a string
@@ -74,6 +86,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.2.3]: https://github.com/anderson-pete/ansi/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/anderson-pete/ansi/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/anderson-pete/ansi/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/anderson-pete/ansi/compare/v0.1.2...v0.2.0

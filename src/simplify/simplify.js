@@ -1,11 +1,11 @@
 "use strict";
 
+const {rxSGR} = require("../patterns");
 const {State} = require("./state");
-
-const rxSGR = /\x1b\[([0-9;]+)m/;
 
 /** @type {(text: string) => string} */
 function simplify(text) {
+	// `.split` doesn't modify `lastIndex`, so no clone is necessary here.
 	const parts = text.split(rxSGR);
 
 	const state  = new State();

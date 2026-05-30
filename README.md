@@ -18,6 +18,7 @@ console.log(ansi.bg.blue.combine(ansi.fg.white)("highlighted"));
 console.log(ansi.style.bold("important"));
 console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
 console.log(ansi.strip("styled text")); // remove all ANSI codes
+console.log(ansi.visibleLength(styledText)); // get display width
 console.log(ansi.slice("styled text", 0, 5)); // slice by visible length
 console.log(ansi.simplify(styledText)); // combine adjacent SGR sequences
 ```
@@ -84,7 +85,7 @@ Removes all ANSI CSI sequences from a string.
 ### `slice(text, start, end)`
 
 Slices a string by visible characters, ignoring ANSI sequences. Works like `String.prototype.slice`
-but counts only visible characters.
+but counts only visible characters. Properly maintains terminal state at slice boundaries.
 
 ### `sanitize(text)`
 
@@ -94,6 +95,10 @@ Removes "unsafe" CSI sequences (non-SGR), leaving only color and style codes.
 
 Simplifies ANSI SGR sequences by combining adjacent sequences and removing redundant codes. Useful
 for optimizing styled strings.
+
+### `visibleLength(text)`
+
+Returns the visible length of a string with all ANSI sequences removed.
 
 ## License
 
