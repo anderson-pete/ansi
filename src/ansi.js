@@ -3,6 +3,7 @@
 const {makeCaret}                       = require("./caret");
 const {makeErase}                       = require("./erase");
 const {getFeatures}                     = require("./features");
+const {padEnd, padStart}                = require("./pad");
 const {makeScroll}                      = require("./scroll");
 const {makeColor, makeReset, makeStyle} = require("./sgr");
 const {simplify}                        = require("./simplify");
@@ -19,6 +20,9 @@ const {sanitize, strip, visibleLength}  = require("./strip");
 
 	reset : string;
 	style : ReturnType<typeof makeStyle>;
+
+	padEnd   : typeof padEnd;
+	padStart : typeof padStart;
 
 	strip         : typeof strip;
 	visibleLength : typeof visibleLength;
@@ -42,6 +46,9 @@ function makeAnsi(...args) {
 		reset : makeReset(features.colorDepth > 1),
 		style : makeStyle(features.style),
 		...makeColor(features.colorDepth),
+
+		padEnd,
+		padStart,
 
 		strip,
 		visibleLength,

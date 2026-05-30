@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.1] - 2026-05-30
+### Added
+ - `padEnd()` and `padStart()` functions for padding strings to a specified visible length, ignoring
+    ANSI sequences
+
 ## [0.3.0] - 2026-05-30
 ### Added
 - Automatic feature detection for terminal capabilities (color depth, style, caret, erase, scroll)
@@ -99,6 +104,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.3.1]: https://github.com/anderson-pete/ansi/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/anderson-pete/ansi/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/anderson-pete/ansi/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/anderson-pete/ansi/compare/v0.2.1...v0.2.2

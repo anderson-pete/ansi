@@ -137,6 +137,11 @@ available).
 
 Returns the visible length of a string with all ANSI sequences removed (always available).
 
+### `padStart(text, targetLength)` and `padEnd(text, targetLength)`
+
+Pads a string to a target visible length using spaces. Accounts for ANSI sequences when calculating
+length.
+
 ### `features`
 
 Object containing the detected feature configuration:
