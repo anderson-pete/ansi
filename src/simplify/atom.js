@@ -25,9 +25,19 @@ function buildIntensityAtom(attribute, codes, index, state) {
 		return {attribute, code: [code]};
 
 	const current = state.get("intensity");
-	if (!current || current.length == 1 && current[0] === code || current[0] === 22)
+	if (
+		// If there is no intensity currently in the state, then we can just set the new state.
+		!current ||
+		// If the current intensity is normal (22), then we can just set the new state.
+		// Note that while the ultimate transition may return a code sequence of `[22, 1]` or
+		// `[22, 2]`, in our state representation, the only two-code intensity is `[1, 2]`.
+		current[0] === 22 ||
+		// If the current intensity is equal to the new intensity, then return the same state.
+		current.length === 1 && current[0] === code
+	)
 		return {attribute, code: [code]};
 
+	// Otherwise, we need to set both intensity codes.
 	return {attribute, code: [1, 2]};
 }
 
