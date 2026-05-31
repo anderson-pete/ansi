@@ -6,4 +6,5 @@ export interface Features {
 	caret      : boolean;
 	erase      : boolean;
 	scroll     : boolean;
+	terminal   : boolean;
 }

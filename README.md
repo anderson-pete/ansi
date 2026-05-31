@@ -101,6 +101,18 @@ Available if feature is enabled:
 - `caret.x(col)` - move cursor to column (1-based)
 - `caret.save` / `caret.restore` - save/restore cursor position (VT100)
 
+### `terminal`
+
+Terminal control features (available if feature is enabled):
+
+- `terminal.focusReporting.enable` / `terminal.focusReporting.disable` - enable/disable focus
+  reporting
+- `terminal.alternateBuffer.on` / `terminal.alternateBuffer.off` - switch to/from alternate buffer
+- `terminal.alternateBuffer.legacy.on` / `terminal.alternateBuffer.legacy.off` - use legacy
+  alternate buffer sequences
+- `terminal.bracketedPasteMode.enable` / `terminal.bracketedPasteMode.disable` - enable/disable
+  bracketed paste mode
+
 ### `erase`
 
 Available if feature is enabled:
@@ -153,6 +165,7 @@ Object containing the detected feature configuration:
     caret      : boolean;
     erase      : boolean;
     scroll     : boolean;
+    terminal   : boolean;
 }
 ```
 

@@ -37,17 +37,17 @@ function getFeatures(...args) {
 	if (features instanceof Socket)
 		return pipe();
 
-	const {colorDepth, style, caret, erase, scroll} = features;
+	const {colorDepth, style, caret, erase, scroll, terminal} = features;
 
 	stream ??= process.stdout;
 
 	if (colorDepth)
-		build(stream.isTTY, colorDepth, style, caret, erase, scroll);
+		build(stream.isTTY, colorDepth, style, caret, erase, scroll, terminal);
 
 	if (stream.isTTY)
-		return build(true, getColorDepth(stream), style, caret, erase, scroll);
+		return build(true, getColorDepth(stream), style, caret, erase, scroll, terminal);
 
-	return build(false, getColorDepth(), style, caret, erase, scroll);
+	return build(false, getColorDepth(), style, caret, erase, scroll, terminal);
 }
 
 module.exports = {getFeatures};

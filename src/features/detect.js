@@ -29,10 +29,11 @@ function getColorDepth(stream) {
 function detectFeatureSupport(isTTY, colorDepth) {
 	const enabled = process.env.TERM !== "dumb" && isTTY;
 	return {
-		style  : colorDepth > 1,
-		caret  : enabled,
-		erase  : enabled,
-		scroll : enabled,
+		style    : colorDepth > 1,
+		caret    : enabled,
+		erase    : enabled,
+		scroll   : enabled,
+		terminal : enabled,
 	};
 }
 

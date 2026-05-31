@@ -28,20 +28,28 @@ function normalizeColorDepth(colorDepth) {
 		caret?     : boolean,
 		erase?     : boolean,
 		scroll?    : boolean,
+		terminal?  : boolean,
 	) => Features
 }
 */
-function build(isTTY, colorDepth, style, caret, erase, scroll) {
-	if (style !== undefined && caret !== undefined && erase !== undefined && scroll !== undefined)
-		return {colorDepth: normalizeColorDepth(colorDepth), style, caret, erase, scroll};
+function build(isTTY, colorDepth, style, caret, erase, scroll, terminal) {
+	if (
+		style    !== undefined &&
+		caret    !== undefined &&
+		erase    !== undefined &&
+		scroll   !== undefined &&
+		terminal !== undefined
+	)
+		return {colorDepth: normalizeColorDepth(colorDepth), style, caret, erase, scroll, terminal};
 
 	const support = detectFeatureSupport(isTTY, colorDepth);
 	return {
 		colorDepth : normalizeColorDepth(colorDepth),
-		style      : style  ?? support.style,
-		caret      : caret  ?? support.caret,
-		erase      : erase  ?? support.erase,
-		scroll     : scroll ?? support.scroll,
+		style      : style    ?? support.style,
+		caret      : caret    ?? support.caret,
+		erase      : erase    ?? support.erase,
+		scroll     : scroll   ?? support.scroll,
+		terminal   : terminal ?? support.terminal,
 	};
 }
 

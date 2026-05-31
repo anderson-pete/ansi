@@ -9,6 +9,7 @@ const {makeColor, makeReset, makeStyle} = require("./sgr");
 const {simplify}                        = require("./simplify");
 const {slice}                           = require("./slice");
 const {sanitize, strip, visibleLength}  = require("./strip");
+const {makeTerminal}                    = require("./terminal");
 
 /**
 @typedef {import("./features/features").Args} Args
@@ -20,6 +21,8 @@ const {sanitize, strip, visibleLength}  = require("./strip");
 
 	reset : string;
 	style : ReturnType<typeof makeStyle>;
+
+	terminal : ReturnType<typeof makeTerminal>;
 
 	padEnd   : typeof padEnd;
 	padStart : typeof padStart;
@@ -46,6 +49,8 @@ function makeAnsi(...args) {
 		reset : makeReset(features.colorDepth > 1),
 		style : makeStyle(features.style),
 		...makeColor(features.colorDepth),
+
+		terminal: makeTerminal(features.terminal),
 
 		padEnd,
 		padStart,
