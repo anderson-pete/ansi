@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.3] - 2026-06-15
+### Fixed
+ - Passing `undefined` to style functions now returns an empty string instead of throwing an error
+
 ## [0.3.2] - 2026-05-31
 ### Added
 - Focus reporting: terminal sends sequences when gaining/losing focus
@@ -110,6 +114,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[0.3.3]: https://github.com/anderson-pete/ansi/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/anderson-pete/ansi/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/anderson-pete/ansi/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/anderson-pete/ansi/compare/v0.2.3...v0.3.0

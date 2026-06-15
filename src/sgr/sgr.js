@@ -46,7 +46,7 @@ function sgr(open, close, reset = false) {
 	const replace = `$<start>${reopenCode}$<end>`;
 
 	/** @type {(text: string) => string} */
-	const func = s => openSequence + s.replace(rxClose, replace) + closeSequence;
+	const func = s => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s;
 
 	return Object.assign(func, {
 		codes : {open, close},
