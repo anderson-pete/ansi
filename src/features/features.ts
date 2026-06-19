@@ -1,25 +1,18 @@
-"use strict";
+import {Socket}                            from "node:net";
+import {WriteStream}                       from "node:tty";
+import {boolean, build, number, pipe, tty} from "./build";
+import {getColorDepth}                     from "./detect";
 
-const {Socket}                            = require("node:net");
-const {WriteStream}                       = require("node:tty");
-const {build, boolean, number, tty, pipe} = require("./build");
-const {getColorDepth}                     = require("./detect");
+import type {ColorDepth, Features} from "./types";
 
-/**
-@typedef {import("./types").ColorDepth} ColorDepth
-@typedef {import("./types").Features}   Features
-
-@typedef {
+export type Args =
 	| [enabled    : boolean,           stream?: NodeJS.WriteStream]
 	| [colorDepth : ColorDepth,        stream?: NodeJS.WriteStream]
 	| [features   : Partial<Features>, stream?: NodeJS.WriteStream]
 	| [socket     : Socket]
-	| [stream?    : NodeJS.WriteStream]
-} Args
-*/
+	| [stream?    : NodeJS.WriteStream];
 
-/** @type {(...args: Args) => Features} */
-function getFeatures(...args) {
+export function getFeatures(...args: Args): Features {
 	let [features, stream] = args;
 
 	if (typeof features === "boolean")
@@ -49,5 +42,3 @@ function getFeatures(...args) {
 
 	return build(false, getColorDepth(), style, caret, erase, scroll, terminal);
 }
-
-module.exports = {getFeatures};

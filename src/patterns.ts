@@ -37,8 +37,6 @@ timeit(() => long .replace(new RegExp(rxSGR.source, "g"), ""), {description: "lo
 ```
 */
 
-const rxSGR    = Object.freeze(/\x1b\[[\d;]*m/g);
-const rxCSI    = Object.freeze(/\x1b\[[0-?]*[ -/]*[@-~]/g);
-const rxUnsafe = Object.freeze(/\x1b\[[0-?]*[ -/]*[@-ln-~]/g); // Everything except SGR codes (m).
-
-module.exports = {rxSGR, rxCSI, rxUnsafe};
+export const rxSGR    = Object.freeze(/\x1b\[[\d;]*m/g);
+export const rxCSI    = Object.freeze(/\x1b\[[0-?]*[ -/]*[@-~]/g);
+export const rxUnsafe = Object.freeze(/\x1b\[[0-?]*[ -/]*[@-ln-~]/g); // Everything except SGR codes (m).

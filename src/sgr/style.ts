@@ -1,8 +1,6 @@
-"use strict";
+import {makeSGR} from "./sgr";
 
-const {makeSGR} = require("./sgr");
-
-function makeStyle(enabled = true) {
+export function makeStyle(enabled = true) {
 	const sgr = makeSGR(enabled);
 
 	return {
@@ -20,4 +18,4 @@ function makeStyle(enabled = true) {
 	};
 }
 
-module.exports = {makeStyle};
+export type Style = ReturnType<typeof makeStyle>;

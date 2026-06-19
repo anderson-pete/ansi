@@ -1,10 +1,7 @@
-"use strict";
+import {rxSGR} from "../patterns";
+import {State} from "./state";
 
-const {rxSGR} = require("../patterns");
-const {State} = require("./state");
-
-/** @type {(text: string) => string} */
-function simplify(text) {
+export function simplify(text: string): string {
 	// `.split` doesn't modify `lastIndex`, so no clone is necessary here.
 	const parts = text.split(rxSGR);
 
@@ -16,7 +13,6 @@ function simplify(text) {
 		let chunk = parts[i++];
 
 		while (!chunk && i < parts.length) {
-			// Merge consecutive SGR sequences.
 			codes.push(...parts[i++].split(";").map(Number));
 			chunk = parts[i++];
 		}
@@ -29,5 +25,3 @@ function simplify(text) {
 
 	return result;
 }
-
-module.exports = {simplify};

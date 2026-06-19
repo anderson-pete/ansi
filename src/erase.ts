@@ -1,10 +1,8 @@
-"use strict";
-
 const erase = {
 	line: {
-		toStart: "\x1b[1K",
-		toEnd  : "\x1b[0K",
-		full   : "\x1b[2K",
+		toStart : "\x1b[1K",
+		toEnd   : "\x1b[0K",
+		full    : "\x1b[2K",
 	},
 	screen: {
 		toStart    : "\x1b[1J",
@@ -14,8 +12,9 @@ const erase = {
 	},
 };
 
-/** @type {typeof erase} */
-const disabled = {
+export type Erase = typeof erase;
+
+const disabled: Erase = {
 	line: {
 		toStart : "",
 		toEnd   : "",
@@ -29,6 +28,4 @@ const disabled = {
 	},
 };
 
-const makeErase = (enabled = true) => enabled ? erase : disabled;
-
-module.exports = {makeErase};
+export const makeErase = (enabled = true): Erase => enabled ? erase : disabled;

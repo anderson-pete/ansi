@@ -1,19 +1,12 @@
-"use strict";
+import {rxCSI, rxSGR}  from "./patterns";
+import {simplify}      from "./simplify";
+import {visibleLength} from "./strip";
 
-const {rxCSI, rxSGR}  = require("./patterns");
-const {simplify}      = require("./simplify");
-const {visibleLength} = require("./strip");
-
-/**
-@type {
-	(
-		text            : string,
-		fromStringIndex : number,
-		visibleCount    : number,
-	) => {index: number, length: number}
-}
-*/
-function scanCSI(text, fromStringIndex, visibleCount) {
+function scanCSI(
+	text            : string,
+	fromStringIndex : number,
+	visibleCount    : number,
+): {index: number; length: number} {
 	// We intentionally mutate `lastIndex` here, so we need a clone.
 	const rx = new RegExp(rxCSI);
 
@@ -37,8 +30,7 @@ function scanCSI(text, fromStringIndex, visibleCount) {
 	return {index, length};
 }
 
-/** @type {(text: string, start: number, end?: number) => string} */
-function skippedSequences(text, start, end) {
+function skippedSequences(text: string, start: number, end?: number): string {
 	const sequences = text.slice(start, end).match(new RegExp(rxSGR));
 	return sequences ? simplify(sequences.join("")) : "";
 }
@@ -61,12 +53,9 @@ function skippedSequences(text, start, end) {
  * length of the slice, and that the terminal state may not be exactly the same at the start and end
  * of the slice as it would be if the whole string were printed. This function is intended mostly
  * for text that contains SGR codes, but no other ANSI codes or control characters.
- *
- * @type {(text: string, start: number, end: number) => string}
  */
-function slice(text, start, end) {
-	/** @type {number | undefined} */
-	let textVisibleLength;
+export function slice(text: string, start: number, end: number): string {
+	let textVisibleLength: number | undefined;
 	const getVisibleLength = () => textVisibleLength ??= visibleLength(text);
 
 	if (start < 0 || end < 0) {
@@ -95,5 +84,3 @@ function slice(text, start, end) {
 
 	return leadingSequences + text.slice(startIndex, endIndex) + trailingSequences;
 }
-
-module.exports = {slice};

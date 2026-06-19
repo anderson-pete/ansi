@@ -1,6 +1,6 @@
 {
 	"name"            : "@peteanderson/ansi",
-	"version"         : "0.3.3",
+	"version"         : "1.0.0",
 	"description"     : "ANSI escape sequence generation with automatic feature detection",
 	"author"          : {
 		"name"  : "Pete Anderson",
@@ -13,12 +13,12 @@
 	"keywords"        : ["ansi", "nodejs", "color", "terminal", "cli"],
 	"engines"         : {"node": ">=18"},
 	"files"           : ["dist", "src"],
-	"main"            : "dist/ansi.js",
-	"types"           : "dist/ansi.d.ts",
+	"main"            : "dist/index.js",
+	"types"           : "dist/index.d.ts",
 	"exports"         : {
 		".": {
-			"types"   : "./dist/ansi.d.ts",
-			"require" : "./dist/ansi.js"
+			"types"   : "./dist/index.d.ts",
+			"require" : "./dist/index.js"
 		}
 	},
 	"license"         : "MIT",

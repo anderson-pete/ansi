@@ -1,5 +1,3 @@
-"use strict";
-
 const terminal = {
 	focusReporting: {
 		enable  : "\x1b[?1004h",
@@ -26,8 +24,9 @@ const terminal = {
 	},
 };
 
-/** @type {typeof terminal} */
-const disabled = {
+export type Terminal = typeof terminal;
+
+const disabled: Terminal = {
 	focusReporting: {
 		enable  : "",
 		disable : "",
@@ -53,6 +52,4 @@ const disabled = {
 	},
 };
 
-const makeTerminal = (enabled = true) => enabled ? terminal : disabled;
-
-module.exports = {makeTerminal};
+export const makeTerminal = (enabled = true): Terminal => enabled ? terminal : disabled;

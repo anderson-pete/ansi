@@ -1,3 +1,5 @@
+import type {SGR} from "../sgr";
+
 export interface Channel {
 	black   : SGR;
 	red     : SGR;
@@ -24,5 +26,7 @@ export interface Channel {
 		(r: number, g: number, b: number): SGR;
 	};
 
-	default: string,
+	default: string;
 }
+
+export type Color = {fg: Channel; bg: Channel};

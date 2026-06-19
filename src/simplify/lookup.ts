@@ -1,14 +1,8 @@
-"use strict";
+import {buildExtendedColorAtom, buildIntensityAtom} from "./atom";
 
-const {buildExtendedColorAtom, buildIntensityAtom} = require("./atom");
+import type {Atom, Attribute, AttributeMap, BuildAtom} from "./types";
 
-/** @typedef {import("./types").Atom}         Atom */
-/** @typedef {import("./types").Attribute}    Attribute */
-/** @typedef {import("./types").AttributeMap} AttributeMap */
-/** @typedef {import("./types").BuildAtom}    BuildAtom */
-
-/** @type {Record<number, [attribute: Attribute, buildAtom?: BuildAtom]>} */
-const codeMap = {
+const codeMap: Record<number, [attribute: Attribute, buildAtom?: BuildAtom]> = {
 	0   : ["reset"],
 	1   : ["intensity", buildIntensityAtom],
 	2   : ["intensity", buildIntensityAtom],
@@ -67,8 +61,7 @@ const codeMap = {
 	107 : ["bg"],
 };
 
-/** @type {(codes: number[], index: number, state: AttributeMap) => Atom} */
-function lookUpAtom(codes, index, state) {
+export function lookUpAtom(codes: number[], index: number, state: AttributeMap): Atom {
 	const code  = codes[index];
 	const entry = codeMap[code];
 
@@ -82,5 +75,3 @@ function lookUpAtom(codes, index, state) {
 
 	return {attribute, code: [code]};
 }
-
-module.exports = {lookUpAtom};

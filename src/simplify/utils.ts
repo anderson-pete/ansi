@@ -1,7 +1,4 @@
-"use strict";
-
-/** @type {<T>(a: T[] | undefined, b: T[] | undefined) => boolean} */
-function arraysEqual(a, b) {
+export function arraysEqual<T>(a: T[] | undefined, b: T[] | undefined): boolean {
 	if (a === b)
 		return true;
 
@@ -16,8 +13,7 @@ function arraysEqual(a, b) {
 	return true;
 }
 
-/** @type {(previous: number[] | undefined, current: number[]) => number[]} */
-function transitionIntensity(previous, current) {
+export function transitionIntensity(previous: number[] | undefined, current: number[]): number[] {
 	if (!previous || previous[0] === 22 || current[0] === 22)
 		return current;
 
@@ -26,7 +22,7 @@ function transitionIntensity(previous, current) {
 	const oldDim  = previous[previous.length - 1] === 2;
 	const newDim  = current[current.length - 1] === 2;
 
-	const result = [];
+	const result: number[] = [];
 
 	if (oldBold && !newBold || oldDim && !newDim)
 		result.push(22);
@@ -37,5 +33,3 @@ function transitionIntensity(previous, current) {
 
 	return result;
 }
-
-module.exports = {arraysEqual, transitionIntensity};

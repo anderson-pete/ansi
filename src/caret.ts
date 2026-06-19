@@ -1,10 +1,7 @@
-"use strict";
+const move = (code: string) => (count?: number): string =>
+	`\x1b[${count === undefined ? "" : count ? count : "?"}${code}`;
 
-/** @type {(code: string) => (count?: number) => string} */
-const move = code => count => `\x1b[${count === undefined ? "" : count ? count : "?"}${code}`;
-
-/** @type {(count?: number) => string} */
-const noop = () => "";
+const noop = (): string => "";
 
 const caret = {
 	up       : move("A"),
@@ -14,8 +11,7 @@ const caret = {
 	nextLine : move("E"),
 	prevLine : move("F"),
 
-	/** @type {(x: number) => string} */
-	x: x => `\x1b[${x}G`,
+	x: (x: number): string => `\x1b[${x}G`,
 
 	// These are the old VT100 codes, but they're widely supported by old and new terminals. The
 	// newer VT220 codes are standardized by ECMA and ISO, and are also widely supported, but might
@@ -33,8 +29,7 @@ const caret = {
 
 	position: {
 		get: "\x1b[6n",
-		/** @type {(x: number, y: number) => string} */
-		set: (x, y) => `\x1b[${y};${x}H`,
+		set: (x: number, y: number): string => `\x1b[${y};${x}H`,
 	},
 
 	shape: {
@@ -48,8 +43,9 @@ const caret = {
 	},
 };
 
-/** @type {typeof caret} */
-const disabled = {
+export type Caret = typeof caret;
+
+const disabled: Caret = {
 	up       : noop,
 	down     : noop,
 	forward  : noop,
@@ -81,6 +77,4 @@ const disabled = {
 	},
 };
 
-const makeCaret = (enabled = true) => enabled ? caret : disabled;
-
-module.exports = {makeCaret};
+export const makeCaret = (enabled = true): Caret => enabled ? caret : disabled;

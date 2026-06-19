@@ -1,7 +1,6 @@
-/** @typedef {number | number[]} Code */
+import type {Code} from "./sgr";
 
-/** @type {(code: Code, codes: Code[]) => Code} */
-function combine(code, codes, ) {
+export function combine(code: Code, codes: Code[]): Code {
 	if (!codes.length)
 		return code;
 
@@ -16,5 +15,3 @@ function combine(code, codes, ) {
 
 	return rtn;
 }
-
-module.exports = {combine};

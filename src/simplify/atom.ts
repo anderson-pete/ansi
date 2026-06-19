@@ -1,9 +1,6 @@
-"use strict";
+import type {BuildAtom} from "./types";
 
-/** @typedef {import("./types").BuildAtom} BuildAtom */
-
-/** @type {BuildAtom} */
-function buildExtendedColorAtom(attribute, codes, index) {
+export const buildExtendedColorAtom: BuildAtom = (attribute, codes, index) => {
 	switch (codes[index + 1]) {
 		case 2:
 			if (index + 5 >= codes.length)
@@ -16,10 +13,9 @@ function buildExtendedColorAtom(attribute, codes, index) {
 		default:
 			return {attribute, code: codes.slice(index, index + 2), skip: 1};
 	}
-}
+};
 
-/** @type {BuildAtom} */
-function buildIntensityAtom(attribute, codes, index, state) {
+export const buildIntensityAtom: BuildAtom = (attribute, codes, index, state) => {
 	const code = codes[index];
 	if (code === 22)
 		return {attribute, code: [code]};
@@ -39,6 +35,4 @@ function buildIntensityAtom(attribute, codes, index, state) {
 
 	// Otherwise, we need to set both intensity codes.
 	return {attribute, code: [1, 2]};
-}
-
-module.exports = {buildExtendedColorAtom, buildIntensityAtom};
+};

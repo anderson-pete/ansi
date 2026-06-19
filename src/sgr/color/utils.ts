@@ -1,7 +1,4 @@
-/** @typedef {import("../sgr").Code} Code */
-
-/** @type {(r: number, g: number, b: number) => number} */
-function rgbToX256(r, g, b) {
+export function rgbToX256(r: number, g: number, b: number): number {
 	if (r === g && g === b) {
 		// grayscale
 		return 232 + Math.floor(r * 24 / 256);
@@ -16,8 +13,7 @@ function rgbToX256(r, g, b) {
 	);
 }
 
-/** @type {(code: number) => [number, number, number]} */
-function x256ToRgb(code) {
+export function x256ToRgb(code: number): [number, number, number] {
 	if (code >= 232) {
 		// grayscale
 		const gray = Math.round((code - 232) * 255 / 24);
@@ -31,10 +27,8 @@ function x256ToRgb(code) {
 	return [r, g, b];
 }
 
-/** @type {(r: number, g: number, b: number) => number} */
-function rgbToX16(r, g, b) {
+export function rgbToX16(r: number, g: number, b: number): number {
 	// First calculate it as a 4x4x4 cube.
-
 	r = Math.min(2, Math.floor(r / 85));
 	g = Math.min(2, Math.floor(g / 85));
 	b = Math.min(2, Math.floor(b / 85));
@@ -51,8 +45,7 @@ function rgbToX16(r, g, b) {
 	return index + (bright ? 60 : 0);
 }
 
-/** @type {(r: number, g: number, b: number) => number} */
-function rgbToX8(r, g, b) {
+export function rgbToX8(r: number, g: number, b: number): number {
 	r = r >= 128 ? 1 : 0;
 	g = g >= 128 ? 1 : 0;
 	b = b >= 128 ? 1 : 0;
@@ -60,22 +53,16 @@ function rgbToX8(r, g, b) {
 	return (r ? 1 : 0) | (g ? 2 : 0) | (b ? 4 : 0);
 }
 
-/**
- * @overload
- * @param   {number} x
- * @returns {number}
- * @overload
- * @param   {number} r
- * @param   {number} g
- * @param   {number} b
- * @returns {[number, number, number]}
- *//** @param {[number] | [number, number, number]} args */
-const clip = (...args) => args.length === 1 ?
-	Math.max(0, Math.min(255, Math.floor(args[0]))) :
-	[
-		Math.max(0, Math.min(255, Math.floor(args[0]))),
-		Math.max(0, Math.min(255, Math.floor(args[1]))),
-		Math.max(0, Math.min(255, Math.floor(args[2]))),
-	];
-
-module.exports = {rgbToX256, x256ToRgb, rgbToX16, rgbToX8, clip};
+export function clip(x: number): number;
+export function clip(r: number, g: number, b: number): [number, number, number];
+export function clip(
+	...args: [number] | [number, number, number]
+): number | [number, number, number] {
+	return args.length === 1 ?
+		Math.max(0, Math.min(255, Math.floor(args[0]))) :
+		[
+			Math.max(0, Math.min(255, Math.floor(args[0]))),
+			Math.max(0, Math.min(255, Math.floor(args[1]))),
+			Math.max(0, Math.min(255, Math.floor(args[2]))),
+		];
+}
