@@ -1,0 +1,35 @@
+{
+	"name"            : "@peteanderson/ansi",
+	"version"         : "0.0.1",
+	"description"     : "ANSI escape sequence generation with automatic feature detection",
+	"author"          : {
+		"name"  : "Pete Anderson",
+		"email" : "pete.the.anderson@gmail.com"
+	},
+	"repository"      : {
+		"type" : "git",
+		"url"  : "git+https://github.com/anderson-pete/ansi.git"
+	},
+	"keywords"        : ["ansi", "nodejs", "color", "terminal", "cli"],
+	"engines"         : {"node": ">=18"},
+	"files"           : ["dist", "src"],
+	"main"            : "dist/color.js",
+	"types"           : "dist/color.d.ts",
+	"exports"         : {
+		".": {
+			"types"   : "./dist/color.d.ts",
+			"require" : "./dist/color.js"
+		}
+	},
+	"license"         : "MIT",
+	"scripts"         : {
+		"prebuild" : "node -e \"require('node:fs').rmSync('dist', {force: true, recursive: true})\"",
+		"build"    : "tsc -p tsconfig.build.json",
+		"prepack"  : "npm run build",
+		"tag"      : "git tag -a v$npm_package_version -m v$npm_package_version"
+	},
+	"devDependencies" : {
+		"@types/node" : "^26.0.0",
+		"typescript"  : "^6.0.3"
+	}
+}
