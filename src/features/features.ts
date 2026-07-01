@@ -28,7 +28,7 @@ export function getFeatures(...args: Args): Features {
 	stream ??= process.stdout;
 
 	if (colorDepth)
-		build(stream.isTTY, colorDepth, style, caret, erase, scroll, terminal);
+		return build(stream.isTTY, colorDepth, style, caret, erase, scroll, terminal);
 
 	if (stream.isTTY)
 		return build(true, getColorDepth(stream), style, caret, erase, scroll, terminal);

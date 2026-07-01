@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.1] - 2026-07-01
+### Fixed
+ - Fixed a bug where `ansi(number)` would ignore the requested color depth and use auto detection on
+   `stdout` or the given stream instead
+
 ## [2.0.0] - 2026-07-01
 ### Changed
 - Replaced `.combine()` method with fluent `.and` property for chaining SGR styles
@@ -132,6 +137,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.0.1]: https://github.com/anderson-pete/ansi/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/anderson-pete/ansi/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/anderson-pete/ansi/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/anderson-pete/ansi/compare/v0.3.3...v1.0.0
