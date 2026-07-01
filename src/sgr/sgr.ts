@@ -12,16 +12,17 @@ function combine(code: Code, codes: Code[]): Code {
 	if (!codes.length)
 		return code;
 
-	const rtn = Array.isArray(code) ? [...code] : [code];
+	const set = new Set(Array.isArray(code) ? [...code] : [code]);
 
 	for (const c of codes) {
-		if (Array.isArray(c))
-			rtn.push(...c);
-		else
-			rtn.push(c);
+		if (Array.isArray(c)) {
+			for (const code of c)
+				set.add(code);
+		} else
+			set.add(c);
 	}
 
-	return rtn;
+	return Array.from(set);
 }
 
 const codeSequence = (code: Code): string | number => Array.isArray(code) ? code.join(";") : code;
