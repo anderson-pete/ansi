@@ -13,3 +13,6 @@ export const padEnd = (text: string, targetLength: number, fillString = " "): st
  */
 export const padStart = (text: string, targetLength: number, fillString = " "): string =>
 	fillString.repeat(Math.max(0, targetLength - visibleLength(text)) / fillString.length) + text;
+
+export type PadEnd   = typeof padEnd;
+export type PadStart = typeof padStart;

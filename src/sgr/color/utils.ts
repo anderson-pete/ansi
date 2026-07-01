@@ -29,6 +29,7 @@ export function x256ToRgb(code: number): [number, number, number] {
 
 export function rgbToX16(r: number, g: number, b: number): number {
 	// First calculate it as a 4x4x4 cube.
+
 	r = Math.min(2, Math.floor(r / 85));
 	g = Math.min(2, Math.floor(g / 85));
 	b = Math.min(2, Math.floor(b / 85));
@@ -55,9 +56,7 @@ export function rgbToX8(r: number, g: number, b: number): number {
 
 export function clip(x: number): number;
 export function clip(r: number, g: number, b: number): [number, number, number];
-export function clip(
-	...args: [number] | [number, number, number]
-): number | [number, number, number] {
+export function clip(...args: [number] | [number, number, number]): number | [number, number, number] {
 	return args.length === 1 ?
 		Math.max(0, Math.min(255, Math.floor(args[0]))) :
 		[

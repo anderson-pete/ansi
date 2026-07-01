@@ -1,65 +1,72 @@
-export type Code = number | number[];
+import {TypedObject}       from "../typed-object";
+import {makeColor}         from "./color";
+import {combineCodes}      from "./combine";
+import {makeFormatBuilder} from "./format-builder";
+import {makeReset}         from "./reset";
+import {makeStyle}         from "./style";
 
-export interface SGR {
-	(text: string): string;
-	open    : string;
-	close   : string;
-	codes   : {open: Code; close: Code};
-	combine : (...styles: SGR[]) => SGR;
-}
+import type {ColorDepth, Features}                            from "../features";
+import type {Chain, ChainKey, FormatBase, FormatBuilder, SGR} from "./types";
 
-function combine(code: Code, codes: Code[]): Code {
-	if (!codes.length)
-		return code;
+const keyMap: Record<ChainKey, undefined> = {
+	fg              : undefined,
+	bg              : undefined,
+	bold            : undefined,
+	dim             : undefined,
+	italic          : undefined,
+	underline       : undefined,
+	inverse         : undefined,
+	hidden          : undefined,
+	strikethrough   : undefined,
+	doubleUnderline : undefined,
+	frame           : undefined,
+	encircle        : undefined,
+	overline        : undefined,
+};
 
-	const set = new Set(Array.isArray(code) ? [...code] : [code]);
+const allKeys: ReadonlySet<ChainKey> = new Set(TypedObject.keys(keyMap));
 
-	for (const c of codes) {
-		if (Array.isArray(c)) {
-			for (const code of c)
-				set.add(code);
-		} else
-			set.add(c);
+const cache: Partial<Record<`${ColorDepth}.${boolean}`, SGR>> = {};
+
+export function makeSGR(features: Features): SGR {
+	const cacheKey = `${features.colorDepth}.${features.style}` as const;
+	if (cache[cacheKey])
+		return cache[cacheKey];
+
+	const colorFormat = makeFormatBuilder(makeChain, features.colorDepth > 1);
+	const styleFormat = makeFormatBuilder(makeChain, features.style);
+	const style       = makeStyle(allKeys, styleFormat, features.style);
+
+	function makeChain<Keys extends ChainKey>(
+		keys       : ReadonlySet<Keys>,
+		baseFormat : FormatBase,
+	): Chain<Keys> {
+		const chainedColorFormat: FormatBuilder = (keys, open, close, reset) => colorFormat(
+			keys,
+			combineCodes(baseFormat.codes.open, open),
+			combineCodes(baseFormat.codes.close, close),
+			reset,
+		);
+		const chainedStyleFormat: FormatBuilder = (keys, open, close, reset) => styleFormat(
+			keys,
+			combineCodes(baseFormat.codes.open, open),
+			combineCodes(baseFormat.codes.close, close),
+			reset,
+		);
+
+		return /** @type {Chain<any>} */({
+			...makeColor(keys, chainedColorFormat, style, features.colorDepth),
+			...makeStyle(keys, chainedStyleFormat, features.style),
+		});
 	}
 
-	return Array.from(set);
+	const rtn: SGR = {
+		...makeColor(allKeys, colorFormat, style, features.colorDepth),
+		style,
+		reset: makeReset(features.colorDepth > 1 || features.style),
+	};
+
+	cache[cacheKey] = rtn;
+
+	return rtn;
 }
-
-const codeSequence = (code: Code): string | number => Array.isArray(code) ? code.join(";") : code;
-
-function sgr(open: Code, close: Code, reset = false): SGR {
-	const openCode      = codeSequence(open);
-	const closeCode     = codeSequence(close);
-	const openSequence  = `\x1b[${openCode}m`;
-	const closeSequence = `\x1b[${closeCode}m`;
-	const reopenCode    = reset ? `${closeCode};${openCode}` : openCode;
-
-	const rxClose = new RegExp(
-		`(?<start>\\x1b\\[(?:\\d+;)*)${closeCode}(?<end>(?:;\\d+)*m)`,
-		"g"
-	);
-	const replace = `$<start>${reopenCode}$<end>`;
-
-	const func = (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s;
-
-	return Object.assign(func, {
-		codes   : {open, close},
-		open    : openSequence,
-		close   : closeSequence,
-		combine : (...styles: SGR[]) => sgr(
-			combine(open, styles.map(s => s.codes.open)),
-			combine(close, styles.map(s => s.codes.close)),
-		),
-	});
-}
-
-const disabledSGR: SGR = Object.assign((s: string) => s, {
-	codes   : {open: 0, close: 0},
-	open    : "",
-	close   : "",
-	combine : (): SGR => disabledSGR,
-});
-
-const disabled: typeof sgr = () => disabledSGR;
-
-export const makeSGR = (enabled = true): typeof sgr => enabled ? sgr : disabled;

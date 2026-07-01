@@ -15,7 +15,8 @@ npm install @peteanderson/ansi
 const ansi = require("@peteanderson/ansi");
 
 console.log(ansi.fg.red("error: something went wrong"));
-console.log(ansi.bg.blue.combine(ansi.fg.white)("highlighted"));
+// Fluent chaining with .and
+console.log(ansi.bg.blue.and.fg.white.and.bold("highlighted"));
 console.log(ansi.style.bold("important"));
 console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
 
@@ -63,7 +64,8 @@ Functions that wrap text with color codes (or plain text if disabled):
 - `fg.rgb(r, g, b)(text)` - 24-bit RGB color, downscaled for lower color depths
 - `fg.x256(code)(text)` or `fg.x256(r, g, b)(text)` - 256-color palette, downscaled as needed
 
-All return functions with `open` and `close` properties for raw sequences.
+All return functions with `open` and `close` properties for raw sequences and an `and` property for
+fluent chaining.
 
 ### `bg` — background colors
 
@@ -75,6 +77,9 @@ Functions that wrap text with color codes (or plain text if disabled):
 - `bg.rgb(r, g, b)(text)` - 24-bit RGB color, downscaled for lower color depths
 - `bg.x256(code)(text)` or `bg.x256(r, g, b)(text)` - 256-color palette, downscaled as needed
 
+All return functions with `open` and `close` properties for raw sequences and an `and` property for
+fluent chaining.
+
 ### `style`
 
 Functions that wrap text with style codes (disabled if color depth = 1):
@@ -82,7 +87,22 @@ Functions that wrap text with style codes (disabled if color depth = 1):
 `bold` `dim` `italic` `underline` `inverse` `hidden` `strikethrough` `doubleUnderline` `framed`
 `encircled` `overline`
 
-All return functions with `open` and `close` properties for raw sequences.
+All return functions with `open` and `close` properties for raw sequences and an `and` property for
+fluent chaining.
+
+#### Fluent Chaining with `.and`
+
+Styles can be chained using the `.and` property for a natural, fluent interface. The `style`
+namespace is unnested in chains:
+
+```js
+// Top-level: use style namespace
+ansi.style.bold("bold text");
+
+// In a chain: no need for style namespace
+ansi.fg.white.and.bg.blue.and.bold("white on blue, bold");
+ansi.fg.red.and.underline("red underlined");
+```
 
 ### `reset`
 

@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@peteanderson/props':
+        specifier: ^2.0.0
+        version: 2.0.0
     devDependencies:
       '@types/node':
         specifier: ^26.0.0
@@ -176,6 +180,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@peteanderson/props@2.0.0':
+    resolution: {integrity: sha512-uRJpqk5AGroTPxU6eMNlQtJrjpwJKd4vkpc2hUuLRxHqo1K7KP7bqjFmODVPq1md9LGtUdKvRGh7AfAeSnN6QQ==}
+
   '@types/node@26.0.0':
     resolution: {integrity: sha512-vf2YFi1iY9lHGwNJMs01biZFbKJkrZR1T6/MlzjhJLPdntOHLhTrDSnSVcdtvjihi4VQNlrFRIxLsDBlQpAipA==}
 
@@ -281,6 +288,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
+
+  '@peteanderson/props@2.0.0': {}
 
   '@types/node@26.0.0':
     dependencies:

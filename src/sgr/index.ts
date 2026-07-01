@@ -1,3 +1,3 @@
-export * from "./reset";
-export * from "./style";
-export * from "./color";
+export * from "./sgr";
+
+export {SGR} from "./types";

@@ -1,6 +1,6 @@
 {
 	"name"            : "@peteanderson/ansi",
-	"version"         : "1.0.1",
+	"version"         : "2.0.0",
 	"description"     : "ANSI escape sequence generation with automatic feature detection",
 	"author"          : {
 		"name"  : "Pete Anderson",
@@ -33,5 +33,6 @@
 		"@types/node" : "^26.0.0",
 		"tsx"         : "^4.22.4",
 		"typescript"  : "^6.0.3"
-	}
+	},
+	"dependencies"    : {"@peteanderson/props": "^2.0.0"}
 }

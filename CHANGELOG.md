@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.0] - 2026-07-01
+### Changed
+- Replaced `.combine()` method with fluent `.and` property for chaining SGR styles
+- `and` chains unnest the `style` namespace, allowing `.and.bold` instead of `.and.style.bold`
+- Rewrote SGR module with new type structure (`Format` conditional type replacing `SGR`)
+- Added dependencies: `TypedObject`, `@peteanderson/props`
+
+### Added
+- Fluent interface for natural style chaining: `ansi.fg.white.and.bg.blue.and.bold("text")`
+
 ## [1.0.1] - 2026-06-25
 ### Fixed
  - `combine()` no longer outputs `22;22` when combining `bold` and `dim`
@@ -122,6 +132,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.0.0]: https://github.com/anderson-pete/ansi/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/anderson-pete/ansi/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/anderson-pete/ansi/compare/v0.3.3...v1.0.0
 [0.3.3]: https://github.com/anderson-pete/ansi/compare/v0.3.2...v0.3.3

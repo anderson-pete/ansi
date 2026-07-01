@@ -25,3 +25,5 @@ export function simplify(text: string): string {
 
 	return result;
 }
+
+export type Simplify = typeof simplify;

@@ -3,14 +3,7 @@ import {WriteStream}                       from "node:tty";
 import {boolean, build, number, pipe, tty} from "./build";
 import {getColorDepth}                     from "./detect";
 
-import type {ColorDepth, Features} from "./types";
-
-export type Args =
-	| [enabled    : boolean,           stream?: NodeJS.WriteStream]
-	| [colorDepth : ColorDepth,        stream?: NodeJS.WriteStream]
-	| [features   : Partial<Features>, stream?: NodeJS.WriteStream]
-	| [socket     : Socket]
-	| [stream?    : NodeJS.WriteStream];
+import type {Args, Features} from "./types";
 
 export function getFeatures(...args: Args): Features {
 	let [features, stream] = args;

@@ -84,3 +84,5 @@ export function slice(text: string, start: number, end: number): string {
 
 	return leadingSequences + text.slice(startIndex, endIndex) + trailingSequences;
 }
+
+export type Slice = typeof slice;
