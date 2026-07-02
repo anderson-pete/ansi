@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.1.0] - 2026-07-02
+### Added
+ - Dual CJS/ESM build: the package now ships both a CJS entry (`dist/cjs`) and an ESM entry
+   (`dist/esm`) with identical APIs
+ - `makeAnsi` is now exported as a named export for TypeScript and ESM consumers
+ - `Ansi` type is now exported
+
+### Changed
+ - The named `ansi` export is now a plain object, and no longer an alias for the `makeAnsi()`
+   function. Both the `makeAnsi` export and the default export remain callable functions, and the
+   default export also has the `ansi` object properties attached to it for backward compatibility.
+
+### Fixed
+ - Default export is now directly callable again via `require()`, restoring the original CJS
+   consumer behavior from before the TypeScript conversion
+
 ## [2.0.1] - 2026-07-01
 ### Fixed
  - Fixed a bug where `ansi(number)` would ignore the requested color depth and use auto detection on
@@ -137,6 +153,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.1.0]: https://github.com/anderson-pete/ansi/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/anderson-pete/ansi/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/anderson-pete/ansi/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/anderson-pete/ansi/compare/v1.0.0...v1.0.1

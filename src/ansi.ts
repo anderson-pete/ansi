@@ -12,7 +12,7 @@ import {makeTerminal}                    from "./terminal";
 import type {Args} from "./features";
 import type {Ansi} from "./types";
 
-function makeAnsi(...args: Args): Ansi {
+export function makeAnsi(...args: Args): Ansi {
 	const features = getFeatures(...args);
 
 	return {
@@ -37,10 +37,13 @@ function makeAnsi(...args: Args): Ansi {
 	};
 }
 
-export const ansi = Object.assign(makeAnsi, makeAnsi());
+export const ansi = makeAnsi();
 
 export const {fg, bg, style, reset, caret, erase, scroll, terminal} = ansi;
 
 export {padEnd, padStart, strip, visibleLength}
 
-export default ansi;
+export default Object.assign(
+	Object.defineProperty(makeAnsi.bind(undefined), "name", {value: "ansi"}),
+	ansi,
+);

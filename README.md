@@ -11,21 +11,23 @@ npm install @peteanderson/ansi
 
 ## Usage
 
+The examples below use `require()`, but `import` works identically for ESM and TypeScript
+consumers — just substitute `import ansi from` for `const ansi = require`, and so on.
+
 ```js
+// Use directly as a namespace
 const ansi = require("@peteanderson/ansi");
-
 console.log(ansi.fg.red("error: something went wrong"));
-// Fluent chaining with .and
 console.log(ansi.bg.blue.and.fg.white.and.bold("highlighted"));
-console.log(ansi.style.bold("important"));
-console.log(ansi.fg.rgb(5, 2, 0)("custom color"));
 
-// Disable colors for a specific stream
-const ansiNoColor = ansi(1); // force 1-bit (no color)
-console.log(ansiNoColor.fg.red("this won't be colored"));
+// Call it to build a custom instance
+const ansiNoColor = ansi(24); // force 24-bit (true color)
+console.log(ansiNoColor.fg.rgb(255, 128, 64)("light red-orange"));
 
-// Override specific features
-const customAnsi = ansi({colorDepth: 8, caret: false});
+// Destructure named exports
+const {ansi: defaultInstance, makeAnsi, fg} = require("@peteanderson/ansi");
+console.log(fg.red.and.bold("Hello, world!"));
+const custom = makeAnsi({colorDepth: 8, caret: false});
 ```
 
 ## Feature Detection
@@ -47,11 +49,36 @@ When disabled, features output empty strings. Color outputs plain text. This can
 
 ### Default Export
 
-The module exports a callable function with detection-based properties:
+The default export is both the pre-built default instance and a callable factory. You can use it
+directly as a namespace, call it to build a custom instance, or destructure properties from it:
 
 ```js
 const ansi = require("@peteanderson/ansi");
-const customAnsi = ansi(options); // returns configured instance
+
+console.log(ansi.fg.red("hello"));   // use as instance
+const custom = ansi(true);           // call as factory
+console.log(custom.fg.red("hello")); // forced color
+```
+
+### `makeAnsi(options?)`
+
+The factory function, exported as a named export. Returns a configured instance. Equivalent to
+calling the default export as a function, but exported separately for consumers who want a plain
+function reference:
+
+```ts
+import {makeAnsi} from "@peteanderson/ansi";
+const custom = makeAnsi(true);
+```
+
+### `ansi`
+
+The pre-built default instance, exported as a named export. Unlike the default export, this is not
+callable — use `makeAnsi` if you need to build a custom instance:
+
+```ts
+import {ansi, makeAnsi} from "@peteanderson/ansi";
+console.log(ansi.fg.red("hello"));
 ```
 
 ### `fg` — foreground colors
