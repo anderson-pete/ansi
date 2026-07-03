@@ -12,12 +12,7 @@ function buildESM() {
 
 	tsc("-p", "tsconfig.esm.json");
 
-	tscAlias(
-		"-p",                   "tsconfig.esm.json",
-		"--inputglob",          "js",
-		"--resolve-full-paths",
-		"--verbose",
-	);
+	tscAlias("-p", "tsconfig.esm.json", "--resolve-full-paths", "--verbose");
 
 	fs.writeFileSync("dist/esm/package.json", '{"type":"module"}');
 }

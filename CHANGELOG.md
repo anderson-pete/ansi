@@ -1,7 +1,8 @@
 # Changelog
 
-## [unreleased] - 2026-07-02
+## [2.1.1] - 2026-07-02
 ### Fixed
+ - Fixed missing TypeScript type information when `moduleResolution` is `node16` or `nodenext`
  - Fixed `simplify()` function completely mangling its input
 
 ### Changed
@@ -161,6 +162,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.1.1]: https://github.com/anderson-pete/ansi/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/anderson-pete/ansi/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/anderson-pete/ansi/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/anderson-pete/ansi/compare/v1.0.1...v2.0.0
