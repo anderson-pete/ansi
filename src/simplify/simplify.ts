@@ -13,13 +13,14 @@ export function simplify(text: string): string {
 		let chunk = parts[i++];
 
 		while (!chunk && i < parts.length) {
+			// Merge consecutive SGR sequences with no text between them.
 			codes.push(...parts[i++].split(";").map(Number));
 			chunk = parts[i++];
 		}
 
-		codes = state.update(codes);
-		if (codes.length)
-			result += `\x1b[${codes.join(";")}m`;
+		const newCodes = state.update(codes);
+		if (newCodes.length)
+			result += `\x1b[${newCodes.join(";")}m`;
 		result += chunk;
 	}
 

@@ -4,6 +4,10 @@
 ### Fixed
  - Fixed `simplify()` function completely mangling its input
 
+### Changed
+ - `simplify()` now performs more optimizations involving reset codes and default state detection,
+   resulting in shorter output sequences
+
 ## [2.1.0] - 2026-07-02
 ### Added
  - Dual CJS/ESM build: the package now ships both a CJS entry (`dist/cjs`) and an ESM entry

@@ -17,7 +17,19 @@ const defaultCodes: Map<Attribute, number[]> = new Map([
 ]);
 
 export class State extends Map<Attribute, number[]> implements AttributeMap {
-	update(codes: number[]): number[] {
+	#isDefaultState(except?: Attribute): boolean {
+		for (const [attribute, defaultCode] of defaultCodes) {
+			if (attribute === except)
+				continue;
+
+			const current = this.get(attribute);
+			if (!arraysEqual(current, defaultCode))
+				return false;
+		}
+		return true;
+	}
+
+	update(codes: number[]): Array<number | string> {
 		let snapshot: AttributeMap = new Map(this);
 
 		const attributes = new Set<Attribute>();
@@ -26,6 +38,9 @@ export class State extends Map<Attribute, number[]> implements AttributeMap {
 			const {attribute, code, skip} = lookUpAtom(codes, i, this);
 
 			if (attribute === "reset") {
+				if (this.#isDefaultState())
+					continue;
+
 				attributes.clear();
 				this.clear();
 				attributes.add("reset");
@@ -43,21 +58,37 @@ export class State extends Map<Attribute, number[]> implements AttributeMap {
 				i += skip;
 		}
 
-		return Array.from(attributes).flatMap(attribute => {
-			if (attribute === "reset")
-				return [0];
+		const rtn: Array<number | string> = [];
+
+		for (const attribute of attributes) {
+			if (attribute === "reset") {
+				rtn.length = 0; // Any previous codes are irrelevant.
+				rtn.push("");   // The terminal will interpret missing values as `0`.
+				continue;
+			}
 
 			const code = this.get(attribute)!;
 
 			if (arraysEqual(code, snapshot.get(attribute)))
-				return [];
+				continue;
+
+			// If this code would put us in a known overall default state, then we can just reset,
+			// which is shorter. (Compare `\x1b[m` vs. `\x1b[39m` or especially `\x1b[22;39;49m`.)
+			if (arraysEqual(code, defaultCodes.get(attribute)) && this.#isDefaultState(attribute)) {
+				rtn.length = 0;
+				rtn.push("");
+				continue;
+			}
 
 			if (attribute === "intensity") {
 				const previous = snapshot.get(attribute);
-				return transitionIntensity(previous, code);
+				rtn.push(...transitionIntensity(previous, code));
+				continue;
 			}
 
-			return code;
-		});
+			rtn.push(...code);
+		}
+
+		return rtn;
 	}
 }
