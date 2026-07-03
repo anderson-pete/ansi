@@ -1,5 +1,9 @@
 # Changelog
 
+## [unreleased] - 2026-07-02
+### Fixed
+ - Fixed `simplify()` function completely mangling its input
+
 ## [2.1.0] - 2026-07-02
 ### Added
  - Dual CJS/ESM build: the package now ships both a CJS entry (`dist/cjs`) and an ESM entry
