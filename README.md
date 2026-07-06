@@ -127,8 +127,19 @@ namespace is unnested in chains:
 ansi.style.bold("bold text");
 
 // In a chain: no need for style namespace
-ansi.fg.white.and.bg.blue.and.bold("white on blue, bold");
-ansi.fg.red.and.underline("red underlined");
+console.log(ansi.fg.white.and.bg.blue.and.bold("white on blue, bold"));
+console.log(ansi.fg.red.and.underline("red underlined"));
+```
+
+#### Arbitrary Style Combination with `.combine()`
+
+Arbitrary styles can be combined using the `.combine()` method on any SGR function. This allows you
+to combine any styles into a single function, which can then be applied to text:
+
+```js
+const dim = format => format.combine(ansi.style.dim);
+
+console.log(dim(ansi.fg.red("dim red text")));
 ```
 
 ### `reset`

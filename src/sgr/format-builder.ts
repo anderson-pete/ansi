@@ -1,5 +1,6 @@
-import {define} from "@peteanderson/props";
-import {lazy}   from "./lazy";
+import {define}       from "@peteanderson/props";
+import {combineCodes} from "./combine";
+import {lazy}         from "./lazy";
 
 import type {ChainBuilder, ChainKey, Code, Format, FormatBase, FormatBuilder} from "./types";
 
@@ -15,7 +16,7 @@ const chain = <Keys extends ChainKey>(
 
 export function makeFormatBuilder(makeChain: ChainBuilder, enabled = true): FormatBuilder {
 	if (enabled) {
-		return (keys, open, close, reset) => {
+		return function format(keys, open, close, reset) {
 			const openCode      = codeSequence(open);
 			const closeCode     = codeSequence(close);
 			const openSequence  = `\x1b[${openCode}m`;
@@ -31,17 +32,27 @@ export function makeFormatBuilder(makeChain: ChainBuilder, enabled = true): Form
 			return chain(makeChain, keys, define(
 				(s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s,
 				{
-					open  : {value: openSequence,  enumerable: true},
-					close : {value: closeSequence, enumerable: true},
-					codes : {value: {open, close}, enumerable: true},
+					open    : {value: openSequence,  enumerable: true},
+					close   : {value: closeSequence, enumerable: true},
+					codes   : {value: {open, close}, enumerable: true},
+					combine : {
+						value: (...formats: [FormatBase, ...FormatBase[]]) => format(
+							keys,
+							combineCodes(open,  ...formats.map(f => f.codes.open)),
+							combineCodes(close, ...formats.map(f => f.codes.close)),
+							reset,
+						),
+						enumerable: true,
+					},
 				},
 			));
 		};
 	}
 
 	return keys => chain(makeChain, keys, define((s: string) => s, {
-		open  : {value: "", enumerable: true},
-		close : {value: "", enumerable: true},
-		codes : {value: {open: [], close: []}, enumerable: true},
+		open    : {value: "", enumerable: true},
+		close   : {value: "", enumerable: true},
+		codes   : {value: {open: [], close: []}, enumerable: true},
+		combine : {value(this: FormatBase) { return this }, enumerable: true},
 	}));
 }

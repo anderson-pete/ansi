@@ -1,13 +1,13 @@
-import {makeCaret}                       from "./caret";
-import {makeErase}                       from "./erase";
-import {getFeatures}                     from "./features";
-import {padEnd, padStart}                from "./pad";
-import {makeScroll}                      from "./scroll";
-import {makeSGR}                         from "./sgr";
-import {simplify}                        from "./simplify";
-import {slice}                           from "./slice";
-import {sanitize, strip, visibleLength}  from "./strip";
-import {makeTerminal}                    from "./terminal";
+import {makeCaret}                      from "./caret";
+import {makeErase}                      from "./erase";
+import {getFeatures}                    from "./features";
+import {padEnd, padStart}               from "./pad";
+import {makeScroll}                     from "./scroll";
+import {makeSGR}                        from "./sgr";
+import {simplify}                       from "./simplify";
+import {slice}                          from "./slice";
+import {sanitize, strip, visibleLength} from "./strip";
+import {makeTerminal}                   from "./terminal";
 
 import type {Args} from "./features";
 import type {Ansi} from "./types";

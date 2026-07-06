@@ -27,9 +27,10 @@ export type Code = number | number[];
 export interface FormatBase {
 	(text: string): string;
 
-	open  : string;
-	close : string;
-	codes : {open: Code, close: Code};
+	open    : string;
+	close   : string;
+	codes   : {open: Code, close: Code};
+	combine : (...formats: [FormatBase, ...FormatBase[]]) => FormatBase;
 }
 
 export interface ChainedFormat<Keys extends ChainKey = ChainKey> extends FormatBase {

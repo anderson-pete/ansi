@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.0] - 2026-07-06
+### Added
+ - Brought back the `combine()` method on SGR functions for appending arbitrary styles
+
 ## [2.1.1] - 2026-07-02
 ### Fixed
  - Fixed missing TypeScript type information when `moduleResolution` is `node16` or `nodenext`
@@ -162,6 +166,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.2.0]: https://github.com/anderson-pete/ansi/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/anderson-pete/ansi/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/anderson-pete/ansi/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/anderson-pete/ansi/compare/v2.0.0...v2.0.1
