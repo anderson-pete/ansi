@@ -56,6 +56,7 @@ export function makeSGR(features: Features): SGR {
 	const rtn: SGR = {
 		...makeColor(allKeys, makeFormat, style, features.colorDepth),
 		style,
+		plain : makeFormat(allKeys, [], []),
 		reset : makeReset(features.colorDepth > 1 || features.style),
 	};
 

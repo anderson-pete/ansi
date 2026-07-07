@@ -88,5 +88,6 @@ export interface SGR {
 	fg    : Channel<Exclude<ChainKey, "fg">>;
 	bg    : Channel<Exclude<ChainKey, "bg">>;
 	style : Style;
+	plain : Format<ChainKey>;
 	reset : string;
 }

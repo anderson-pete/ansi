@@ -1,6 +1,9 @@
 # Changelog
 
-## [Unreleased] - 2026-07-07
+## [2.3.0] - 2026-07-07
+### Added
+ - `ansi.plain()`, an identity formatter that returns its input string unchanged
+
 ### Changed
  - `0` codes in SGR functions will now format as empty strings for shorter output
  - `combine()` now uses `simplify()` to remove redundant codes from the output sequence
@@ -174,6 +177,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[2.3.0]: https://github.com/anderson-pete/ansi/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/anderson-pete/ansi/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/anderson-pete/ansi/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/anderson-pete/ansi/compare/v2.0.1...v2.1.0

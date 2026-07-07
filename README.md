@@ -146,6 +146,18 @@ console.log(dim(ansi.fg.red("dim red text")));
 
 The SGR reset sequence. Empty string if color is disabled.
 
+### `plain`
+
+An identity formatter that returns its input string unchanged. Useful for conditionally disabling
+formatting or for testing:
+
+```js
+function formatText(text, useColor) {
+    const format = useColor ? ansi.fg.green : ansi.plain;
+    return format.and.bold(text);
+}
+```
+
 ### `caret`
 
 Available if feature is enabled:
