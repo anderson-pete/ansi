@@ -1,9 +1,9 @@
 import {TypedObject} from "../typed-object";
 import {lazy}        from "./lazy";
 
-import type {ChainKey, FormatBuilder, Style} from "./types";
+import type {ChainKey, FormatBuilder, Style, StyleKey} from "./types";
 
-const propParams = TypedObject.entries<Record<keyof Style, SkipFirst<Parameters<FormatBuilder>>>>({
+const propParams = TypedObject.entries<Record<StyleKey, SkipFirst<Parameters<FormatBuilder>>>>({
 	bold            : [ 1, 22, true],
 	dim             : [ 2, 22, true],
 	italic          : [ 3, 23],
