@@ -17,7 +17,9 @@ export function buildContext(
 ) {
 	const {open, close} = baseCodes[channel];
 
-	const build = (open: Code): Format => makeFormatter(keys, open, close);
+	const build = colorDepth > 1
+		? (open: Code): Format => makeFormatter(keys, open, close)
+		: () => makeFormatter(keys, [], []);
 
 	const combine = (base: FormatBase, style: FormatBase): Format => makeFormatter(
 		keys,
@@ -31,7 +33,7 @@ export function buildContext(
 			channel === "fg" ?
 				index => combine(style.bold, build(open + index)) :
 				index => build(open + index) :
-		() => build(0);
+		() => build([]);
 
 	const x16ToX8: (code: number) => Format =
 		channel === "fg" ?

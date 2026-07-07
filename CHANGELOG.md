@@ -5,6 +5,9 @@
  - `0` codes in SGR functions will now format as empty strings for shorter output
  - `combine()` now uses `simplify()` to remove redundant codes from the output sequence
 
+### Fixed
+ - Combining enabled and disabled SGR namespaces now works reliably
+
 ## [2.2.0] - 2026-07-06
 ### Added
  - Brought back the `combine()` method on SGR functions for appending arbitrary styles

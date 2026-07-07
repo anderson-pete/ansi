@@ -29,7 +29,7 @@ export function makeStyle(
 			lazy.add(rtn, key, () => {
 				const newKeys = new Set(keys);
 				newKeys.delete(key);
-				return enabled ? makeFormatter(newKeys, ...args) : makeFormatter(newKeys, 0, 0);
+				return enabled ? makeFormatter(newKeys, ...args) : makeFormatter(newKeys, [], []);
 			});
 		}
 	}

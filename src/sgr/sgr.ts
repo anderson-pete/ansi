@@ -33,21 +33,14 @@ export function makeSGR(features: Features): SGR {
 	if (cache[cacheKey])
 		return cache[cacheKey];
 
-	const colorFormat = makeFormatBuilder(makeChain, features.colorDepth > 1);
-	const styleFormat = makeFormatBuilder(makeChain, features.style);
-	const style       = makeStyle(allKeys, styleFormat, features.style);
+	const makeFormat = makeFormatBuilder(makeChain);
+	const style      = makeStyle(allKeys, makeFormat, features.style);
 
 	function makeChain<Keys extends ChainKey>(
 		keys       : ReadonlySet<Keys>,
 		baseFormat : FormatBase,
 	): Chain<Keys> {
-		const chainedColorFormat: FormatBuilder = (keys, open, close, reset) => colorFormat(
-			keys,
-			combineCodes(baseFormat.codes.open, open),
-			combineCodes(baseFormat.codes.close, close),
-			reset,
-		);
-		const chainedStyleFormat: FormatBuilder = (keys, open, close, reset) => styleFormat(
+		const makeChainedFormat: FormatBuilder = (keys, open, close, reset) => makeFormat(
 			keys,
 			combineCodes(baseFormat.codes.open, open),
 			combineCodes(baseFormat.codes.close, close),
@@ -55,15 +48,15 @@ export function makeSGR(features: Features): SGR {
 		);
 
 		return {
-			...makeColor(keys, chainedColorFormat, style, features.colorDepth),
-			...makeStyle(keys, chainedStyleFormat, features.style),
+			...makeColor(keys, makeChainedFormat, style, features.colorDepth),
+			...makeStyle(keys, makeChainedFormat, features.style),
 		};
 	}
 
 	const rtn: SGR = {
-		...makeColor(allKeys, colorFormat, style, features.colorDepth),
+		...makeColor(allKeys, makeFormat, style, features.colorDepth),
 		style,
-		reset: makeReset(features.colorDepth > 1 || features.style),
+		reset : makeReset(features.colorDepth > 1 || features.style),
 	};
 
 	cache[cacheKey] = rtn;

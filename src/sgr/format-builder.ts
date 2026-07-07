@@ -17,45 +17,38 @@ const chain = <Keys extends ChainKey>(
 	? baseFormat as Format<Keys>
 	: lazy.add(baseFormat, "and", () => makeChain(keys, baseFormat));
 
-export function makeFormatBuilder(makeChain: ChainBuilder, enabled = true): FormatBuilder {
-	if (enabled) {
-		return function format(keys, open, close, reset) {
-			const openCode      = codeSequence(open);
-			const closeCode     = codeSequence(close);
-			const openSequence  = `\x1b[${openCode}m`;
-			const closeSequence = `\x1b[${closeCode}m`;
-			const reopenCode    = reset ? `${closeCode};${openCode}` : openCode;
+export const makeFormatBuilder = (makeChain: ChainBuilder): FormatBuilder =>
+	function format(keys, open, close, reset) {
+		const empty         = Array.isArray(open) && !open.length;
+		const openCode      = empty ? "" : codeSequence(open);
+		const closeCode     = empty ? "" : codeSequence(close);
+		const openSequence  = empty ? "" :`\x1b[${openCode}m`;
+		const closeSequence = empty ? "" :`\x1b[${closeCode}m`;
+		const reopenCode    = reset && !empty ? `${closeCode};${openCode}` : openCode;
 
-			const rxClose = new RegExp(
-				`(?<start>\\x1b\\[(?:\\d+;)*)${closeCode}(?<end>(?:;\\d+)*m)`,
-				"g"
-			);
-			const replace = `$<start>${reopenCode}$<end>`;
+		const rxClose = new RegExp(
+			`(?<start>\\x1b\\[(?:\\d+;)*)${closeCode}(?<end>(?:;\\d+)*m)`,
+			"g"
+		);
+		const replace = `$<start>${reopenCode}$<end>`;
 
-			return chain(makeChain, keys, define(
-				(s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s,
-				{
-					open    : {value: openSequence,  enumerable: true},
-					close   : {value: closeSequence, enumerable: true},
-					codes   : {value: {open, close}, enumerable: true},
-					combine : {
-						value: (...formats: [FormatBase, ...FormatBase[]]) => format(
-							keys,
-							combineCodes(open,  ...formats.map(f => f.codes.open)),
-							combineCodes(close, ...formats.map(f => f.codes.close)),
-							reset,
-						),
-						enumerable: true,
-					},
+		return chain(makeChain, keys, define(
+			empty
+				? (s: string) => s
+				: (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s,
+			{
+				open    : {value: openSequence,  enumerable: true},
+				close   : {value: closeSequence, enumerable: true},
+				codes   : {value: {open, close}, enumerable: true},
+				combine : {
+					value: (...formats: [FormatBase, ...FormatBase[]]) => format(
+						keys,
+						combineCodes(open,  ...formats.map(f => f.codes.open)),
+						combineCodes(close, ...formats.map(f => f.codes.close)),
+						reset,
+					),
+					enumerable: true,
 				},
-			));
-		};
-	}
-
-	return keys => chain(makeChain, keys, define((s: string) => s, {
-		open    : {value: "", enumerable: true},
-		close   : {value: "", enumerable: true},
-		codes   : {value: {open: [], close: []}, enumerable: true},
-		combine : {value(this: FormatBase) { return this }, enumerable: true},
-	}));
-}
+			},
+		));
+	};
