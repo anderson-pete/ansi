@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased] - 2026-07-07
+### Changed
+ - `0` codes in SGR functions will now format as empty strings for shorter output
+
 ## [2.2.0] - 2026-07-06
 ### Added
  - Brought back the `combine()` method on SGR functions for appending arbitrary styles
