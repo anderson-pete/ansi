@@ -54,10 +54,10 @@ export function makeSGR(features: Features): SGR {
 			reset,
 		);
 
-		return /** @type {Chain<any>} */({
+		return {
 			...makeColor(keys, chainedColorFormat, style, features.colorDepth),
 			...makeStyle(keys, chainedStyleFormat, features.style),
-		});
+		};
 	}
 
 	const rtn: SGR = {
