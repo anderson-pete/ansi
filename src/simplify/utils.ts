@@ -1,4 +1,4 @@
-export function arraysEqual<T>(a: T[] | undefined, b: T[] | undefined): boolean {
+export function arraysEqual<T>(a: readonly T[] | undefined, b: readonly T[] | undefined): boolean {
 	if (a === b)
 		return true;
 
@@ -13,7 +13,10 @@ export function arraysEqual<T>(a: T[] | undefined, b: T[] | undefined): boolean 
 	return true;
 }
 
-export function transitionIntensity(previous: number[] | undefined, current: number[]): number[] {
+export function transitionIntensity(
+	previous : readonly number[] | undefined,
+	current  : readonly number[],
+): readonly number[] {
 	if (!previous || previous[0] === 22 || current[0] === 22)
 		return current;
 

@@ -61,7 +61,7 @@ const codeMap: Record<number, [attribute: Attribute, buildAtom?: BuildAtom]> = {
 	107 : ["bg"],
 };
 
-export function lookUpAtom(codes: number[], index: number, state: AttributeMap): Atom {
+export function lookUpAtom(codes: readonly number[], index: number, state: AttributeMap): Atom {
 	const code  = codes[index];
 	const entry = codeMap[code];
 

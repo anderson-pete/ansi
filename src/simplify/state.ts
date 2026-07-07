@@ -3,7 +3,7 @@ import {arraysEqual, transitionIntensity} from "./utils";
 
 import type {Attribute, AttributeMap} from "./types";
 
-const defaultCodes: Map<Attribute, number[]> = new Map([
+const defaultCodes: Map<Attribute, readonly number[]> = new Map([
 	["intensity",     [22]],
 	["italic",        [23]],
 	["underline",     [24]],
@@ -16,7 +16,7 @@ const defaultCodes: Map<Attribute, number[]> = new Map([
 	["overline",      [55]],
 ]);
 
-export class State extends Map<Attribute, number[]> implements AttributeMap {
+export class State extends Map<Attribute, readonly number[]> implements AttributeMap {
 	#isDefaultState(except?: Attribute): boolean {
 		for (const [attribute, defaultCode] of defaultCodes) {
 			if (attribute === except)
@@ -29,7 +29,7 @@ export class State extends Map<Attribute, number[]> implements AttributeMap {
 		return true;
 	}
 
-	update(codes: number[]): Array<number | string> {
+	update(codes: readonly number[]): Array<number | ""> {
 		let snapshot: AttributeMap = new Map(this);
 
 		const attributes = new Set<Attribute>();
@@ -58,7 +58,7 @@ export class State extends Map<Attribute, number[]> implements AttributeMap {
 				i += skip;
 		}
 
-		const rtn: Array<number | string> = [];
+		const rtn: Array<number | ""> = [];
 
 		for (const attribute of attributes) {
 			if (attribute === "reset") {

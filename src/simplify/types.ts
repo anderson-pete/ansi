@@ -12,17 +12,17 @@ export type Attribute =
 	| "reset"
 	| number;
 
-export type AttributeMap = Map<Attribute, number[]>;
+export type AttributeMap = Map<Attribute, readonly number[]>;
 
 export interface Atom {
 	attribute : Attribute;
-	code      : number[];
+	code      : readonly number[];
 	skip?     : number;
 }
 
 export type BuildAtom = (
 	attribute : Attribute,
-	codes     : number[],
+	codes     : readonly number[],
 	index     : number,
 	state     : AttributeMap,
 ) => Atom;
