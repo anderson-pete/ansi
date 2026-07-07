@@ -3,6 +3,7 @@
 ## [Unreleased] - 2026-07-07
 ### Changed
  - `0` codes in SGR functions will now format as empty strings for shorter output
+ - `combine()` now uses `simplify()` to remove redundant codes from the output sequence
 
 ## [2.2.0] - 2026-07-06
 ### Added
