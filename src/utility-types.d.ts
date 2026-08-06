@@ -16,3 +16,7 @@ type EntriesOf<T, K extends [...(keyof T)[]] = (keyof T)[]> = {
 };
 
 type SkipFirst<T> = T extends [infer First, ...infer Rest] ? Rest : [];
+
+interface ArrayConstructor {
+	isArray(value: unknown): value is readonly unknown[];
+}

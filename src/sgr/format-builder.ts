@@ -4,10 +4,7 @@ import {lazy}         from "./lazy";
 
 import type {ChainBuilder, ChainKey, Code, Format, FormatBase, FormatBuilder} from "./types";
 
-const codeSequence = (code: Code): string | number =>
-	Array.isArray(code)
-		? code.map(c => c ? c : "").join(';')
-		: code ? code : "";
+const codeSequence = (code: Code): string | number => Array.isArray(code) ? code.join(';') : code;
 
 const chain = <Keys extends ChainKey>(
 	makeChain  : ChainBuilder,

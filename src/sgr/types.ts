@@ -22,7 +22,7 @@ export type ChainBuilder = <Keys extends ChainKey>(
 	baseFormat : FormatBase,
 ) => Chain<Keys>;
 
-export type Code = number | number[];
+export type Code = number | "" | ReadonlyArray<number | "">;
 
 export interface FormatBase {
 	(text: string): string;

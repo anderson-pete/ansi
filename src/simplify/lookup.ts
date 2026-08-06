@@ -1,8 +1,9 @@
 import {buildExtendedColorAtom, buildIntensityAtom} from "./atom";
 
-import type {Atom, Attribute, AttributeMap, BuildAtom} from "./types";
+import type {Atom, Attribute, AttributeMap, BuildAtom, CodeArray} from "./types";
 
-const codeMap: Record<number, [attribute: Attribute, buildAtom?: BuildAtom]> = {
+const codeMap: Record<number | "", [attribute: Attribute, buildAtom?: BuildAtom]> = {
+	""  : ["reset"],
 	0   : ["reset"],
 	1   : ["intensity", buildIntensityAtom],
 	2   : ["intensity", buildIntensityAtom],
@@ -61,7 +62,7 @@ const codeMap: Record<number, [attribute: Attribute, buildAtom?: BuildAtom]> = {
 	107 : ["bg"],
 };
 
-export function lookUpAtom(codes: readonly number[], index: number, state: AttributeMap): Atom {
+export function lookUpAtom(codes: CodeArray, index: number, state: AttributeMap): Atom {
 	const code  = codes[index];
 	const entry = codeMap[code];
 

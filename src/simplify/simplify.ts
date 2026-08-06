@@ -9,12 +9,12 @@ export function simplify(text: string): string {
 	let   result = parts[0];
 
 	for (let i = 1; i < parts.length; ) {
-		let codes = parts[i++].split(";").map(Number);
-		let chunk = parts[i++];
+		const codes = parts[i++].split(";").map(s => s ? Number(s) : "");
+		let   chunk = parts[i++];
 
 		while (!chunk && i < parts.length) {
 			// Merge consecutive SGR sequences with no text between them.
-			codes.push(...parts[i++].split(";").map(Number));
+			codes.push(...parts[i++].split(";").map(s => s ? Number(s) : ""));
 			chunk = parts[i++];
 		}
 

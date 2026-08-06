@@ -1,1 +1,1 @@
-export const makeReset = (enabled = true): string => enabled ? "\x1b[0m" : "";
+export const makeReset = (enabled = true): string => enabled ? "\x1b[m" : "";

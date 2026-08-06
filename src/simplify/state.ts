@@ -1,9 +1,9 @@
 import {lookUpAtom}                       from "./lookup";
 import {arraysEqual, transitionIntensity} from "./utils";
 
-import type {Attribute, AttributeMap} from "./types";
+import type {Attribute, AttributeMap, CodeArray} from "./types";
 
-const defaultCodes: Map<Attribute, readonly number[]> = new Map([
+const defaultCodes: Map<Attribute, CodeArray> = new Map([
 	["intensity",     [22]],
 	["italic",        [23]],
 	["underline",     [24]],
@@ -16,7 +16,7 @@ const defaultCodes: Map<Attribute, readonly number[]> = new Map([
 	["overline",      [55]],
 ]);
 
-export class State extends Map<Attribute, readonly number[]> implements AttributeMap {
+export class State extends Map<Attribute, CodeArray> implements AttributeMap {
 	#isDefaultState(except?: Attribute): boolean {
 		for (const [attribute, defaultCode] of defaultCodes) {
 			if (attribute === except)
@@ -29,7 +29,7 @@ export class State extends Map<Attribute, readonly number[]> implements Attribut
 		return true;
 	}
 
-	update(codes: readonly number[]): Array<number | ""> {
+	update(codes: CodeArray): CodeArray {
 		let snapshot: AttributeMap = new Map(this);
 
 		const attributes = new Set<Attribute>();

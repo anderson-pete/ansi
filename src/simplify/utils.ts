@@ -1,3 +1,5 @@
+import type {CodeArray} from "./types";
+
 export function arraysEqual<T>(a: readonly T[] | undefined, b: readonly T[] | undefined): boolean {
 	if (a === b)
 		return true;
@@ -14,9 +16,9 @@ export function arraysEqual<T>(a: readonly T[] | undefined, b: readonly T[] | un
 }
 
 export function transitionIntensity(
-	previous : readonly number[] | undefined,
-	current  : readonly number[],
-): readonly number[] {
+	previous : CodeArray | undefined,
+	current  : CodeArray,
+): CodeArray {
 	if (!previous || previous[0] === 22 || current[0] === 22)
 		return current;
 

@@ -1,3 +1,5 @@
+export type CodeArray = ReadonlyArray<number | "">;
+
 export type Attribute =
 	| "intensity"
 	| "italic"
@@ -10,19 +12,20 @@ export type Attribute =
 	| "frame"
 	| "overline"
 	| "reset"
-	| number;
+	| number
+	| "";
 
-export type AttributeMap = Map<Attribute, readonly number[]>;
+export type AttributeMap = Map<Attribute, CodeArray>;
 
 export interface Atom {
 	attribute : Attribute;
-	code      : readonly number[];
+	code      : CodeArray;
 	skip?     : number;
 }
 
 export type BuildAtom = (
 	attribute : Attribute,
-	codes     : readonly number[],
+	codes     : CodeArray,
 	index     : number,
 	state     : AttributeMap,
 ) => Atom;
