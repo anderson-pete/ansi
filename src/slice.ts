@@ -30,7 +30,7 @@ export function scanCSI(
 	return {index, length};
 }
 
-function skippedSequences(text: string, start: number, end?: number): string {
+export function skippedSequences(text: string, start: number, end?: number): string {
 	const sequences = text.slice(start, end).match(new RegExp(rxSGR));
 	return sequences ? simplify(sequences.join("")) : "";
 }

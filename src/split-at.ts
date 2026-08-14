@@ -1,4 +1,4 @@
-import {scanCSI} from "./slice";
+import {scanCSI, skippedSequences} from "./slice";
 
 import type {slice} from "./slice";
 
@@ -7,11 +7,15 @@ import type {slice} from "./slice";
  * ignoring ANSI escape codes). The returned strings will include any ANSI escape codes from within
  * each slice.
  *
- * Note that unlike {@linkcode slice}, this function does not include any SGR codes (m) from before
- * or after the split point. If you need to preserve the terminal state before and after the split,
- * use {@linkcode slice} instead.
+ * Note that unlike {@linkcode slice}, this function doesn't, by default include any SGR codes (m)
+ * from before or after the split point. If you need to preserve the terminal state before and after
+* the split, pass `true` for the `includeSkipped` parameter.
  */
-export function splitAt(text: string, visibleIndex: number): [start: string, end: string] {
+export function splitAt(
+	text           : string,
+	visibleIndex   : number,
+	includeSkipped : boolean = false,
+): [start: string, end: string] {
 	if (!visibleIndex)
 		return ["", text];
 
@@ -26,7 +30,15 @@ export function splitAt(text: string, visibleIndex: number): [start: string, end
 	if (index === text.length)
 		return [text, ""];
 
-	return [text.slice(0, index), text.slice(index)];
+	let start = text.slice(0, index);
+	let end   = text.slice(index);
+
+	if (includeSkipped) {
+		start += skippedSequences(text, index);
+		end    = skippedSequences(text, 0, index) + end;
+	}
+
+	return [start, end];
 }
 
 export type SplitAt = typeof splitAt;
