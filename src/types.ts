@@ -6,6 +6,7 @@ import type {Scroll}                         from "./scroll";
 import type {SGR}                            from "./sgr";
 import type {Simplify}                       from "./simplify";
 import type {Slice}                          from "./slice";
+import type {SplitAt}                        from "./split-at";
 import type {Sanitize, Strip, VisibleLength} from "./strip";
 import type {Terminal}                       from "./terminal";
 
@@ -22,6 +23,7 @@ export type Ansi = SGR & {
 	visibleLength : VisibleLength;
 	sanitize      : Sanitize;
 	slice         : Slice;
+	splitAt       : SplitAt;
 	simplify      : Simplify;
 
 	features : Features;

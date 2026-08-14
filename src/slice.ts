@@ -2,7 +2,7 @@ import {rxCSI, rxSGR}  from "./patterns";
 import {simplify}      from "./simplify";
 import {visibleLength} from "./strip";
 
-function scanCSI(
+export function scanCSI(
 	text            : string,
 	fromStringIndex : number,
 	visibleCount    : number,

@@ -6,6 +6,7 @@ import {makeScroll}                     from "./scroll";
 import {makeSGR}                        from "./sgr";
 import {simplify}                       from "./simplify";
 import {slice}                          from "./slice";
+import {splitAt}                        from "./split-at";
 import {sanitize, strip, visibleLength} from "./strip";
 import {makeTerminal}                   from "./terminal";
 
@@ -32,6 +33,7 @@ export function makeAnsi(...args: Args): Ansi {
 		sanitize,
 		slice,
 		simplify,
+		splitAt,
 
 		features,
 	};
@@ -41,7 +43,7 @@ export const ansi = makeAnsi();
 
 export const {fg, bg, style, reset, cursor, erase, scroll, terminal} = ansi;
 
-export {padEnd, padStart, strip, visibleLength}
+export {padEnd, padStart, splitAt, strip, visibleLength}
 
 export default Object.assign(
 	Object.defineProperty(makeAnsi.bind(undefined), "name", {value: "ansi"}),

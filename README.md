@@ -206,6 +206,10 @@ Removes all ANSI CSI sequences from a string (always available).
 
 Slices a string by visible characters, ignoring ANSI sequences (always available).
 
+### `splitAt(text, visibleIndex)`
+
+Splits a string into two parts at the given visible index, ignoring ANSI sequences (always available).
+
 ### `sanitize(text)`
 
 Removes "unsafe" CSI sequences, leaving only color and style codes (always available).
