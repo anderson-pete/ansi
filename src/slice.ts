@@ -54,17 +54,18 @@ function skippedSequences(text: string, start: number, end?: number): string {
  * of the slice as it would be if the whole string were printed. This function is intended mostly
  * for text that contains SGR codes, but no other ANSI codes or control characters.
  */
-export function slice(text: string, start: number, end: number): string {
+export function slice(text: string, start: number, end?: number): string {
 	let textVisibleLength: number | undefined;
 	const getVisibleLength = () => textVisibleLength ??= visibleLength(text);
 
-	if (start < 0 || end < 0) {
-		textVisibleLength = getVisibleLength();
-		if (start < 0)
-			start = Math.max(0, textVisibleLength + start);
-		if (end < 0)
-			end = Math.max(0, textVisibleLength + end);
-	}
+	if (end === undefined)
+		end = getVisibleLength();
+
+	if (start < 0)
+		start = Math.max(0, getVisibleLength() + start);
+	if (end < 0)
+		end = Math.max(0, getVisibleLength() + end);
+
 	if (start > end)
 		return "";
 

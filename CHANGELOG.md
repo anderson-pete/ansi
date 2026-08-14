@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.1] - 2026-08-14
+### Changed
+ - The `end` parameter of `slice()` is now optional and defaults to the end of the string
+
 ## [3.1.0] - 2026-08-14
 ### Added
  - `ansi.splitAt()` function to split a string into two parts at a given visible index, ignoring
@@ -199,6 +203,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.1.1]: https://github.com/anderson-pete/ansi/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/anderson-pete/ansi/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/anderson-pete/ansi/compare/v2.3.1...v3.0.0
 [2.3.1]: https://github.com/anderson-pete/ansi/compare/v2.3.0...v2.3.1
