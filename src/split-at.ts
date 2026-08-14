@@ -1,4 +1,5 @@
 import {scanCSI, skippedSequences} from "./slice";
+import {visibleLength}             from "./strip";
 
 import type {slice} from "./slice";
 
@@ -20,7 +21,7 @@ export function splitAt(
 		return ["", text];
 
 	if (visibleIndex < 0)
-		throw new Error("visibleIndex must be non-negative");
+		visibleIndex = Math.max(0, visibleLength(text) + visibleIndex);
 
 	if (visibleIndex > text.length)
 		return [text, ""];
