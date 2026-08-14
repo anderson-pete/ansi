@@ -3,7 +3,7 @@ const move = (code: string) => (count?: number): string =>
 
 const noop = (): string => "";
 
-const caret = {
+const cursor = {
 	up       : move("A"),
 	down     : move("B"),
 	forward  : move("C"),
@@ -43,9 +43,9 @@ const caret = {
 	},
 };
 
-export type Caret = typeof caret;
+export type Cursor = typeof cursor;
 
-const disabled: Caret = {
+const disabled: Cursor = {
 	up       : noop,
 	down     : noop,
 	forward  : noop,
@@ -77,4 +77,4 @@ const disabled: Caret = {
 	},
 };
 
-export const makeCaret = (enabled = true): Caret => enabled ? caret : disabled;
+export const makeCursor = (enabled = true): Cursor => enabled ? cursor : disabled;

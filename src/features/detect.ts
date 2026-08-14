@@ -28,7 +28,7 @@ export function detectFeatureSupport(
 	const enabled = process.env.TERM !== "dumb" && isTTY;
 	return {
 		style    : colorDepth > 1,
-		caret    : enabled,
+		cursor   : enabled,
 		erase    : enabled,
 		scroll   : enabled,
 		terminal : enabled,

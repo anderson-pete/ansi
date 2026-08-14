@@ -27,7 +27,7 @@ console.log(ansiNoColor.fg.rgb(255, 128, 64)("light red-orange"));
 // Destructure named exports
 const {ansi: defaultInstance, makeAnsi, fg} = require("@peteanderson/ansi");
 console.log(fg.red.and.bold("Hello, world!"));
-const custom = makeAnsi({colorDepth: 8, caret: false});
+const custom = makeAnsi({colorDepth: 8, cursor: false});
 ```
 
 ## Feature Detection
@@ -36,7 +36,7 @@ The module automatically detects:
 
 - **Color depth**: 1 (none), 4 (16 colors), 8 (256 colors), 24 (true color)
 - **Style support**: enabled if color depth > 1
-- **Other features**: caret, erase, scroll — enabled if output is a TTY and `TERM` is not `dumb`
+- **Other features**: cursor, erase, scroll — enabled if output is a TTY and `TERM` is not `dumb`
 
 When disabled, features output empty strings. Color outputs plain text. This can be overridden:
 
@@ -158,18 +158,18 @@ function formatText(text, useColor) {
 }
 ```
 
-### `caret`
+### `cursor`
 
 Available if feature is enabled:
 
-- `caret.show` / `caret.hide` - show or hide the cursor
-- `caret.position.get` - get the current cursor position (terminal sends position to stdin)
-- `caret.position.set(row, col)` - set cursor position (1-based indexing)
-- `caret.shape.block` / `caret.shape.underline` / `caret.shape.bar` - change cursor shape
-- `caret.up(n)` / `caret.down(n)` / `caret.forward(n)` / `caret.backward(n)` - move cursor
-- `caret.nextLine(n)` / `caret.prevLine(n)` - move cursor to next/previous line
-- `caret.x(col)` - move cursor to column (1-based)
-- `caret.save` / `caret.restore` - save/restore cursor position (VT100)
+- `cursor.show` / `cursor.hide` - show or hide the cursor
+- `cursor.position.get` - get the current cursor position (terminal sends position to stdin)
+- `cursor.position.set(row, col)` - set cursor position (1-based indexing)
+- `cursor.shape.block` / `cursor.shape.underline` / `cursor.shape.bar` - change cursor shape
+- `cursor.up(n)` / `cursor.down(n)` / `cursor.forward(n)` / `cursor.backward(n)` - move cursor
+- `cursor.nextLine(n)` / `cursor.prevLine(n)` - move cursor to next/previous line
+- `cursor.x(col)` - move cursor to column (1-based)
+- `cursor.save` / `cursor.restore` - save/restore cursor position (VT100)
 
 ### `terminal`
 
@@ -232,7 +232,7 @@ Object containing the detected feature configuration:
 {
     colorDepth : 1 | 3 | 4 | 8 | 24;
     style      : boolean;
-    caret      : boolean;
+    cursor     : boolean;
     erase      : boolean;
     scroll     : boolean;
     terminal   : boolean;

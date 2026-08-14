@@ -1,4 +1,4 @@
-import {makeCaret}                      from "./caret";
+import {makeCursor}                     from "./cursor";
 import {makeErase}                      from "./erase";
 import {getFeatures}                    from "./features";
 import {padEnd, padStart}               from "./pad";
@@ -18,7 +18,7 @@ export function makeAnsi(...args: Args): Ansi {
 	return {
 		...makeSGR(features),
 
-		caret  : makeCaret(features.caret),
+		cursor : makeCursor(features.cursor),
 		erase  : makeErase(features.erase),
 		scroll : makeScroll(features.scroll),
 
@@ -39,7 +39,7 @@ export function makeAnsi(...args: Args): Ansi {
 
 export const ansi = makeAnsi();
 
-export const {fg, bg, style, reset, caret, erase, scroll, terminal} = ansi;
+export const {fg, bg, style, reset, cursor, erase, scroll, terminal} = ansi;
 
 export {padEnd, padStart, strip, visibleLength}
 

@@ -15,25 +15,25 @@ export function build(
 	isTTY      : boolean,
 	colorDepth : ColorDepth,
 	style?     : boolean,
-	caret?     : boolean,
+	cursor?    : boolean,
 	erase?     : boolean,
 	scroll?    : boolean,
 	terminal?  : boolean,
 ): Features {
 	if (
 		style    !== undefined &&
-		caret    !== undefined &&
+		cursor   !== undefined &&
 		erase    !== undefined &&
 		scroll   !== undefined &&
 		terminal !== undefined
 	)
-		return {colorDepth: normalizeColorDepth(colorDepth), style, caret, erase, scroll, terminal};
+		return {colorDepth: normalizeColorDepth(colorDepth), style, cursor, erase, scroll, terminal};
 
 	const support = detectFeatureSupport(isTTY, colorDepth);
 	return {
 		colorDepth : normalizeColorDepth(colorDepth),
 		style      : style    ?? support.style,
-		caret      : caret    ?? support.caret,
+		cursor     : cursor   ?? support.cursor,
 		erase      : erase    ?? support.erase,
 		scroll     : scroll   ?? support.scroll,
 		terminal   : terminal ?? support.terminal,
