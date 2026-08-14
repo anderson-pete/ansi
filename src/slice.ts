@@ -43,6 +43,14 @@ export function skippedSequences(text: string, start: number, end?: number): str
  * printed. If you compose two or more slices together, there may be redundant SGR sequences at the
  * boundaries, but the result will be correct. You can use `simplify` to remove the redundancies.
  *
+ * Negative indices for `start` or `end` are interpreted as offsets from the end of the string,
+ * counting only visible characters. For example, `slice(text, -1)` returns a string containing only
+ * the last visible character of `text`, as well as any SGR codes from before and after that
+ * character.
+ *
+ * This function is analogous to `String.prototype.slice`. If the given string contains no ANSI
+ * sequences, the result will be the same as `text.slice(start, end)`.
+ *
  * Note the following caveats:
  *
  *   * Any non-SGR ANSI codes prior to or after the slice will be ignored.
