@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased] - 2026-08-14
+### Fixed
+ - Cursor movement functions will no longer emit an invalid sequence containing `?` when given `0`,
+   and will instead emit an empty string
+
+### Changed
+ - `cursor` and `scroll` functions will now omit the `1` parameter from their output sequences when
+   their argument is `1`
+
 ## [3.0.0] - 2026-08-14
 ### Changed
  - Renamed `caret` to `cursor` for consistency with ANSI terminology

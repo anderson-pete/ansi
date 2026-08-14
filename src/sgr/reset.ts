@@ -1,1 +1,3 @@
-export const makeReset = (enabled = true): string => enabled ? "\x1b[m" : "";
+import {csi} from "../utils";
+
+export const makeReset = (enabled = true): string => enabled ? csi("m") : "";

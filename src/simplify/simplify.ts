@@ -1,4 +1,5 @@
 import {rxSGR} from "../patterns";
+import {csi}   from "../utils";
 import {State} from "./state";
 
 export function simplify(text: string): string {
@@ -20,7 +21,7 @@ export function simplify(text: string): string {
 
 		const newCodes = state.update(codes);
 		if (newCodes.length)
-			result += `\x1b[${newCodes.join(";")}m`;
+			result += csi(newCodes.join(";"), "m");
 		result += chunk;
 	}
 

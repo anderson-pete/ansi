@@ -1,4 +1,5 @@
 import {define}       from "@peteanderson/props";
+import {csi}          from "../utils";
 import {combineCodes} from "./combine";
 import {lazy}         from "./lazy";
 
@@ -19,8 +20,8 @@ export const makeFormatBuilder = (makeChain: ChainBuilder): FormatBuilder =>
 		const empty         = Array.isArray(open) && !open.length;
 		const openCode      = empty ? "" : codeSequence(open);
 		const closeCode     = empty ? "" : codeSequence(close);
-		const openSequence  = empty ? "" :`\x1b[${openCode}m`;
-		const closeSequence = empty ? "" :`\x1b[${closeCode}m`;
+		const openSequence  = empty ? "" : csi(openCode, "m");
+		const closeSequence = empty ? "" : csi(closeCode, "m");
 		const reopenCode    = reset && !empty ? `${closeCode};${openCode}` : openCode;
 
 		const rxClose = new RegExp(

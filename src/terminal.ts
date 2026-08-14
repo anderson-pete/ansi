@@ -1,26 +1,28 @@
+import {csi} from "./utils";
+
 const terminal = {
 	focusReporting: {
-		enable  : "\x1b[?1004h",
-		disable : "\x1b[?1004l",
-		focus   : "\x1b[I",
-		blur    : "\x1b[O",
+		enable  : csi("?1004h"),
+		disable : csi("?1004l"),
+		focus   : csi("I"),
+		blur    : csi("O"),
 	},
 
 	alternateScreen: {
-		enable  : "\x1b[?1049h",
-		disable : "\x1b[?1049l",
+		enable  : csi("?1049h"),
+		disable : csi("?1049l"),
 
 		legacy: {
-			enable  : "\x1b[?47h",
-			disable : "\x1b[?47l",
+			enable  : csi("?47h"),
+			disable : csi("?47l"),
 		},
 	},
 
 	bracketedPaste: {
-		enable  : "\x1b[?2004h",
-		disable : "\x1b[?2004l",
-		start   : "\x1b[200~",
-		end     : "\x1b[201~",
+		enable  : csi("?2004h"),
+		disable : csi("?2004l"),
+		start   : csi("200~"),
+		end     : csi("201~"),
 	},
 };
 

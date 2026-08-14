@@ -1,3 +1,4 @@
+import {csi}               from "../../utils";
 import {lazy}              from "../lazy";
 import {buildContext}      from "./context";
 import {makeRGB, makeX256} from "./rgb";
@@ -29,7 +30,7 @@ export function makeChannel(
 	const rtn = {
 		rgb     : makeRGB(ctx),
 		x256    : makeX256(ctx),
-		default : colorDepth > 1 ? `\x1b[${close}m` : "",
+		default : colorDepth > 1 ? csi(close, "m") : "",
 	} as Channel;
 
 	for (let i = 0; i < colors.length; i++) {

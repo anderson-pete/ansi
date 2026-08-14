@@ -1,14 +1,16 @@
+import {csi} from "./utils";
+
 const erase = {
 	line: {
-		toStart : "\x1b[1K",
-		toEnd   : "\x1b[0K",
-		full    : "\x1b[2K",
+		toStart : csi("1K"),
+		toEnd   : csi("0K"),
+		full    : csi("2K"),
 	},
 	screen: {
-		toStart    : "\x1b[1J",
-		toEnd      : "\x1b[0J",
-		full       : "\x1b[2J",
-		scrollback : "\x1b[3J",
+		toStart    : csi("1J"),
+		toEnd      : csi("0J"),
+		full       : csi("2J"),
+		scrollback : csi("3J"),
 	},
 };
 
