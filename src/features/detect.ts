@@ -29,7 +29,9 @@ export function detectFeatureSupport(
 	return {
 		style    : colorDepth > 1,
 		cursor   : enabled,
+		delete   : enabled,
 		erase    : enabled,
+		insert   : enabled,
 		scroll   : enabled,
 		terminal : enabled,
 	};

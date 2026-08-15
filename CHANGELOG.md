@@ -1,8 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [3.4.0] - 2026-08-14
 ### Added
  - `erase.char(count)` - erase characters (default 1)
+ - `ansi.insert.char(count)` and `ansi.insert.line(count)` - insert characters or lines (default 1)
+ - `ansi.delete.char(count)` and `ansi.delete.line(count)` - delete characters or lines (default 1)
 
 ## [3.3.0] - 2026-08-14
 ### Changed
@@ -216,6 +218,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.4.0]: https://github.com/anderson-pete/ansi/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/anderson-pete/ansi/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/anderson-pete/ansi/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/anderson-pete/ansi/compare/v3.1.0...v3.1.1

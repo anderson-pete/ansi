@@ -6,7 +6,9 @@ export interface Features {
 	colorDepth : ColorDepth;
 	style      : boolean;
 	cursor     : boolean;
+	delete     : boolean;
 	erase      : boolean;
+	insert     : boolean;
 	scroll     : boolean;
 	terminal   : boolean;
 }

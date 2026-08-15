@@ -1,14 +1,14 @@
-import {makeCursor}                     from "./cursor";
-import {makeErase}                      from "./erase";
-import {getFeatures}                    from "./features";
-import {padEnd, padStart}               from "./pad";
-import {makeScroll}                     from "./scroll";
-import {makeSGR}                        from "./sgr";
-import {simplify}                       from "./simplify";
-import {slice}                          from "./slice";
-import {splitAt}                        from "./split-at";
-import {sanitize, strip, visibleLength} from "./strip";
-import {makeTerminal}                   from "./terminal";
+import {makeCursor}                        from "./cursor";
+import {makeDelete, makeErase, makeInsert} from "./ins-del";
+import {getFeatures}                       from "./features";
+import {padEnd, padStart}                  from "./pad";
+import {makeScroll}                        from "./scroll";
+import {makeSGR}                           from "./sgr";
+import {simplify}                          from "./simplify";
+import {slice}                             from "./slice";
+import {splitAt}                           from "./split-at";
+import {sanitize, strip, visibleLength}    from "./strip";
+import {makeTerminal}                      from "./terminal";
 
 import type {Args} from "./features";
 import type {Ansi} from "./types";
@@ -20,7 +20,9 @@ export function makeAnsi(...args: Args): Ansi {
 		...makeSGR(features),
 
 		cursor : makeCursor(features.cursor),
+		delete : makeDelete(features.erase),
 		erase  : makeErase(features.erase),
+		insert : makeInsert(features.erase),
 		scroll : makeScroll(features.scroll),
 
 		terminal: makeTerminal(features.terminal),

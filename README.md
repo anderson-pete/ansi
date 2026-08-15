@@ -183,10 +183,25 @@ Terminal control features (available if feature is enabled):
 - `terminal.bracketedPasteMode.enable` / `terminal.bracketedPasteMode.disable` - enable/disable
   bracketed paste mode
 
+### `insert`
+
+Available if feature is enabled:
+
+- `insert.char(count)` - insert characters (default 1)
+- `insert.line(count)` - insert lines (default 1)
+
+### `delete`
+
+Available if feature is enabled:
+
+- `delete.char(count)` - delete characters (default 1)
+- `delete.line(count)` - delete lines (default 1)
+
 ### `erase`
 
 Available if feature is enabled:
 
+- `erase.char(count)` - erase characters (default 1)
 - `erase.line.toStart` / `erase.line.toEnd` / `erase.line.full` - erase line
 - `erase.screen.toStart` / `erase.screen.toEnd` / `erase.screen.full` - erase screen
 - `erase.screen.scrollback` - erase screen and scrollback buffer
