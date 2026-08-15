@@ -258,6 +258,11 @@ Object containing the detected feature configuration:
 }
 ```
 
+### `disabled`
+
+A pre-built `Ansi` instance with all features disabled. Useful for testing or for disabling output
+in certain environments.
+
 ## License
 
 MIT
