@@ -1,6 +1,8 @@
-import {csi} from "./utils";
+import {count, csi, noop} from "./utils";
 
 const erase = {
+	char: count("X"),
+
 	line: {
 		toStart : csi("1K"),
 		toEnd   : csi("0K"),
@@ -17,6 +19,8 @@ const erase = {
 export type Erase = typeof erase;
 
 const disabled: Erase = {
+	char: noop,
+
 	line: {
 		toStart : "",
 		toEnd   : "",

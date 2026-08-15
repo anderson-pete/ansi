@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Added
+ - `erase.char(count)` - erase characters (default 1)
+
 ## [3.3.0] - 2026-08-14
 ### Changed
  - The `visibleIndex` parameter of `splitAt()` can now be negative, just like `slice()`
