@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.5.0] - 2026-08-14
+### Added
+ - add a `disabled` export that returns an `Ansi` instance with all features disabled, useful for
+   testing or for disabling output in certain environments
+
 ## [3.4.0] - 2026-08-14
 ### Added
  - `erase.char(count)` - erase characters (default 1)

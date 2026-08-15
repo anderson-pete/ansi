@@ -41,7 +41,8 @@ export function makeAnsi(...args: Args): Ansi {
 	};
 }
 
-export const ansi = makeAnsi();
+export const ansi     = makeAnsi();
+export const disabled = makeAnsi(false);
 
 export const {fg, bg, style, reset, cursor, erase, scroll, terminal} = ansi;
 
@@ -50,4 +51,5 @@ export {padEnd, padStart, splitAt, strip, visibleLength}
 export default Object.assign(
 	Object.defineProperty(makeAnsi.bind(undefined), "name", {value: "ansi"}),
 	ansi,
+	{disabled},
 );
