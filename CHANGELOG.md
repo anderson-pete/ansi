@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0] - 2026-08-15
+### Changed
+ - Relative cursor movement functions, scroll functions, and insert/delete functions can now be
+   given negative counts to move or scroll in the opposite direction, or to swap insert/delete
+   operations. For example, `ansi.cursor.up(-3)` is equivalent to `ansi.cursor.down(3)`, and
+   `ansi.insert.line(-2)` is equivalent to `ansi.delete.line(2)`.
+
 ## [3.5.0] - 2026-08-14
 ### Added
  - add a `disabled` export that returns an `Ansi` instance with all features disabled, useful for
@@ -223,6 +230,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.6.0]: https://github.com/anderson-pete/ansi/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/anderson-pete/ansi/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/anderson-pete/ansi/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/anderson-pete/ansi/compare/v3.2.0...v3.3.0

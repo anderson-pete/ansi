@@ -166,8 +166,10 @@ Available if feature is enabled:
 - `cursor.position.get` - get the current cursor position (terminal sends position to stdin)
 - `cursor.position.set(row, col)` - set cursor position (1-based indexing)
 - `cursor.shape.block` / `cursor.shape.underline` / `cursor.shape.bar` - change cursor shape
-- `cursor.up(n)` / `cursor.down(n)` / `cursor.forward(n)` / `cursor.backward(n)` - move cursor
-- `cursor.nextLine(n)` / `cursor.prevLine(n)` - move cursor to next/previous line
+- `cursor.up(n)` / `cursor.down(n)` / `cursor.forward(n)` / `cursor.backward(n)` - move cursor;
+  negative values move in the opposite direction
+- `cursor.nextLine(n)` / `cursor.prevLine(n)` - move cursor to next/previous line; negative values
+  move in the opposite direction
 - `cursor.x(col)` - move cursor to column (1-based)
 - `cursor.save` / `cursor.restore` - save/restore cursor position (VT100)
 
@@ -187,15 +189,15 @@ Terminal control features (available if feature is enabled):
 
 Available if feature is enabled:
 
-- `insert.char(count)` - insert characters (default 1)
-- `insert.line(count)` - insert lines (default 1)
+- `insert.char(count)` - insert characters (default 1); negative values delete characters
+- `insert.line(count)` - insert lines (default 1); negative values delete lines
 
 ### `delete`
 
 Available if feature is enabled:
 
-- `delete.char(count)` - delete characters (default 1)
-- `delete.line(count)` - delete lines (default 1)
+- `delete.char(count)` - delete characters (default 1); negative values insert characters
+- `delete.line(count)` - delete lines (default 1); negative values insert lines
 
 ### `erase`
 
@@ -210,8 +212,8 @@ Available if feature is enabled:
 
 Available if feature is enabled:
 
-- `scroll.up(lines)` - scroll up (default 1 line)
-- `scroll.down(lines)` - scroll down (default 1 line)
+- `scroll.up(lines)` - scroll up (default 1 line); negative values scroll down
+- `scroll.down(lines)` - scroll down (default 1 line); negative values scroll up
 
 ### `strip(text)`
 

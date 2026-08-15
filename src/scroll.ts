@@ -1,8 +1,8 @@
 import {count, noop} from "./utils";
 
 const scroll = {
-	up   : count<[lines?: number]>("S"),
-	down : count<[lines?: number]>("T"),
+	up   : count<[lines?: number]>("S", "T"),
+	down : count<[lines?: number]>("T", "S"),
 };
 
 export type Scroll = typeof scroll;

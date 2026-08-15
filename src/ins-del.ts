@@ -17,13 +17,13 @@ const erase = {
 };
 
 const insert = {
-	char: count("@"),
-	line: count("L"),
+	char: count("@", "P"),
+	line: count("L", "M"),
 };
 
 const del = {
-	char: count("P"),
-	line: count("M"),
+	char: count("P", "@"),
+	line: count("M", "L"),
 };
 
 export type Erase  = typeof erase;

@@ -7,9 +7,27 @@ export function csi(...args: [string] | [string | number | undefined, string]): 
 	return `\x1b[${params === undefined ? "" : params}${command}`;
 }
 
+const forwardOnlyCount = (code: string) => (count?: number): string => {
+	if (count === 0 || count! < 0)
+		return "";
+
+	return csi(count === 1 ? undefined : count, code);
+};
+
+const reversibleCount = (forwardCode: string, backwardCode: string) => (count?: number): string => {
+	if (count === 0)
+		return "";
+
+	if (!count || count > 0)
+		return csi(count === 1 ? undefined : count, forwardCode);
+
+	return csi(count === -1 ? undefined : -count, backwardCode);
+}
+
 export const count = <Param extends [number?] = [count?: number]>(
-	code: string
+	code          : string,
+	negativeCode? : string,
 ): (...args: Param) => string =>
-	(count?: number): string => count === 0 ? "" : csi(count === 1 ? undefined : count, code);
+	negativeCode ? reversibleCount(code, negativeCode) : forwardOnlyCount(code);
 
 export const noop = () => "";

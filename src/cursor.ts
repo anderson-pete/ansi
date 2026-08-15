@@ -1,12 +1,12 @@
 import {csi, count as move, noop} from "./utils";
 
 const cursor = {
-	up       : move("A"),
-	down     : move("B"),
-	forward  : move("C"),
-	backward : move("D"),
-	nextLine : move("E"),
-	prevLine : move("F"),
+	up       : move("A", "B"),
+	down     : move("B", "A"),
+	forward  : move("C", "D"),
+	backward : move("D", "C"),
+	nextLine : move("E", "F"),
+	prevLine : move("F", "E"),
 
 	// Don't use `move`/`count` here, because it will output an empty string if `x` is `0`, but the
 	// terminal accepts `\x1b[0G` and will process it the same as `\x1b[1G`/`x1b[G`. Also, the
