@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased] - 2026-08-16
+### Changed
+ - `cursor.x` and `cursor.position.set()` now omit parameters less than `2`, allowing the terminal
+   to use its default value of `1`
+
 ## [3.6.0] - 2026-08-15
 ### Changed
  - Relative cursor movement functions, scroll functions, and insert/delete functions can now be

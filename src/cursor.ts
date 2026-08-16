@@ -8,10 +8,7 @@ const cursor = {
 	nextLine : move("E", "F"),
 	prevLine : move("F", "E"),
 
-	// Don't use `move`/`count` here, because it will output an empty string if `x` is `0`, but the
-	// terminal accepts `\x1b[0G` and will process it the same as `\x1b[1G`/`x1b[G`. Also, the
-	// parameter for `move`/`count` is optional, but the parameter for `x` is required.
-	x: (x: number) => csi(x, "G"),
+	x: (x: number) => csi(x < 2 ? undefined : x, "G"),
 
 	// These are the old VT100 codes, but they're widely supported by old and new terminals. The
 	// newer VT220 codes are standardized by ECMA and ISO, and are also widely supported, but might
@@ -29,7 +26,14 @@ const cursor = {
 
 	position: {
 		get: csi("6n"),
-		set: (x: number, y: number): string => csi(`${y};${x}H`),
+		set : (x: number, y: number): string => csi(
+			x < 2 ? // Omit x if we can use the default.
+				y < 2 ? undefined : y : // Omit y too if we can use both defaults.
+			y < 2 ?
+				`;${x}` :
+			`${y};${x}`,
+			"H", // "f" is equivalent, but "H" is more widely supported
+		),
 	},
 
 	shape: {
