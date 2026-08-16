@@ -214,6 +214,8 @@ Available if feature is enabled:
 
 - `scroll.up(lines)` - scroll up (default 1 line); negative values scroll down
 - `scroll.down(lines)` - scroll down (default 1 line); negative values scroll up
+- `scroll.setRegion(top, bottom)` - set scroll region; omit top/bottom to use defaults (top/bottom
+  of viewport)
 
 ### `strip(text)`
 

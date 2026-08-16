@@ -1,6 +1,9 @@
 # Changelog
 
-## [Unreleased] - 2026-08-16
+## [3.7.0] - 2026-08-16
+### Added
+ - New `scroll.setRegion(top, bottom)` function
+
 ### Changed
  - `cursor.x` and `cursor.position.set()` now omit parameters less than `2`, allowing the terminal
    to use its default value of `1`
@@ -235,6 +238,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.7.0]: https://github.com/anderson-pete/ansi/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/anderson-pete/ansi/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/anderson-pete/ansi/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/anderson-pete/ansi/compare/v3.3.0...v3.4.0
