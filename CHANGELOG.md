@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.7.1] - 2026-08-19
+## Added
+ - Export a few helpful SGR types
+
 ## [3.7.0] - 2026-08-16
 ### Added
  - New `scroll.setRegion(top, bottom)` function
@@ -238,6 +242,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.7.1]: https://github.com/anderson-pete/ansi/compare/v3.7.0...v3.7.1
 [3.7.0]: https://github.com/anderson-pete/ansi/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/anderson-pete/ansi/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/anderson-pete/ansi/compare/v3.4.0...v3.5.0
