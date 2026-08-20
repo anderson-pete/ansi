@@ -1,6 +1,6 @@
 import {combineCodes} from "../combine";
 
-import type {ColorDepth} from "../../features";
+import type {ColorDepth}                                                         from "#features";
 import type {ChainKey, Code, ColorKey, Format, FormatBase, FormatBuilder, Style} from "../types";
 
 const baseCodes = {

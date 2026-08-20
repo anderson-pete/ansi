@@ -1,5 +1,5 @@
-import {rxSGR} from "../patterns";
-import {csi}   from "../utils";
+import {rxSGR} from "#patterns";
+import {csi}   from "#utils";
 import {State} from "./state";
 
 export function simplify(text: string): string {

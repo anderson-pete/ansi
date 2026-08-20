@@ -1,4 +1,4 @@
-import {csi} from "./utils";
+import {csi} from "#utils";
 
 const terminal = {
 	focusReporting: {

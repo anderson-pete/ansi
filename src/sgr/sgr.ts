@@ -1,11 +1,11 @@
-import {TypedObject}       from "../typed-object";
+import {TypedObject}       from "#typed-object";
 import {makeColor}         from "./color";
 import {combineCodes}      from "./combine";
 import {makeFormatBuilder} from "./format-builder";
 import {makeReset}         from "./reset";
 import {makeStyle}         from "./style";
 
-import type {ColorDepth, Features}                            from "../features";
+import type {ColorDepth, Features}                            from "#features";
 import type {Chain, ChainKey, FormatBase, FormatBuilder, SGR} from "./types";
 
 const keyMap: Record<ChainKey, undefined> = {

@@ -1,4 +1,4 @@
-import {csi, count, noop} from "./utils";
+import {csi, count, noop} from "#utils";
 
 const scroll = {
 	up        : count<[lines?: number]>("S", "T"),

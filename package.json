@@ -17,7 +17,7 @@
 	"types"           : "dist/cjs/index.d.ts",
 	"exports"         : {
 		".": {
-			"import": {
+			"import"  : {
 				"types"   : "./dist/esm/index.d.ts",
 				"default" : "./dist/esm/index.js"
 			},
@@ -26,6 +26,12 @@
 				"default" : "./dist/cjs/index.js"
 			}
 		}
+	},
+	"imports"         : {
+		"#features"     : "./src/features/index.ts",
+		"#patterns"     : "./src/patterns.ts",
+		"#typed-object" : "./src/typed-object.ts",
+		"#utils"        : "./src/utils.ts"
 	},
 	"license"         : "MIT",
 	"scripts"         : {

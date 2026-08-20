@@ -6,6 +6,20 @@ const spawn    = (command: string, ...args: string[]) => spawnSync(command, args
 const tsc      = spawn.bind(undefined, "tsc");
 const tscAlias = spawn.bind(undefined, "tsc-alias");
 
+const {imports} = JSON.parse(fs.readFileSync("package.json", "utf8"));
+for (const key of Object.keys(imports)) {
+	const path = imports[key].replace("./src/", "./");
+	imports[key] = {
+		types   : path.replace(".ts", ".d.ts"),
+		default : path.replace(".ts", ".js"),
+	};
+}
+
+const writePackageJson = (build: "esm" | "cjs") => fs.writeFileSync(
+	Path.join("dist", build, "package.json"),
+	JSON.stringify({type: build === "esm" ? "module" : "commonjs", imports}, undefined, "\t"),
+);
+
 function buildESM() {
 	console.log("Building ESM ...");
 	console.log();
@@ -14,7 +28,7 @@ function buildESM() {
 
 	tscAlias("-p", "tsconfig.esm.json", "--resolve-full-paths", "--verbose");
 
-	fs.writeFileSync("dist/esm/package.json", '{"type":"module"}');
+	writePackageJson("esm");
 }
 
 function buildCJS() {
@@ -22,6 +36,8 @@ function buildCJS() {
 	console.log();
 
 	tsc("-p", "tsconfig.cjs.json");
+
+	writePackageJson("cjs");
 
 	for (const file of fs.readdirSync("dist/cjs")) {
 		if (file.startsWith("require")) {

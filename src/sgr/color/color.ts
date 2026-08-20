@@ -3,7 +3,7 @@
 import {lazy}        from "../lazy";
 import {makeChannel} from "./channel";
 
-import type {ColorDepth}                            from "../../features";
+import type {ColorDepth}                            from "#features";
 import type {ChainKey, Color, FormatBuilder, Style} from "../types";
 
 const channels = ["fg", "bg"] as const;
