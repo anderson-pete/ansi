@@ -1,4 +1,4 @@
-import {rxCSI, rxSGR}  from "./patterns";
+import {rxCSI, rxSGR}  from "#patterns";
 import {simplify}      from "./simplify";
 import {visibleLength} from "./strip";
 

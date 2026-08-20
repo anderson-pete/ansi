@@ -1,4 +1,4 @@
-import {count, csi, noop} from "./utils";
+import {count, csi, noop} from "#utils";
 
 const erase = {
 	char: count("X"),

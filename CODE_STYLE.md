@@ -217,10 +217,10 @@ Prefer `interface` over `type` for object shapes, unless `type`-specific feature
 **Alignment:** align the `from` keyword across all imports when practical.
 
 **Other rules:**
- * Avoid long relative paths — use path aliases instead (`$foo` instead of `../../../foo`).
- * `node:path` → import as `Path` (capital) to avoid shadowing variables named `path`
+ * Avoid long relative paths — use subpath imports instead (`#foo` instead of `../../../foo`).
+ * `node:path` → import as `Path` (capital) to avoid shadowing by variables named `path`
  * Kebab-case for local module and directory names
- * Do not separate import groups with blank lines
+ * Do not separate import groups, except for type imports, with blank lines
 
 ```ts
 import {foo}                from "@some-package";
@@ -230,8 +230,9 @@ import Path                 from "node:path";
 import {useState}           from "react";
 import {Bar, type BarProps} from "../bar";
 import {Section}            from "./section";
-import type {Data}          from "$types";
 import "./styles.css";
+
+import type {Data}          from "$types";
 ```
 
 ---

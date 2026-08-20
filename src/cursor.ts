@@ -1,4 +1,4 @@
-import {csi, count as move, noop} from "./utils";
+import {csi, count as move, noop} from "#utils";
 
 const cursor = {
 	up       : move("A", "B"),

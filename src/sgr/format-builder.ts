@@ -1,5 +1,5 @@
+import {csi}          from "#utils";
 import {define}       from "@peteanderson/props";
-import {csi}          from "../utils";
 import {combineCodes} from "./combine";
 import {lazy}         from "./lazy";
 

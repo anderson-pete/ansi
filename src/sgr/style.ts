@@ -1,4 +1,4 @@
-import {TypedObject} from "../typed-object";
+import {TypedObject} from "#typed-object";
 import {lazy}        from "./lazy";
 
 import type {ChainKey, FormatBuilder, Style, StyleKey} from "./types";

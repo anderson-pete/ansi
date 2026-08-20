@@ -1,9 +1,9 @@
-import {csi}               from "../../utils";
+import {csi}               from "#utils";
 import {lazy}              from "../lazy";
 import {buildContext}      from "./context";
 import {makeRGB, makeX256} from "./rgb";
 
-import type {ColorDepth}                                        from "../../features";
+import type {ColorDepth}                                        from "#features";
 import type {ChainKey, Channel, ColorKey, FormatBuilder, Style} from "../types";
 
 const colors = [

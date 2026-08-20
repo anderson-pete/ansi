@@ -1,4 +1,4 @@
-import {rxCSI, rxUnsafe} from "./patterns";
+import {rxCSI, rxUnsafe} from "#patterns";
 
 /** Remove all ANSI escape codes from the given text. */
 export const strip         = (text: string): string => text.replace(new RegExp(rxCSI), "");
