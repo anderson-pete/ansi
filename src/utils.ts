@@ -1,10 +1,15 @@
-export function csi(command: string): string;
-export function csi(params: string | number, command: string): string;
-export function csi(...args: [string] | [string | number, string]): string {
-	const command = args.pop() as string;
-	const params  = args.pop();
+import type {Code} from "#types";
 
-	return `\x1b[${params}${command}`;
+export const codeSequence = (code: Code | undefined): string | number =>
+	Array.isArray(code) ? code.join(";") : code ?? "";
+
+export function csi(command: string): string;
+export function csi(params: Code, command: string): string;
+export function csi(...args: [string] | [Code, string]): string {
+	const command = args.pop() as string;
+	const params  = args.pop() as Code | undefined;
+
+	return `\x1b[${codeSequence(params)}${command}`;
 }
 
 const forwardOnlyCount = (code: string) => (count?: number): string => {

@@ -10,6 +10,8 @@ import type {SplitAt}                        from "./split-at";
 import type {Sanitize, Strip, VisibleLength} from "./strip";
 import type {Terminal}                       from "./terminal";
 
+export type Code = number | "" | ReadonlyArray<number | "">;
+
 export type Ansi = SGR & {
 	cursor   : Cursor;
 	delete   : Delete;

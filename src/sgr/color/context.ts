@@ -1,7 +1,8 @@
 import {combineCodes} from "../combine";
 
-import type {ColorDepth}                                                         from "#features";
-import type {ChainKey, Code, ColorKey, Format, FormatBase, FormatBuilder, Style} from "../types";
+import type {ColorDepth}                                                   from "#features";
+import type {Code}                                                         from "#types";
+import type {ChainKey, ColorKey, Format, FormatBase, FormatBuilder, Style} from "../types";
 
 const baseCodes = {
 	fg: {open: 30, close: 39},

@@ -1,11 +1,9 @@
-import {csi}          from "#utils";
-import {define}       from "@peteanderson/props";
-import {combineCodes} from "./combine";
-import {lazy}         from "./lazy";
+import {codeSequence, csi} from "#utils";
+import {define}            from "@peteanderson/props";
+import {combineCodes}      from "./combine";
+import {lazy}              from "./lazy";
 
-import type {ChainBuilder, ChainKey, Code, Format, FormatBase, FormatBuilder} from "./types";
-
-const codeSequence = (code: Code): string | number => Array.isArray(code) ? code.join(';') : code;
+import type {ChainBuilder, ChainKey, Format, FormatBase, FormatBuilder} from "./types";
 
 const chain = <Keys extends ChainKey>(
 	makeChain  : ChainBuilder,
@@ -20,8 +18,8 @@ export const makeFormatBuilder = (makeChain: ChainBuilder): FormatBuilder =>
 		const empty         = Array.isArray(open) && !open.length;
 		const openCode      = empty ? "" : codeSequence(open);
 		const closeCode     = empty ? "" : codeSequence(close);
-		const openSequence  = empty ? "" : csi(openCode, "m");
-		const closeSequence = empty ? "" : csi(closeCode, "m");
+		const openSequence  = empty ? "" : csi(open, "m");
+		const closeSequence = empty ? "" : csi(close, "m");
 		const reopenCode    = reset && !empty ? `${closeCode};${openCode}` : openCode;
 
 		const rxClose = new RegExp(

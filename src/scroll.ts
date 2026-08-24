@@ -9,7 +9,7 @@ const scroll = {
 				bottom ?? "" :
 			!bottom ?
 				top :
-			`${top};${bottom}`,
+			[top, bottom],
 			"r",
 		),
 };
