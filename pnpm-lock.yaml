@@ -13,8 +13,8 @@ importers:
         version: 2.0.0
     devDependencies:
       '@types/node':
-        specifier: ^26.0.0
-        version: 26.0.0
+        specifier: ^26.2.0
+        version: 26.2.0
       tsc-alias:
         specifier: ^1.8.17
         version: 1.8.17
@@ -198,8 +198,8 @@ packages:
   '@peteanderson/props@2.0.0':
     resolution: {integrity: sha512-uRJpqk5AGroTPxU6eMNlQtJrjpwJKd4vkpc2hUuLRxHqo1K7KP7bqjFmODVPq1md9LGtUdKvRGh7AfAeSnN6QQ==}
 
-  '@types/node@26.0.0':
-    resolution: {integrity: sha512-vf2YFi1iY9lHGwNJMs01biZFbKJkrZR1T6/MlzjhJLPdntOHLhTrDSnSVcdtvjihi4VQNlrFRIxLsDBlQpAipA==}
+  '@types/node@26.2.0':
+    resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
 
   anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
@@ -450,7 +450,7 @@ snapshots:
 
   '@peteanderson/props@2.0.0': {}
 
-  '@types/node@26.0.0':
+  '@types/node@26.2.0':
     dependencies:
       undici-types: 8.3.0
 
