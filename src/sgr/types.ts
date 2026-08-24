@@ -1,3 +1,5 @@
+import type {Code} from "#types";
+
 export type ColorKey = "fg" | "bg";
 
 export type StyleKey =
@@ -21,8 +23,6 @@ export type ChainBuilder = <Keys extends ChainKey>(
 	keys       : ReadonlySet<Keys>,
 	baseFormat : FormatBase,
 ) => Chain<Keys>;
-
-export type Code = number | "" | ReadonlyArray<number | "">;
 
 export interface FormatBase {
 	(text: string): string;

@@ -30,8 +30,8 @@ const cursor = {
 			x < 2 ? // Omit x if we can use the default.
 				y < 2 ? "" : y : // Omit y too if we can use both defaults.
 			y < 2 ?
-				`;${x}` :
-			`${y};${x}`,
+				["", x] :
+			[y, x],
 			"H", // "f" is equivalent, but "H" is more widely supported
 		),
 	},

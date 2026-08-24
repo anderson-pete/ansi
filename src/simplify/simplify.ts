@@ -21,7 +21,7 @@ export function simplify(text: string): string {
 
 		const newCodes = state.update(codes);
 		if (newCodes.length)
-			result += csi(newCodes.join(";"), "m");
+			result += csi(newCodes, "m");
 		result += chunk;
 	}
 
