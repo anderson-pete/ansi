@@ -8,7 +8,7 @@ const cursor = {
 	nextLine : move("E", "F"),
 	prevLine : move("F", "E"),
 
-	x: (x: number) => csi(x < 2 ? undefined : x, "G"),
+	x: (x: number) => csi(x < 2 ? "" : x, "G"),
 
 	// These are the old VT100 codes, but they're widely supported by old and new terminals. The
 	// newer VT220 codes are standardized by ECMA and ISO, and are also widely supported, but might
@@ -28,7 +28,7 @@ const cursor = {
 		get: csi("6n"),
 		set : (x: number, y: number): string => csi(
 			x < 2 ? // Omit x if we can use the default.
-				y < 2 ? undefined : y : // Omit y too if we can use both defaults.
+				y < 2 ? "" : y : // Omit y too if we can use both defaults.
 			y < 2 ?
 				`;${x}` :
 			`${y};${x}`,
