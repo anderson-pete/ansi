@@ -6,7 +6,7 @@ const scroll = {
 	setRegion : (top?: number, bottom?: number) =>
 		csi(
 			!top || top < 2 ? // Omit top if we can use the default.
-				bottom :
+				bottom ?? "" :
 			!bottom ?
 				top :
 			`${top};${bottom}`,

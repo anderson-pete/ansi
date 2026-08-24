@@ -1,17 +1,17 @@
 export function csi(command: string): string;
-export function csi(params: string | number | undefined, command: string): string;
-export function csi(...args: [string] | [string | number | undefined, string]): string {
+export function csi(params: string | number, command: string): string;
+export function csi(...args: [string] | [string | number, string]): string {
 	const command = args.pop() as string;
 	const params  = args.pop();
 
-	return `\x1b[${params === undefined ? "" : params}${command}`;
+	return `\x1b[${params}${command}`;
 }
 
 const forwardOnlyCount = (code: string) => (count?: number): string => {
 	if (count === 0 || count! < 0)
 		return "";
 
-	return csi(count === 1 ? undefined : count, code);
+	return csi(count === 1 || count === undefined ? "" : count, code);
 };
 
 const reversibleCount = (forwardCode: string, backwardCode: string) => (count?: number): string => {
@@ -19,9 +19,9 @@ const reversibleCount = (forwardCode: string, backwardCode: string) => (count?: 
 		return "";
 
 	if (!count || count > 0)
-		return csi(count === 1 ? undefined : count, forwardCode);
+		return csi(count === 1 || count === undefined ? "" : count, forwardCode);
 
-	return csi(count === -1 ? undefined : -count, backwardCode);
+	return csi(count === -1 ? "" : -count, backwardCode);
 }
 
 export const count = <Param extends [number?] = [count?: number]>(
