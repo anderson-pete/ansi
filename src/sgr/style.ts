@@ -18,6 +18,9 @@ const propParams = TypedObject.entries<Record<StyleKey, SkipFirst<Parameters<For
 	overline        : [53, 55],
 });
 
+const disabledParams: typeof propParams =
+	propParams.map(([key]) => [key, [Code.disabled, Code.disabled]]);
+
 export function makeStyle(
 	keys          : ReadonlySet<ChainKey>,
 	makeFormatter : FormatBuilder,
@@ -25,14 +28,12 @@ export function makeStyle(
 ): Style<any> {
 	const rtn = {} as Style<any>;
 
-	for (const [key, args] of propParams) {
+	for (const [key, args] of enabled ? propParams : disabledParams) {
 		if (keys.has(key)) {
 			lazy.add(rtn, key, () => {
 				const newKeys = new Set(keys);
 				newKeys.delete(key);
-				return enabled
-					? makeFormatter(newKeys, ...args)
-					: makeFormatter(newKeys, Code.disabled, Code.disabled);
+				return makeFormatter(newKeys, ...args)
 			});
 		}
 	}
