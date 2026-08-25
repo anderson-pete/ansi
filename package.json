@@ -28,10 +28,10 @@
 		}
 	},
 	"imports"         : {
+		"#code"         : "./src/code.ts",
 		"#features"     : "./src/features/index.ts",
 		"#patterns"     : "./src/patterns.ts",
 		"#typed-object" : "./src/typed-object.ts",
-		"#types"        : "./src/types.ts",
 		"#utils"        : "./src/utils.ts"
 	},
 	"license"         : "MIT",
