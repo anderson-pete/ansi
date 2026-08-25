@@ -1,15 +1,17 @@
 import type {Code} from "#types";
 
-export const codeSequence = (code: Code | undefined): string | number =>
-	Array.isArray(code) ? code.join(";") : code ?? "";
+export const codeSequence = (code: Code): string | number =>
+	Array.isArray(code) ? code.join(";") : code;
+
+const isDisabled = (code: Code): boolean => Array.isArray(code) && !code.length;
 
 export function csi(command: string): string;
 export function csi(params: Code, command: string): string;
 export function csi(...args: [string] | [Code, string]): string {
 	const command = args.pop() as string;
-	const params  = args.pop() as Code | undefined;
+	const params  = args.pop() as Code | undefined ?? "";
 
-	return `\x1b[${codeSequence(params)}${command}`;
+	return isDisabled(params) ? "" : `\x1b[${codeSequence(params)}${command}`;
 }
 
 const forwardOnlyCount = (code: string) => (count?: number): string => {
