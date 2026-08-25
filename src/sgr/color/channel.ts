@@ -25,7 +25,7 @@ export function makeChannel(
 	channel       : ColorKey,
 ): Channel {
 	const ctx = buildContext(keys, makeFormatter, style, colorDepth, channel);
-	const {build, bright, open, close} = ctx;
+	const {build, bright, close, offset} = ctx;
 
 	const rtn = {
 		rgb     : makeRGB(ctx),
@@ -37,7 +37,7 @@ export function makeChannel(
 		const color       = colors[i];
 		const brightColor = `bright${color[0].toUpperCase()}${color.slice(1)}`;
 
-		lazy.add(rtn, color,       () => build(open + i));
+		lazy.add(rtn, color,       () => build(offset(i)));
 		lazy.add(rtn, brightColor, () => bright(i));
 	}
 
