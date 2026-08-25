@@ -15,12 +15,11 @@ const chain = <Keys extends ChainKey>(
 
 export const makeFormatBuilder = (makeChain: ChainBuilder): FormatBuilder =>
 	function format(keys, open, close, reset) {
-		const empty         = Array.isArray(open) && !open.length;
-		const openCode      = empty ? "" : codeSequence(open);
-		const closeCode     = empty ? "" : codeSequence(close);
-		const openSequence  = empty ? "" : csi(open, "m");
-		const closeSequence = empty ? "" : csi(close, "m");
-		const reopenCode    = reset && !empty ? `${closeCode};${openCode}` : openCode;
+		const openCode      = codeSequence(open);
+		const closeCode     = codeSequence(close);
+		const openSequence  = csi(open, "m");
+		const closeSequence = csi(close, "m");
+		const reopenCode    = reset ? `${closeCode};${openCode}` : openCode;
 
 		const rxClose = new RegExp(
 			`(?<start>\\x1b\\[(?:\\d+;)*)${closeCode}(?<end>(?:;\\d+)*m)`,
@@ -29,9 +28,9 @@ export const makeFormatBuilder = (makeChain: ChainBuilder): FormatBuilder =>
 		const replace = `$<start>${reopenCode}$<end>`;
 
 		return chain(makeChain, keys, define(
-			empty
-				? (s: string) => s
-				: (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s,
+			openSequence
+				? (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s
+				: (s: string) => s,
 			{
 				open    : {value: openSequence,  enumerable: true},
 				close   : {value: closeSequence, enumerable: true},
