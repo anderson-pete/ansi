@@ -46,8 +46,8 @@ export function buildContext(
 
 	const x16ToX8: (code: number) => Format =
 		channel === "fg"
-			? code => code >= 60 ? combine(style.bold, build(offset(code - 60))) : build(offset(code))
-			: code => code >= 60 ? build(offset(code - 60)) : build(offset(code));
+			? code => code >= 60 ? bright(code - 60) : build(offset(code))
+			: code => build(offset(code % 60));
 
 	return {colorDepth, channel, open, close, offset, extended, build, bright, x16ToX8};
 }
