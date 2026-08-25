@@ -1,3 +1,4 @@
+import {Code}              from "#code";
 import {TypedObject}       from "#typed-object";
 import {makeColor}         from "./color";
 import {combineCodes}      from "./combine";
@@ -56,7 +57,7 @@ export function makeSGR(features: Features): SGR {
 	const rtn: SGR = {
 		...makeColor(allKeys, makeFormat, style, features.colorDepth),
 		style,
-		plain : makeFormat(allKeys, [], []),
+		plain : makeFormat(allKeys, Code.disabled, Code.disabled),
 		reset : makeReset(features.colorDepth > 1 || features.style),
 	};
 

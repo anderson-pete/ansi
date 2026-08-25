@@ -1,3 +1,4 @@
+import {Code}                                          from "#code";
 import {clip, rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./utils";
 
 import type {Channel, Format} from "../types";
@@ -14,7 +15,7 @@ export function makeRGB(ctx: Context): Channel["rgb"] {
 			channel === "fg" ?
 				(r, g, b) => x16ToX8(rgbToX16(...clip(r, g, b))) :
 				(r, g, b) => build(open + rgbToX8(...clip(r, g, b))) :
-		() => build([])
+		() => build(Code.disabled)
 	);
 }
 
@@ -43,6 +44,6 @@ export function makeX256(ctx: Context): (...args: [number] | [number, number, nu
 						...args.length === 3 ? clip(...args) : x256ToRgb(clip(args[0])),
 					),
 				) :
-		() => build([])
+		() => build(Code.disabled)
 	);
 }

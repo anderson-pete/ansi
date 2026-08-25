@@ -1,4 +1,4 @@
-import type {Code} from "#types";
+import type {Code} from "#code";
 
 export type ColorKey = "fg" | "bg";
 

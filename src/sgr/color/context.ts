@@ -1,7 +1,7 @@
+import {Code}         from "#code";
 import {combineCodes} from "../combine";
 
 import type {ColorDepth}                                                   from "#features";
-import type {Code}                                                         from "#types";
 import type {ChainKey, ColorKey, Format, FormatBase, FormatBuilder, Style} from "../types";
 
 const baseCodes = {
@@ -20,7 +20,7 @@ export function buildContext(
 
 	const build = colorDepth > 1
 		? (open: Code): Format => makeFormatter(keys, open, close)
-		: () => makeFormatter(keys, [], []);
+		: () => makeFormatter(keys, Code.disabled, Code.disabled);
 
 	const combine = (base: FormatBase, style: FormatBase): Format => makeFormatter(
 		keys,
@@ -34,7 +34,7 @@ export function buildContext(
 			channel === "fg" ?
 				index => combine(style.bold, build(open + index)) :
 				index => build(open + index) :
-		() => build([]);
+		() => build(Code.disabled);
 
 	const x16ToX8: (code: number) => Format =
 		channel === "fg" ?

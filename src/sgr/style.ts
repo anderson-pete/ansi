@@ -1,3 +1,4 @@
+import {Code}        from "#code";
 import {TypedObject} from "#typed-object";
 import {lazy}        from "./lazy";
 
@@ -29,7 +30,9 @@ export function makeStyle(
 			lazy.add(rtn, key, () => {
 				const newKeys = new Set(keys);
 				newKeys.delete(key);
-				return enabled ? makeFormatter(newKeys, ...args) : makeFormatter(newKeys, [], []);
+				return enabled
+					? makeFormatter(newKeys, ...args)
+					: makeFormatter(newKeys, Code.disabled, Code.disabled);
 			});
 		}
 	}
