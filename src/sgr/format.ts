@@ -47,7 +47,7 @@ export function makeFormat<Keys extends ChainKey = ChainKey>(
 	);
 	const replace = `$<start>${reopenCode}$<end>`;
 
-	return attachChain(context, define(
+	const format = attachChain(context, define(
 		openSequence
 			? (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s
 			: (s: string) => s,
@@ -66,4 +66,7 @@ export function makeFormat<Keys extends ChainKey = ChainKey>(
 			},
 		},
 	));
+
+	context.registerFormat(format);
+	return format;
 };
