@@ -40,14 +40,8 @@ export function makeStyle<Keys extends ChainKey>(context: FormatContext<Keys>): 
 	const rtn = {} as Style<Keys>;
 
 	for (const [key, args] of context.features.style ? propParams : disabledParams) {
-		if (context.keys.has(key as Keys)) {
-			lazy.add(rtn, key, () => {
-				const keys = new Set(context.keys);
-				keys.delete(key as Keys);
-				const newContext: FormatContext<Keys> = {...context, keys};
-				return makeFormat(newContext, ...args)
-			});
-		}
+		if (context.keys.has(key as Keys))
+			lazy.add(rtn, key, () => makeFormat(context.removeKey(key as Keys), ...args));
 	}
 
 	return rtn;

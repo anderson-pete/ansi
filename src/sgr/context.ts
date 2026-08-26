@@ -11,6 +11,7 @@ export interface FormatContext<Keys extends ChainKey = ChainKey> {
 	keys         : ReadonlySet<Keys>;
 	parentCodes? : Codes;
 	style        : Style;
+	removeKey    : <Key extends Keys>(key: Key) => FormatContext<Exclude<Keys, Key>>;
 }
 
 export function createContext<Keys extends ChainKey = ChainKey>(
@@ -23,8 +24,14 @@ export function createContext<Keys extends ChainKey = ChainKey>(
 		keys        : keys ?? allKeys as ReadonlySet<Keys>,
 		parentCodes,
 		style       : undefined as unknown as Style,
+		removeKey   : undefined as unknown as FormatContext<Keys>["removeKey"],
 	};
-	context.style = makeStyle(keys ? {...context, keys: allKeys} :  context);
+	context.style     = makeStyle(keys ? {...context, keys: allKeys} : context);
+	context.removeKey = key => {
+		const keys = new Set(context.keys);
+		keys.delete(key);
+		return {...context, keys: keys as unknown as ReadonlySet<Exclude<Keys, typeof key>>};
+	};
 
 	return context;
 }
