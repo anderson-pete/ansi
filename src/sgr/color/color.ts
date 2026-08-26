@@ -17,14 +17,8 @@ export function makeColor<Keys extends ChainKey>(context: FormatContext<Keys>): 
 	const rtn = {} as Color<Keys>;
 
 	for (const channel of channels) {
-		if (context.keys.has(channel as Keys)) {
-			lazy.add(rtn, channel, () => {
-				const keys = new Set(context.keys);
-				keys.delete(channel as Keys);
-				const newContext: FormatContext<Keys> = {...context, keys};
-				return makeChannel(newContext, channel);
-			});
-		}
+		if (context.keys.has(channel as Keys))
+			lazy.add(rtn, channel, () => makeChannel(context.removeKey(channel as Keys), channel));
 	}
 
 	return rtn;
