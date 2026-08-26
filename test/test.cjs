@@ -1,6 +1,6 @@
 const ansi = require("@peteanderson/ansi");
 
-const {ansi: defaultInstance, disabled, makeAnsi} = ansi;
+const {ansi: defaultInstance, disabled, makeAnsi, padEnd} = ansi;
 
 /** @import {Ansi, FormatBase} from "@peteanderson/ansi" */
 /** @typedef {Parameters<typeof ansi>} Args */
@@ -13,27 +13,40 @@ const red = ansi.fg.red;
 /** @type {FormatBase} */
 const yellow = ansi.fg.yellow;
 
-/** @type {(expected: unknown, actual: unknown) => string} */
-const expect = (expected, actual) =>
-	expected === actual
-		? green(String(actual))
-		: `${red(String(actual))} (expected: ${yellow(String(expected))})`;
+/** @type {(tests: Record<string, [unknown, unknown]>) => void } */
+function expectAll(tests) {
+	const descriptionWidth = Math.max(...Object.keys(tests).map(key => key.length));
 
-console.log("makeAnsi.name                :", expect("makeAnsi", makeAnsi.name));
-// @ts-expect-error
-console.log("defaultInstance.name         :", expect(undefined, defaultInstance.name));
-console.log("ansi.name                    :", expect("ansi", ansi.name));
-// @ts-expect-error
-console.log("typeof makeAnsi.fg           :", expect("undefined", typeof makeAnsi.fg));
-console.log("typeof defaultInstance.fg    :", expect("object", typeof defaultInstance.fg));
-console.log("typeof ansi.fg               :", expect("object", typeof ansi.fg));
-// @ts-expect-error
-console.log("makeAnsi === defaultInstance :", expect(false, makeAnsi === defaultInstance));
-console.log("makeAnsi === ansi            :", expect(false, makeAnsi === ansi));
-console.log("defaultInstance === ansi     :", expect(false, defaultInstance === ansi));
-console.log("typeof makeAnsi              :", expect("function", typeof makeAnsi));
-console.log("typeof defaultInstance       :", expect("object", typeof defaultInstance));
-console.log("typeof ansi                  :", expect("function", typeof ansi));
+	/** @type {(description: string, actual: unknown) => string} */
+	const pass = (description, actual) =>
+		`${description.padEnd(descriptionWidth)} : ${green(String(actual))}`;
+
+	/** @type {(description: string, expected: unknown, actual: unknown) => string} */
+	const fail = (description, expected, actual) =>
+		`${padEnd(red(description), descriptionWidth)} : ` +
+		`${red(String(actual))} (expected: ${yellow(String(expected))})`
+
+	for (const [description, [expected, actual]] of Object.entries(tests)) {
+		console.log(
+			expected === actual ? pass(description, actual) : fail(description, expected, actual),
+		);
+	}
+}
+
+expectAll({
+	"makeAnsi.name"                : ["makeAnsi",  makeAnsi.name], // @ts-expect-error (next line)
+	"defaultInstance.name"         : [undefined,   defaultInstance.name],
+	"ansi.name"                    : ["ansi",      ansi.name], // @ts-expect-error
+	"typeof makeAnsi.fg"           : ["undefined", typeof makeAnsi.fg],
+	"typeof defaultInstance.fg"    : ["object",    typeof defaultInstance.fg],
+	"typeof ansi.fg"               : ["object",    typeof ansi.fg], // @ts-expect-error
+	"makeAnsi === defaultInstance" : [false,       makeAnsi === defaultInstance],
+	"makeAnsi === ansi"            : [false,       makeAnsi === ansi],
+	"defaultInstance === ansi"     : [false,       defaultInstance === ansi],
+	"typeof makeAnsi"              : ["function",  typeof makeAnsi],
+	"typeof defaultInstance"       : ["object",    typeof defaultInstance],
+	"typeof ansi"                  : ["function",  typeof ansi],
+});
 console.log();
 
 /** @type {(ansi: Ansi) => string} */
