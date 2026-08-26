@@ -1,7 +1,7 @@
 import {Code}              from "#code";
 import {codeSequence, csi} from "#utils";
 import {define}            from "@peteanderson/props";
-import {attachChain}       from "./chain/attach"; // Avoid barrel to prevent circular dependency.
+import {attachChain}       from "./chain";
 import {combineCodes}      from "./combine";
 
 import type {Codes}           from "#code";
