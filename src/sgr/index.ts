@@ -1,3 +1,4 @@
 export * from "./sgr";
 
-export {SGR} from "./types";
+export type {ChainKey}           from "./chain";
+export type {Format, FormatBase} from "./format-builder";

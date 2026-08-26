@@ -2,9 +2,12 @@ import {Code}        from "#code";
 import {TypedObject} from "#typed-object";
 import {lazy}        from "./lazy";
 
-import type {ChainKey, FormatBuilder, Style, StyleKey} from "./types";
+import type {ChainKey}              from "./chain";
+import type {Format, FormatBuilder} from "./format-builder";
 
-const propParams = TypedObject.entries<Record<StyleKey, SkipFirst<Parameters<FormatBuilder>>>>({
+type FormatBuilderArgs = [Code, Code, boolean?];
+
+const propParamsObj = {
 	bold            : [ 1, 22, true],
 	dim             : [ 2, 22, true],
 	italic          : [ 3, 23],
@@ -16,7 +19,17 @@ const propParams = TypedObject.entries<Record<StyleKey, SkipFirst<Parameters<For
 	frame           : [51, 54],
 	encircle        : [52, 54],
 	overline        : [53, 55],
-});
+} satisfies Record<string, FormatBuilderArgs>;
+
+export const styleKeys = TypedObject.keys(propParamsObj);
+
+export type StyleKey = typeof styleKeys[number];
+
+export type Style<Keys extends ChainKey = ChainKey> = {
+	[K in Extract<StyleKey, Keys>]: Format<Exclude<Keys, K>>;
+};
+
+const propParams = Object.entries(propParamsObj) as ReadonlyArray<[StyleKey, FormatBuilderArgs]>;
 
 const disabledParams: typeof propParams =
 	propParams.map(([key]) => [key, [Code.disabled, Code.disabled]]);

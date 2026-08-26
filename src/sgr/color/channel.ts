@@ -3,8 +3,40 @@ import {lazy}              from "../lazy";
 import {buildContext}      from "./context";
 import {makeRGB, makeX256} from "./rgb";
 
-import type {ColorDepth}                                        from "#features";
-import type {ChainKey, Channel, ColorKey, FormatBuilder, Style} from "../types";
+import type {ColorDepth}            from "#features";
+import type {ChainKey}              from "../chain";
+import type {Format, FormatBuilder} from "../format-builder";
+import type {Style}                 from "../style";
+import type {ColorKey}              from "./color";
+
+export interface Channel<Keys extends ChainKey = ChainKey> {
+	black   : Format<Keys>;
+	red     : Format<Keys>;
+	green   : Format<Keys>;
+	yellow  : Format<Keys>;
+	blue    : Format<Keys>;
+	magenta : Format<Keys>;
+	cyan    : Format<Keys>;
+	white   : Format<Keys>;
+
+	brightBlack   : Format<Keys>;
+	brightRed     : Format<Keys>;
+	brightGreen   : Format<Keys>;
+	brightYellow  : Format<Keys>;
+	brightBlue    : Format<Keys>;
+	brightMagenta : Format<Keys>;
+	brightCyan    : Format<Keys>;
+	brightWhite   : Format<Keys>;
+
+	rgb: (r: number, g: number, b: number) => Format<Keys>;
+
+	x256: {
+		(code: number): Format<Keys>;
+		(r: number, g: number, b: number): Format<Keys>;
+	};
+
+	default: string,
+}
 
 const colors = [
 	"black",
