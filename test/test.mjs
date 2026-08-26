@@ -11,7 +11,7 @@ const red = ansi.fg.red;
 /** @type {FormatBase} */
 const yellow = ansi.fg.yellow;
 
-/** @type {(tests: Record<string, [unknown, unknown]>) => void } */
+/** @type {(tests: Record<string, [expected: unknown, actual: unknown]>) => void } */
 function expectAll(tests) {
 	const descriptionWidth = Math.max(...Object.keys(tests).map(key => key.length));
 
@@ -31,19 +31,28 @@ function expectAll(tests) {
 	}
 }
 
+const chain    = ansi.chain(green);
+const blue     = ansi.fg.blue;
+const dimGreen = ansi.fg.green.and.dim;
+
 expectAll({
-	"makeAnsi.name"                : ["makeAnsi",  makeAnsi.name], // @ts-expect-error (next line)
-	"defaultInstance.name"         : [undefined,   defaultInstance.name],
-	"ansi.name"                    : ["ansi",      ansi.name], // @ts-expect-error
-	"typeof makeAnsi.fg"           : ["undefined", typeof makeAnsi.fg],
-	"typeof defaultInstance.fg"    : ["object",    typeof defaultInstance.fg],
-	"typeof ansi.fg"               : ["object",    typeof ansi.fg], // @ts-expect-error
-	"makeAnsi === defaultInstance" : [false,       makeAnsi === defaultInstance],
-	"makeAnsi === ansi"            : [false,       makeAnsi === ansi],
-	"defaultInstance === ansi"     : [false,       defaultInstance === ansi],
-	"typeof makeAnsi"              : ["function",  typeof makeAnsi],
-	"typeof defaultInstance"       : ["object",    typeof defaultInstance],
-	"typeof ansi"                  : ["function",  typeof ansi],
+	"makeAnsi.name"                : ["makeAnsi",       makeAnsi.name], // @ts-expect-error (next line)
+	"defaultInstance.name"         : [undefined,        defaultInstance.name],
+	"ansi.name"                    : ["ansi",           ansi.name], // @ts-expect-error
+	"typeof makeAnsi.fg"           : ["undefined",      typeof makeAnsi.fg],
+	"typeof defaultInstance.fg"    : ["object",         typeof defaultInstance.fg],
+	"typeof ansi.fg"               : ["object",         typeof ansi.fg], // @ts-expect-error
+	"makeAnsi === defaultInstance" : [false,            makeAnsi === defaultInstance],
+	"makeAnsi === ansi"            : [false,            makeAnsi === ansi],
+	"defaultInstance === ansi"     : [false,            defaultInstance === ansi],
+	"typeof makeAnsi"              : ["function",       typeof makeAnsi],
+	"typeof defaultInstance"       : ["object",         typeof defaultInstance],
+	"typeof ansi"                  : ["function",       typeof ansi],
+	"chain.and.fg.green"           : ["function",       typeof chain.and.fg.green],
+	"chain.and.dim"                : ["function",       typeof chain.and.dim],
+	'chain("text")'                : [green("text"),    chain("text")],
+	'chain.and.fg.blue("text")'    : [blue("text"),     chain.and.fg.blue("text")],
+	'chain.and.dim("text")'        : [dimGreen("text"), chain.and.dim("text")],
 });
 console.log();
 
