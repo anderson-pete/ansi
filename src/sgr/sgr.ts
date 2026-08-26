@@ -1,13 +1,13 @@
 import {Code}          from "#code";
 import {makeColor}     from "./color";
 import {createContext} from "./context";
-import {makeFormat}    from "./format-builder";
+import {makeFormat}    from "./format";
 import {makeReset}     from "./reset";
 
 import type {ColorDepth, Features} from "#features";
 import type {ChainKey}             from "./chain";
 import type {Color}                from "./color";
-import type {Format}               from "./format-builder";
+import type {Format}               from "./format";
 import type {Style}                from "./style";
 
 export interface SGR extends Color<ChainKey> {

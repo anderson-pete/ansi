@@ -1,11 +1,11 @@
 import {Code}              from "#code";
 import {TypedObject}       from "#typed-object";
-import {makeFormat}        from "./format-builder";
+import {makeFormat}        from "./format";
 import {lazy}              from "./lazy";
 
 import type {ChainKey}      from "./chain";
 import type {FormatContext} from "./context";
-import type {Format}        from "./format-builder";
+import type {Format}        from "./format";
 
 type FormatBuilderArgs = [Code, Code, boolean?];
 

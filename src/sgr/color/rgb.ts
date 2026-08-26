@@ -1,7 +1,7 @@
 import {Code}                                          from "#code";
 import {clip, rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./utils";
 
-import type {Format}         from "../format-builder";
+import type {Format}         from "../format";
 import type {Channel}        from "./channel";
 import type {ChannelContext} from "./context";
 
