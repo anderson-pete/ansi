@@ -1,9 +1,9 @@
 import {Code}         from "#code";
 import {combineCodes} from "../combine";
-import {makeFormat}   from "../format-builder";
+import {makeFormat}   from "../format";
 
 import type {FormatContext}      from "../context";
-import type {Format, FormatBase} from "../format-builder";
+import type {Format, FormatBase} from "../format";
 import type {ColorKey}           from "./color";
 
 const codes = (open: number) => ({

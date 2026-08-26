@@ -5,7 +5,7 @@ import {makeRGB, makeX256}   from "./rgb";
 
 import type {ChainKey}      from "../chain";
 import type {FormatContext} from "../context";
-import type {Format}        from "../format-builder";
+import type {Format}        from "../format";
 import type {ColorKey}      from "./color";
 
 export interface Channel<Keys extends ChainKey = ChainKey> {

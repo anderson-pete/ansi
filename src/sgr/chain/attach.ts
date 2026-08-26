@@ -5,7 +5,7 @@ import {makeStyle}    from "../style";
 
 import type {Color}              from "../color";
 import type {FormatContext}      from "../context";
-import type {Format, FormatBase} from "../format-builder";
+import type {Format, FormatBase} from "../format";
 import type {Style}              from "../style";
 import type {ChainKey}           from "./keys";
 
