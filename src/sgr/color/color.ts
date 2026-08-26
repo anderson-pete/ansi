@@ -1,13 +1,9 @@
-"use strict";
-
 import {lazy}        from "../lazy";
 import {makeChannel} from "./channel";
 
-import type {ColorDepth}      from "#features";
-import type {ChainKey}        from "../chain";
-import type {FormatBuilder}   from "../format-builder";
-import type {Style}           from "../style";
-import type {Channel}         from "./channel";
+import type {ChainKey}      from "../chain";
+import type {FormatContext} from "../context";
+import type {Channel}       from "./channel";
 
 export const channels = ["fg", "bg"] as const;
 
@@ -17,20 +13,16 @@ export type Color<Keys extends ChainKey = ChainKey> = {
 	[K in Extract<ColorKey, Keys>]: Channel<Exclude<Keys, K>>;
 };
 
-export function makeColor(
-	keys          : ReadonlySet<ChainKey>,
-	makeFormatter : FormatBuilder,
-	style         : Style,
-	colorDepth    : ColorDepth,
-): Color<any> {
-	const rtn = {} as Color<any>;
+export function makeColor<Keys extends ChainKey>(context: FormatContext<Keys>): Color<Keys> {
+	const rtn = {} as Color<Keys>;
 
 	for (const channel of channels) {
-		if (keys.has(channel)) {
+		if (context.keys.has(channel as Keys)) {
 			lazy.add(rtn, channel, () => {
-				const newKeys = new Set(keys);
-				newKeys.delete(channel);
-				return makeChannel(newKeys, makeFormatter, style, colorDepth, channel);
+				const keys = new Set(context.keys);
+				keys.delete(channel as Keys);
+				const newContext: FormatContext<Keys> = {...context, keys};
+				return makeChannel(newContext, channel);
 			});
 		}
 	}

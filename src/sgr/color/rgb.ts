@@ -1,11 +1,11 @@
 import {Code}                                          from "#code";
 import {clip, rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./utils";
 
-import type {Format}  from "../format-builder";
-import type {Channel} from "./channel";
-import type {Context} from "./context";
+import type {Format}         from "../format-builder";
+import type {Channel}        from "./channel";
+import type {ChannelContext} from "./context";
 
-export function makeRGB(ctx: Context): Channel["rgb"] {
+export function makeRGB(ctx: ChannelContext): Channel["rgb"] {
 	const {colorDepth, channel, build, offset, extended, x16ToX8} = ctx;
 
 	return (
@@ -20,7 +20,9 @@ export function makeRGB(ctx: Context): Channel["rgb"] {
 	);
 }
 
-export function makeX256(ctx: Context): (...args: [number] | [number, number, number]) => Format {
+type X256 = (...args: [number] | [number, number, number]) => Format;
+
+export function makeX256(ctx: ChannelContext): X256 {
 	const {colorDepth, channel, build, offset, extended, x16ToX8} = ctx;
 
 	return (

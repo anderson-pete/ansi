@@ -1,11 +1,10 @@
 import {Code}         from "#code";
 import {combineCodes} from "../combine";
+import {makeFormat}   from "../format-builder";
 
-import type {ColorDepth}                        from "#features";
-import type {ChainKey}                          from "../chain";
-import type {Format, FormatBase, FormatBuilder} from "../format-builder";
-import type {Style}                             from "../style";
-import type {ColorKey}                          from "./color";
+import type {FormatContext}      from "../context";
+import type {Format, FormatBase} from "../format-builder";
+import type {ColorKey}           from "./color";
 
 const codes = (open: number) => ({
 	open     : open as Code,
@@ -23,18 +22,13 @@ const disabledCodes: ReturnType<typeof codes> = {
 	extended : () => Code.disabled,
 };
 
-export function buildContext(
-	keys          : ReadonlySet<ChainKey>,
-	makeFormatter : FormatBuilder,
-	style         : Style,
-	colorDepth    : ColorDepth,
-	channel       : ColorKey
-) {
+export function buildChannelContext(formatContext: FormatContext, channel: ColorKey) {
+	const {colorDepth}                    = formatContext.features;
 	const {open, close, extended, offset} = colorDepth > 1 ? baseCodes[channel] : disabledCodes;
 
-	const build   = (open: Code): Format => makeFormatter(keys, open, close);
-	const combine = (base: FormatBase, style: FormatBase): Format => makeFormatter(
-		keys,
+	const build   = (open: Code): Format => makeFormat(formatContext, open, close);
+	const combine = (base: FormatBase, style: FormatBase): Format => makeFormat(
+		formatContext,
 		combineCodes(base.codes.open,  style.codes.open),
 		combineCodes(base.codes.close, style.codes.close),
 	);
@@ -43,7 +37,7 @@ export function buildContext(
 		colorDepth >= 4 ? index => build(offset(60 + index)) :
 		colorDepth === 3 ?
 			channel === "fg" ?
-				index => combine(style.bold, build(offset(index))) :
+				index => combine(formatContext.style.bold, build(offset(index))) :
 				index => build(offset(index)) :
 		() => build(Code.disabled);
 
@@ -55,4 +49,4 @@ export function buildContext(
 	return {colorDepth, channel, open, close, offset, extended, build, bright, x16ToX8};
 }
 
-export type Context = ReturnType<typeof buildContext>;
+export type ChannelContext = ReturnType<typeof buildChannelContext>;

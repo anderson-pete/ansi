@@ -1,13 +1,12 @@
-import {csi}               from "#utils";
-import {lazy}              from "../lazy";
-import {buildContext}      from "./context";
-import {makeRGB, makeX256} from "./rgb";
+import {csi}                 from "#utils";
+import {lazy}                from "../lazy";
+import {buildChannelContext} from "./context";
+import {makeRGB, makeX256}   from "./rgb";
 
-import type {ColorDepth}            from "#features";
-import type {ChainKey}              from "../chain";
-import type {Format, FormatBuilder} from "../format-builder";
-import type {Style}                 from "../style";
-import type {ColorKey}              from "./color";
+import type {ChainKey}      from "../chain";
+import type {FormatContext} from "../context";
+import type {Format}        from "../format-builder";
+import type {ColorKey}      from "./color";
 
 export interface Channel<Keys extends ChainKey = ChainKey> {
 	black   : Format<Keys>;
@@ -49,21 +48,18 @@ const colors = [
 	"white",
 ] as const;
 
-export function makeChannel(
-	keys          : ReadonlySet<ChainKey>,
-	makeFormatter : FormatBuilder,
-	style         : Style,
-	colorDepth    : ColorDepth,
+export function makeChannel<Keys extends ChainKey>(
+	formatContext : FormatContext<Keys>,
 	channel       : ColorKey,
-): Channel {
-	const ctx = buildContext(keys, makeFormatter, style, colorDepth, channel);
-	const {build, bright, close, offset} = ctx;
+): Channel<Keys> {
+	const channelContext                 = buildChannelContext(formatContext, channel);
+	const {build, bright, close, offset} = channelContext;
 
 	const rtn = {
-		rgb     : makeRGB(ctx),
-		x256    : makeX256(ctx),
-		default : colorDepth > 1 ? csi(close, "m") : "",
-	} as Channel;
+		rgb     : makeRGB(channelContext),
+		x256    : makeX256(channelContext),
+		default : csi(close, "m"),
+	} as unknown as Channel<Keys>;
 
 	for (let i = 0; i < colors.length; i++) {
 		const color       = colors[i];

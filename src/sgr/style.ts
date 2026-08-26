@@ -1,9 +1,11 @@
-import {Code}        from "#code";
-import {TypedObject} from "#typed-object";
-import {lazy}        from "./lazy";
+import {Code}              from "#code";
+import {TypedObject}       from "#typed-object";
+import {makeFormat}        from "./format-builder";
+import {lazy}              from "./lazy";
 
-import type {ChainKey}              from "./chain";
-import type {Format, FormatBuilder} from "./format-builder";
+import type {ChainKey}      from "./chain";
+import type {FormatContext} from "./context";
+import type {Format}        from "./format-builder";
 
 type FormatBuilderArgs = [Code, Code, boolean?];
 
@@ -34,19 +36,16 @@ const propParams = Object.entries(propParamsObj) as ReadonlyArray<[StyleKey, For
 const disabledParams: typeof propParams =
 	propParams.map(([key]) => [key, [Code.disabled, Code.disabled]]);
 
-export function makeStyle(
-	keys          : ReadonlySet<ChainKey>,
-	makeFormatter : FormatBuilder,
-	enabled       : boolean,
-): Style<any> {
-	const rtn = {} as Style<any>;
+export function makeStyle<Keys extends ChainKey>(context: FormatContext<Keys>): Style<Keys> {
+	const rtn = {} as Style<Keys>;
 
-	for (const [key, args] of enabled ? propParams : disabledParams) {
-		if (keys.has(key)) {
+	for (const [key, args] of context.features.style ? propParams : disabledParams) {
+		if (context.keys.has(key as Keys)) {
 			lazy.add(rtn, key, () => {
-				const newKeys = new Set(keys);
-				newKeys.delete(key);
-				return makeFormatter(newKeys, ...args)
+				const keys = new Set(context.keys);
+				keys.delete(key as Keys);
+				const newContext: FormatContext<Keys> = {...context, keys};
+				return makeFormat(newContext, ...args)
 			});
 		}
 	}
