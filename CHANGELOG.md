@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.8.0] - 2026-08-26
+### Added
+ - `chain` export for arbitrary chaining to a formatter that allows styles already used
+
 ## [3.7.1] - 2026-08-19
 ### Added
  - Export a few helpful SGR types
@@ -242,6 +246,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.8.0]: https://github.com/anderson-pete/ansi/compare/v3.7.1...v3.8.0
 [3.7.1]: https://github.com/anderson-pete/ansi/compare/v3.7.0...v3.7.1
 [3.7.0]: https://github.com/anderson-pete/ansi/compare/v3.6.0...v3.7.0
 [3.6.0]: https://github.com/anderson-pete/ansi/compare/v3.5.0...v3.6.0

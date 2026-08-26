@@ -3,7 +3,7 @@ import type {Delete, Erase, Insert}          from "./ins-del";
 import type {Features}                       from "./features";
 import type {PadEnd, PadStart}               from "./pad";
 import type {Scroll}                         from "./scroll";
-import type {SGR}                            from "./sgr";
+import type {AddChain, SGR}                  from "./sgr";
 import type {Simplify}                       from "./simplify";
 import type {Slice}                          from "./slice";
 import type {SplitAt}                        from "./split-at";
@@ -21,6 +21,7 @@ export type Ansi = SGR & {
 	padEnd   : PadEnd;
 	padStart : PadStart;
 
+	chain         : AddChain;
 	strip         : Strip;
 	visibleLength : VisibleLength;
 	sanitize      : Sanitize;

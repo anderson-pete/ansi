@@ -142,6 +142,46 @@ const dim = format => format.combine(ansi.style.dim);
 console.log(dim(ansi.fg.red("dim red text")));
 ```
 
+#### Arbitrary Chaining with `.chain()`
+
+The fluent interface is usually more convenient than `.combine()`, but it has one limitation: once
+an attribute has been set, it cannot be overridden via `.and`. For example,
+`ansi.fg.red.and.fg.blue("text")` will error both at compile time and at runtime, because the `fg`
+property isn't available in the chain, since it was already used.
+
+This can be inconvenient when you want to override default styles. Take this example:
+
+```ts
+import ansi from "@peteanderson/ansi";
+
+function formatText(text: string, format?: (defaultStyle: Format) => Format): string {
+    let style = ansi.fg.green;
+    if (format)
+        style = format(style);
+    return style(text);
+}
+
+formatText("Some error message", style => style.and.fg.red);
+// ❌ TypeError: Cannot read properties of undefined (reading 'red')
+```
+
+This will throw an error at runtime since `fg` won't be available in the chain. However, with
+`chain()`, you can create a new formatter that allows overriding styles that have already been used:
+
+```ts
+import ansi from "./src";
+
+function formatText(text: string, format?: (defaultStyle: Format) => Format): string {
+    let style = ansi.fg.green;
+    if (format)
+        style = format(ansi.chain(style));
+    return style(text);
+}
+
+formatText("Some error message", style => style.and.fg.red);
+// ✅ "Some error message" in red
+```
+
 ### `reset`
 
 The SGR reset sequence. Empty string if color is disabled.

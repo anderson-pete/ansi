@@ -3,7 +3,7 @@ import {makeDelete, makeErase, makeInsert} from "./ins-del";
 import {getFeatures}                       from "./features";
 import {padEnd, padStart}                  from "./pad";
 import {makeScroll}                        from "./scroll";
-import {makeSGR}                           from "./sgr";
+import {chain, makeSGR}                    from "./sgr";
 import {simplify}                          from "./simplify";
 import {slice}                             from "./slice";
 import {splitAt}                           from "./split-at";
@@ -30,6 +30,7 @@ export function makeAnsi(...args: Args): Ansi {
 		padEnd,
 		padStart,
 
+		chain,
 		strip,
 		visibleLength,
 		sanitize,
@@ -46,7 +47,7 @@ export const disabled = makeAnsi(false);
 
 export const {fg, bg, style, reset, cursor, erase, scroll, terminal} = ansi;
 
-export {padEnd, padStart, splitAt, strip, visibleLength}
+export {padEnd, padStart, chain, strip, visibleLength, sanitize, slice, simplify, splitAt};
 
 export default Object.assign(
 	Object.defineProperty(makeAnsi.bind(undefined), "name", {value: "ansi"}),
