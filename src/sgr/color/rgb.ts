@@ -1,8 +1,9 @@
 import {Code}                                          from "#code";
 import {clip, rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./utils";
 
-import type {Channel, Format} from "../types";
-import type {Context}         from "./context";
+import type {Format}  from "../format-builder";
+import type {Channel} from "./channel";
+import type {Context} from "./context";
 
 export function makeRGB(ctx: Context): Channel["rgb"] {
 	const {colorDepth, channel, build, offset, extended, x16ToX8} = ctx;

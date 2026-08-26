@@ -1,31 +1,22 @@
 import {Code}              from "#code";
-import {TypedObject}       from "#typed-object";
+import {allKeys}           from "./chain";
 import {makeColor}         from "./color";
 import {combineCodes}      from "./combine";
 import {makeFormatBuilder} from "./format-builder";
 import {makeReset}         from "./reset";
 import {makeStyle}         from "./style";
 
-import type {ColorDepth, Features}                            from "#features";
-import type {Chain, ChainKey, FormatBase, FormatBuilder, SGR} from "./types";
+import type {ColorDepth, Features}              from "#features";
+import type {Chain, ChainKey}                   from "./chain";
+import type {Color}                             from "./color";
+import type {Format, FormatBase, FormatBuilder} from "./format-builder";
+import type {Style}                             from "./style";
 
-const keyMap: Record<ChainKey, undefined> = {
-	fg              : undefined,
-	bg              : undefined,
-	bold            : undefined,
-	dim             : undefined,
-	italic          : undefined,
-	underline       : undefined,
-	inverse         : undefined,
-	hidden          : undefined,
-	strikethrough   : undefined,
-	doubleUnderline : undefined,
-	frame           : undefined,
-	encircle        : undefined,
-	overline        : undefined,
-};
-
-const allKeys: ReadonlySet<ChainKey> = new Set(TypedObject.keys(keyMap));
+export interface SGR extends Color<ChainKey> {
+	style : Style;
+	plain : Format<ChainKey>;
+	reset : string;
+}
 
 const cache: Partial<Record<`${ColorDepth}.${boolean}`, SGR>> = {};
 

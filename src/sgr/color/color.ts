@@ -3,10 +3,19 @@
 import {lazy}        from "../lazy";
 import {makeChannel} from "./channel";
 
-import type {ColorDepth}                            from "#features";
-import type {ChainKey, Color, FormatBuilder, Style} from "../types";
+import type {ColorDepth}      from "#features";
+import type {ChainKey}        from "../chain";
+import type {FormatBuilder}   from "../format-builder";
+import type {Style}           from "../style";
+import type {Channel}         from "./channel";
 
-const channels = ["fg", "bg"] as const;
+export const channels = ["fg", "bg"] as const;
+
+export type ColorKey = typeof channels[number];
+
+export type Color<Keys extends ChainKey = ChainKey> = {
+	[K in Extract<ColorKey, Keys>]: Channel<Exclude<Keys, K>>;
+};
 
 export function makeColor(
 	keys          : ReadonlySet<ChainKey>,

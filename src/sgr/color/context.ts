@@ -1,8 +1,11 @@
 import {Code}         from "#code";
 import {combineCodes} from "../combine";
 
-import type {ColorDepth}                                                   from "#features";
-import type {ChainKey, ColorKey, Format, FormatBase, FormatBuilder, Style} from "../types";
+import type {ColorDepth}                        from "#features";
+import type {ChainKey}                          from "../chain";
+import type {Format, FormatBase, FormatBuilder} from "../format-builder";
+import type {Style}                             from "../style";
+import type {ColorKey}                          from "./color";
 
 const codes = (open: number) => ({
 	open     : open as Code,
