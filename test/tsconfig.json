@@ -3,6 +3,11 @@
 	"compilerOptions" : {
 		"rootDir" : "..",
 		"noEmit"  : true,
+		"allowJs" : true,
+		"checkJs" : true,
 	},
-	"include"         : ["../src", "."]
+	// The JavaScript files will be ignored in favor of the TypeScript variants if we don't
+	// explicitly add them here.
+	"files"           : ["./test.cjs", "./test.mjs"],
+	"include"         : ["../src", "."],
 }

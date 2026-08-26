@@ -36,12 +36,13 @@
 	},
 	"license"         : "MIT",
 	"scripts"         : {
-		"prebuild" : "tsx --tsconfig scripts/tsconfig.json scripts/clean.ts",
-		"build"    : "tsx --tsconfig scripts/tsconfig.json scripts/build.ts",
-		"prepack"  : "npm run build",
-		"tag"      : "git tag -a v$npm_package_version -m v$npm_package_version",
-		"tag-all"  : "tsx --tsconfig scripts/tsconfig.json scripts/tag-all.ts",
-		"test"     : "tsx test/run"
+		"prebuild"   : "tsx --tsconfig scripts/tsconfig.json scripts/clean.ts",
+		"build"      : "tsx --tsconfig scripts/tsconfig.json scripts/build.ts",
+		"prepack"    : "npm run build",
+		"tag"        : "git tag -a v$npm_package_version -m v$npm_package_version",
+		"tag-all"    : "tsx --tsconfig scripts/tsconfig.json scripts/tag-all.ts",
+		"test"       : "tsx test/run",
+		"type-check" : "tsc -p test/tsconfig.json"
 	},
 	"devDependencies" : {
 		"@types/node" : "^26.2.0",
