@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.8.2] - 2026-10-06
+### Fixed
+ - Fixed generic exports for CJS consumers
+
 ## [3.8.1] - 2026-10-06
 ###
  - Export `Channel` type from SGR color module
@@ -250,6 +254,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.8.2]: https://github.com/anderson-pete/ansi/compare/v3.8.1...v3.8.2
 [3.8.1]: https://github.com/anderson-pete/ansi/compare/v3.8.0...v3.8.1
 [3.8.0]: https://github.com/anderson-pete/ansi/compare/v3.7.1...v3.8.0
 [3.7.1]: https://github.com/anderson-pete/ansi/compare/v3.7.0...v3.7.1
