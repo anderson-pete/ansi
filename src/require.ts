@@ -3,6 +3,7 @@ import * as $ansi from "./ansi";
 declare namespace ansi {
 	export type Ansi       = import("./types").Ansi;
 	export type ChainKey   = import("./sgr").ChainKey;
+	export type Channel    = import("./sgr").Channel;
 	export type Format     = import("./sgr").Format;
 	export type FormatBase = import("./sgr").FormatBase;
 }
