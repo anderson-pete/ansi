@@ -1,5 +1,6 @@
-import {Code}                                          from "#code";
-import {clip, rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./utils";
+import {Code}                                    from "#code";
+import {clip}                                    from "./clip";
+import {rgbToX256, rgbToX16, rgbToX8, x256ToRgb} from "./quantization";
 
 import type {Format}         from "../format";
 import type {Channel}        from "./channel";
