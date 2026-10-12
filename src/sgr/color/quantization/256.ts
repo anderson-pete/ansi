@@ -1,28 +1,39 @@
-export function rgbToX256(r: number, g: number, b: number): number {
-	if (r === g && g === b) {
-		// grayscale
-		return 232 + Math.floor(r * 24 / 256);
-	}
+import {x16Palette} from "./16";
 
-	// 6x6x6 color cube
-	return (
-		16 +
-		Math.floor(r * 6 / 256) * 36 +
-		Math.floor(g * 6 / 256) * 6 +
-		Math.floor(b * 6 / 256)
-	);
+const cubeLevels = [0, 95, 135, 175, 215, 255];
+
+const cubeIndex = (c: number): number => c < 48 ? 0 : c < 115 ? 1 : Math.floor((c - 35) / 40);
+
+export function rgbToX256(r: number, g: number, b: number): number {
+	const ri = cubeIndex(r),   gi = cubeIndex(g),   bi = cubeIndex(b);
+	const cr = cubeLevels[ri], cg = cubeLevels[gi], cb = cubeLevels[bi];
+
+	const avg  = Math.round((r + g + b) / 3);
+	const gi2  = Math.min(23, Math.max(0, Math.round((avg - 8) / 10)));
+	const gray = 8 + gi2 * 10;
+
+	const distance = (x: number, y: number, z: number): number =>
+		(r - x) ** 2 + (g - y) ** 2 + (b - z) ** 2;
+
+	return distance(gray, gray, gray) < distance(cr, cg, cb)
+		? 232 + gi2
+		: 16 + 36 * ri + 6 * gi + bi;
 }
 
 export function x256ToRgb(code: number): [number, number, number] {
-	if (code >= 232) {
-		// grayscale
-		const gray = Math.round((code - 232) * 255 / 24);
-		return [gray, gray, gray];
+	if (code < 16)
+		return x16Palette[code];
+
+	if (code < 232) {
+		code -= 16;
+		return [
+			cubeLevels[Math.floor(code / 36)],
+			cubeLevels[Math.floor((code % 36) / 6)],
+			cubeLevels[code % 6]
+		];
 	}
 
-	code -= 16;
-	const r = Math.floor(code / 36) * 51;
-	const g = Math.floor((code % 36) / 6) * 51;
-	const b = (code % 6) * 51;
-	return [r, g, b];
+	// grayscale
+	const gray = 8 + (code - 232) * 10;
+	return [gray, gray, gray];
 }
