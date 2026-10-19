@@ -1,6 +1,5 @@
 import {Code}              from "#code";
 import {codeSequence, csi} from "#utils";
-import {define}            from "@peteanderson/props";
 import {attachChain}       from "./chain";
 import {combineCodes}      from "./combine";
 
@@ -47,25 +46,22 @@ export function makeFormat<Keys extends ChainKey = ChainKey>(
 	);
 	const replace = `$<start>${reopenCode}$<end>`;
 
-	const format = attachChain(context, define(
+	const format = attachChain(context, Object.assign(
 		openSequence
 			? (s: string) => s ? openSequence + s.replace(rxClose, replace) + closeSequence : s
 			: (s: string) => s,
 		{
-			open    : {value: openSequence,  enumerable: true},
-			close   : {value: closeSequence, enumerable: true},
-			codes   : {value: {open, close}, enumerable: true},
-			combine : {
-				value: (...formats: [FormatBase, ...FormatBase[]]) => makeFormat(
-					context,
-					combineCodes(open,  ...formats.map(f => f.codes.open)),
-					combineCodes(close, ...formats.map(f => f.codes.close)),
-					reset,
-				),
-				enumerable: true,
-			},
+			open    : openSequence,
+			close   : closeSequence,
+			codes   : {open, close},
+			combine : (...formats: [FormatBase, ...FormatBase[]]) => makeFormat(
+				context,
+				combineCodes(open,  ...formats.map(f => f.codes.open)),
+				combineCodes(close, ...formats.map(f => f.codes.close)),
+				reset,
+			),
 		},
-	));
+	))
 
 	context.registerFormat(format);
 	return format;
