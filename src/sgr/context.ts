@@ -14,16 +14,28 @@ export interface FormatContext<Keys extends ChainKey = ChainKey> {
 	keys         : ReadonlySet<Keys>;
 	parentCodes? : Codes;
 	style        : Style;
-	removeKey    : <Key extends Keys>(key: Key) => FormatContext<Exclude<Keys, Key>>;
+
+	rebuild<K2 extends ChainKey = Keys>(
+		newProps: {parentCodes?: Codes, keys?: ReadonlySet<K2>}
+	): FormatContext<K2>;
+
+	removeKey<Key extends Keys>(key: Key): FormatContext<Exclude<Keys, Key>>;
+}
+
+function rebuild<K1 extends ChainKey, K2 extends ChainKey = K1>(
+	this     : FormatContext<K1>,
+	newProps : {parentCodes?: Codes, keys?: ReadonlySet<K2>}
+): FormatContext<K2> {
+	return {...this, ...newProps} as FormatContext<K2>;
 }
 
 function removeKey<Keys extends ChainKey, Key extends Keys>(
-	context : FormatContext<Keys>,
-	key     : Key,
+	this : FormatContext<Keys>,
+	key  : Key,
 ): FormatContext<Exclude<Keys, Key>> {
-	const keys = new Set(context.keys);
+	const keys = new Set(this.keys);
 	keys.delete(key);
-	return {...context, keys: keys as unknown as ReadonlySet<Exclude<Keys, Key>>};
+	return this.rebuild({keys}) as FormatContext<Exclude<Keys, Key>>;
 }
 
 export function getContext(format: FormatBase, features?: Features): FormatContext<any> {
@@ -38,7 +50,8 @@ export function getContext(format: FormatBase, features?: Features): FormatConte
 		keys        : allKeys,
 		parentCodes : format.codes,
 		style       : undefined as unknown as Style,
-		removeKey   : key => removeKey(context!, key),
+		rebuild,
+		removeKey,
 	};
 	context.style = makeStyle(context);
 
@@ -53,10 +66,11 @@ export function createContext<Keys extends ChainKey = ChainKey>(
 ): FormatContext<Keys> {
 	const context: FormatContext<Keys> = {
 		features,
-		keys           : keys ?? allKeys as ReadonlySet<Keys>,
+		keys        : keys ?? allKeys as ReadonlySet<Keys>,
 		parentCodes,
-		style          : undefined as unknown as Style,
-		removeKey      : key => removeKey(context, key),
+		style       : undefined as unknown as Style,
+		rebuild,
+		removeKey,
 	};
 	context.style = makeStyle(keys ? {...context, keys: allKeys} : context);
 

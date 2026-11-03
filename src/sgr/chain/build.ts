@@ -19,7 +19,7 @@ export function makeChain<Keys extends ChainKey>(
 		close : combineCodes(baseFormat.codes.close, context.parentCodes.close),
 	} : baseFormat.codes;
 
-	const chainedContext: FormatContext<Keys> = {...context, parentCodes};
+	context = context.rebuild({parentCodes});
 
-	return makeColor(context, makeStyle(chainedContext));
+	return makeColor(context, makeStyle(context));
 }

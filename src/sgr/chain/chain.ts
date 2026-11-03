@@ -52,7 +52,7 @@ export function chain<Keys extends ChainKey>(...args: OverloadedArgs<Keys>): For
 
 	let context = getContext(baseFormat, features);
 	if (!keysMatch(context.keys, keys))
-		context = {...context, keys};
+		context = context.rebuild({keys});
 
 	return attachChain(context, cloneFormatBase(baseFormat));
 }
