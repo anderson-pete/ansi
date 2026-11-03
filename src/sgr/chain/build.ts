@@ -21,5 +21,5 @@ export function makeChain<Keys extends ChainKey>(
 
 	const chainedContext: FormatContext<Keys> = {...context, parentCodes};
 
-	return {...makeColor(chainedContext), ...makeStyle(chainedContext)};
+	return makeColor(context, makeStyle(chainedContext));
 }

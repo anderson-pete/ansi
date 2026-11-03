@@ -13,8 +13,11 @@ export type Color<Keys extends ChainKey = ChainKey> = {
 	[K in Extract<ColorKey, Keys>]: Channel<Exclude<Keys, K>>;
 };
 
-export function makeColor<Keys extends ChainKey>(context: FormatContext<Keys>): Color<Keys> {
-	const rtn = {} as Color<Keys>;
+export function makeColor<Keys extends ChainKey, T extends object = object>(
+	context : FormatContext<Keys>,
+	obj?    : T,
+): T & Color<Keys> {
+	const rtn = (obj ?? {}) as T & Color<Keys>;
 
 	for (const channel of channels) {
 		if (context.keys.has(channel as Keys))

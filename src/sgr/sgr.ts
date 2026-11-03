@@ -25,12 +25,11 @@ export function makeSGR(features: Features): SGR {
 
 	const context = createContext(features);
 
-	const rtn: SGR = {
-		...makeColor(context),
+	const rtn: SGR = makeColor(context, {
 		style : context.style,
 		plain : makeFormat(context, Code.disabled, Code.disabled),
 		reset : makeReset(features.colorDepth > 1 || features.style),
-	};
+	});
 
 	cache[cacheKey] = rtn;
 

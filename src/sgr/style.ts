@@ -36,8 +36,11 @@ const propParams = Object.entries(propParamsObj) as ReadonlyArray<[StyleKey, For
 const disabledParams: typeof propParams =
 	propParams.map(([key]) => [key, [Code.disabled, Code.disabled]]);
 
-export function makeStyle<Keys extends ChainKey>(context: FormatContext<Keys>): Style<Keys> {
-	const rtn = {} as Style<Keys>;
+export function makeStyle<Keys extends ChainKey, T extends object = object>(
+	context : FormatContext<Keys>,
+	obj?    : T,
+): T & Style<Keys> {
+	const rtn = (obj ?? {}) as T & Style<Keys>;
 
 	for (const [key, args] of context.features.style ? propParams : disabledParams) {
 		if (context.keys.has(key as Keys))
