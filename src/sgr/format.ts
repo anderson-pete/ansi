@@ -2,6 +2,7 @@ import {Code}              from "#code";
 import {codeSequence, csi} from "#utils";
 import {attachChain}       from "./chain";
 import {combineCodes}      from "./combine";
+import {ContextTracker}    from "./context-tracker";
 
 import type {Codes}           from "#code";
 import type {Chain, ChainKey} from "./chain";
@@ -63,6 +64,6 @@ export function makeFormat<Keys extends ChainKey = ChainKey>(
 		},
 	))
 
-	context.registerFormat(format);
+	ContextTracker.track(format, context);
 	return format;
 };
