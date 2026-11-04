@@ -2,10 +2,10 @@ import {define} from "@peteanderson/props";
 
 import type {GetterProperty} from "@peteanderson/props";
 
-export function lazy<K extends keyof any, V>(key: K, get: () => V): GetterProperty<V> {
+export function lazy<K extends keyof any, V>(key: K, get: (this: any) => V): GetterProperty<V> {
 	return {
 		get() {
-			const value = get();
+			const value = get.call(this);
 			define(this, key, {value, enumerable: true});
 			return value;
 		},

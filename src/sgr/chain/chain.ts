@@ -1,19 +1,26 @@
-import {define, ownProperties} from "@peteanderson/props";
 import {getContext}            from "../context";
+import {ContextTracker}        from "../context-tracker";
+import {getFamily}             from "../format";
 import {attachChain}           from "./attach";
 import {allKeys}               from "./keys";
 
 import type {Features}           from "#features";
+import type {FormatContext}      from "../context";
 import type {Format, FormatBase} from "../format";
 import type {ChainKey}           from "./keys";
 
-function cloneFormatBase(baseFormat: FormatBase): FormatBase {
-	const clone       = (text: string) => baseFormat(text);
-	const descriptors = ownProperties(baseFormat);
+function cloneFormat(format: FormatBase, context: FormatContext<any>): FormatBase {
+	const family = getFamily(format);
+	if (family)
+		return family.makeClone(format);
 
-	delete descriptors.and;
+	// Not one of ours, so the clone has to carry what we know about it.
+	const {open, close, codes, combine} = format;
 
-	return define(clone, descriptors);
+	return Object.assign(
+		ContextTracker.track((text: string) => format(text), context),
+		{open, close, codes, combine},
+	);
 }
 
 function keysMatch(a: ReadonlySet<ChainKey>, b: ReadonlySet<ChainKey>): boolean {
@@ -54,7 +61,7 @@ export function chain<Keys extends ChainKey>(...args: OverloadedArgs<Keys>): For
 	if (!keysMatch(context.keys, keys))
 		context = context.rebuild({keys});
 
-	return attachChain(context, cloneFormatBase(baseFormat));
+	return attachChain(context, cloneFormat(baseFormat, context));
 }
 
 export type AddChain = typeof chain;

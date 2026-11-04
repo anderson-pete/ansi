@@ -1,6 +1,7 @@
 import {getFeatures}    from "#features";
 import {allKeys}        from "./chain";
 import {ContextTracker} from "./context-tracker";
+import {getFamily}      from "./format";
 import {makeStyle}      from "./style";
 
 import type {Codes}      from "#code";
@@ -39,7 +40,7 @@ function removeKey<Keys extends ChainKey, Key extends Keys>(
 }
 
 export function getContext(format: FormatBase, features?: Features): FormatContext<any> {
-	let context = ContextTracker.find(format);
+	let context = getFamily(format)?.context ?? ContextTracker.find(format);
 	if (context)
 		return context;
 

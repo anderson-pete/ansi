@@ -1,6 +1,6 @@
-import {Code}         from "#code";
-import {combineCodes} from "../combine";
-import {makeFormat}   from "../format";
+import {Code}                     from "#code";
+import {combineCodes}             from "../combine";
+import {FormatFamily, makeFormat} from "../format";
 
 import type {FormatContext}      from "../context";
 import type {Format, FormatBase} from "../format";
@@ -26,7 +26,8 @@ export function buildChannelContext(formatContext: FormatContext, channel: Color
 	const {colorDepth}                    = formatContext.features;
 	const {open, close, extended, offset} = colorDepth > 1 ? baseCodes[channel] : disabledCodes;
 
-	const build   = (open: Code): Format => makeFormat(formatContext, open, close);
+	const family  = new FormatFamily(formatContext, close);
+	const build   = (open: Code): Format => family.make(open);
 	const combine = (base: FormatBase, style: FormatBase): Format => makeFormat(
 		formatContext,
 		combineCodes(base.codes.open,  style.codes.open),
