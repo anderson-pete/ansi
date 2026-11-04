@@ -1,6 +1,5 @@
-import {makeColor}    from "../color";
-import {combineCodes} from "../combine";
-import {makeStyle}    from "../style";
+import {makeColor} from "../color";
+import {makeStyle} from "../style";
 
 import type {Color}         from "../color";
 import type {FormatContext} from "../context";
@@ -14,12 +13,6 @@ export function makeChain<Keys extends ChainKey>(
 	context    : FormatContext<Keys>,
 	baseFormat : FormatBase,
 ): Chain<Keys> {
-	const parentCodes = context.parentCodes ? {
-		open  : combineCodes(context.parentCodes.open, baseFormat.codes.open),
-		close : combineCodes(baseFormat.codes.close, context.parentCodes.close),
-	} : baseFormat.codes;
-
-	context = context.rebuild({parentCodes});
-
+	context = context.rebuild({parentCodes: baseFormat.codes});
 	return makeColor(context, makeStyle(context));
 }
