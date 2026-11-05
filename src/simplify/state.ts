@@ -3,7 +3,7 @@ import {arraysEqual, transitionIntensity} from "./utils";
 
 import type {Attribute, AttributeMap, CodeArray} from "./types";
 
-const defaultCodes: Map<Attribute, CodeArray> = new Map([
+export const defaultCodes: Map<Attribute, CodeArray> = new Map([
 	["intensity",     [22]],
 	["italic",        [23]],
 	["underline",     [24]],
@@ -15,6 +15,9 @@ const defaultCodes: Map<Attribute, CodeArray> = new Map([
 	["frame",         [54]],
 	["overline",      [55]],
 ]);
+
+// Stands in for a snapshot of a state with nothing in it. It's only ever read.
+const emptyState: ReadonlyMap<Attribute, CodeArray> = new Map();
 
 export class State extends Map<Attribute, CodeArray> implements AttributeMap {
 	#isDefaultState(except?: Attribute): boolean {
@@ -30,7 +33,7 @@ export class State extends Map<Attribute, CodeArray> implements AttributeMap {
 	}
 
 	update(codes: CodeArray): CodeArray {
-		let snapshot: AttributeMap = new Map(this);
+		let snapshot: ReadonlyMap<Attribute, CodeArray> = this.size ? new Map(this) : emptyState;
 
 		const attributes = new Set<Attribute>();
 

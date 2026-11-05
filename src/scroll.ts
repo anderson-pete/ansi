@@ -5,12 +5,12 @@ const scroll = {
 	down      : count<[lines?: number]>("T", "S"),
 	setRegion : (top?: number, bottom?: number) =>
 		csi(
+			"r",
 			!top || top < 2 ? // Omit top if we can use the default.
 				bottom ?? "" :
 			!bottom ?
 				top :
 			[top, bottom],
-			"r",
 		),
 };
 

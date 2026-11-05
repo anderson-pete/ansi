@@ -62,6 +62,9 @@ const codeMap: Record<number | "", [attribute: Attribute, buildAtom?: BuildAtom]
 	107 : ["bg"],
 };
 
+/** Gets the attribute that a code sets. Codes that we don't recognize are their own attributes. */
+export const getAttribute = (code: number | ""): Attribute => codeMap[code]?.[0] ?? code;
+
 export function lookUpAtom(codes: CodeArray, index: number, state: AttributeMap): Atom {
 	const code  = codes[index];
 	const entry = codeMap[code];

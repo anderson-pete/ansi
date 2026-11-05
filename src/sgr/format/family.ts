@@ -29,7 +29,7 @@ export class FormatFamily<Keys extends ChainKey = ChainKey> {
 		this.close         = context.parentCodes
 			? combineCodes(close, context.parentCodes.close)
 			: close;
-		this.closeSequence = csi(this.close, "m");
+		this.closeSequence = csi("m", this.close);
 
 		this.#makeFunction = makeFormatFunction(this.close, this.closeSequence, reset);
 		this.#class        = context.keys.size ? ChainedFormatter : Formatter;
@@ -41,7 +41,7 @@ export class FormatFamily<Keys extends ChainKey = ChainKey> {
 		if (context.parentCodes)
 			open = combineCodes(context.parentCodes.open, open);
 
-		const openSequence = csi(open, "m");
+		const openSequence = csi("m", open);
 		const format       = new this.#class(
 			openSequence ? this.#makeFunction(open, openSequence) : (text: string) => text,
 			this,

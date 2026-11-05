@@ -1,22 +1,27 @@
 import {Code} from "#code";
 
-export const codeSequence = (code: Code): string | number =>
-	Array.isArray(code) ? code.join(";") : code;
+export function codeSequence(code: Code): string | number {
+	if (!Array.isArray(code))
+		return code;
 
-export function csi(command: string): string;
-export function csi(params: Code, command: string): string;
-export function csi(...args: [string] | [Code, string]): string {
-	const command = args.pop() as string;
-	const params  = args.pop() as Code | undefined ?? "";
+	// A loop is considerably faster than `join` for the short arrays we deal with. Like `join`, it
+	// treats `undefined` and `null` as empty, which is how JavaScript callers omit arguments.
+	let sequence = code.length ? `${code[0] ?? ""}` : "";
 
-	return Code.isDisabled(params) ? "" : `\x1b[${codeSequence(params)}${command}`;
+	for (let i = 1; i < code.length; i++)
+		sequence += `;${code[i] ?? ""}`;
+
+	return sequence;
 }
+
+export const csi = (command: string, params?: Code): string =>
+	params && Code.isDisabled(params) ? "" : `\x1b[${codeSequence(params ?? "")}${command}`;
 
 const forwardOnlyCount = (code: string) => (count?: number): string => {
 	if (count === 0 || count! < 0)
 		return "";
 
-	return csi(count === 1 || count === undefined ? "" : count, code);
+	return csi(code, count === 1 || count === undefined ? "" : count);
 };
 
 const reversibleCount = (forwardCode: string, backwardCode: string) => (count?: number): string => {
@@ -24,9 +29,9 @@ const reversibleCount = (forwardCode: string, backwardCode: string) => (count?: 
 		return "";
 
 	if (!count || count > 0)
-		return csi(count === 1 || count === undefined ? "" : count, forwardCode);
+		return csi(forwardCode, count === 1 || count === undefined ? "" : count);
 
-	return csi(count === -1 ? "" : -count, backwardCode);
+	return csi(backwardCode, count === -1 ? "" : -count);
 }
 
 export const count = <Param extends [number?] = [count?: number]>(

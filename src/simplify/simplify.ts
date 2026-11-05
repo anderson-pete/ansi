@@ -19,7 +19,7 @@ export function simplify(text: string): string {
 			chunk = parts[i++];
 		}
 
-		result += csi(state.update(codes), "m") + chunk;
+		result += csi("m", state.update(codes)) + chunk;
 	}
 
 	return result;

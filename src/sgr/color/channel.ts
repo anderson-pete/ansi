@@ -58,7 +58,7 @@ export function makeChannel<Keys extends ChainKey>(
 	const rtn = {
 		rgb     : makeRGB(channelContext),
 		x256    : makeX256(channelContext),
-		default : csi(close, "m"),
+		default : csi("m", close),
 	} as unknown as Channel<Keys>;
 
 	for (let i = 0; i < colors.length; i++) {
