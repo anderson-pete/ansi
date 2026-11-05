@@ -1,3 +1,4 @@
+import {ChainKeys}             from "./chain-keys";
 import {getContext}            from "../context";
 import {ContextTracker}        from "../context-tracker";
 import {getFamily}             from "../format";
@@ -44,10 +45,10 @@ type OverloadedArgs<Keys extends ChainKey> = [FormatBase, Features?] | ChainArgs
 
 const resolveArgs = <Keys extends ChainKey>(args: OverloadedArgs<Keys>): ChainArgs<Keys> =>
 	args.length === 1 ?
-		[allKeys as ReadonlySet<Keys>, args[0], undefined] :
+		[allKeys as ChainKeys<Keys>, args[0], undefined] :
 	args.length === 2 ?
 		typeof args[0] === "function"
-			? [allKeys as ReadonlySet<Keys>, ...args as [FormatBase]]
+			? [allKeys as ChainKeys<Keys>, ...args as [FormatBase]]
 			: args as ChainArgs<Keys> :
 	args as ChainArgs<Keys>;
 
@@ -59,7 +60,7 @@ export function chain<Keys extends ChainKey>(...args: OverloadedArgs<Keys>): For
 
 	let context = getContext(baseFormat, features);
 	if (!keysMatch(context.keys, keys))
-		context = context.rebuild({keys});
+		context = context.rebuild({keys: ChainKeys.forKeys(keys)});
 
 	return attachChain(context, cloneFormat(baseFormat, context));
 }

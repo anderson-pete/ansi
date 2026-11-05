@@ -70,11 +70,11 @@ export class FormatFamily<Keys extends ChainKey = ChainKey> {
 		return clone;
 	}
 
-	/** Makes the `combine` property of a format in this family. */
-	makeCombine(format: FormatBase): FormatBase["combine"] {
+	/** Makes a format that combines a format in this family with other formats. */
+	combineFormats(format: FormatBase, formats: readonly FormatBase[]): FormatBase {
 		const {open, close} = format.codes;
 
-		return (...formats) => makeFormat(
+		return makeFormat(
 			this.context,
 			combineCodes(open,  ...formats.map(f => f.codes.open)),
 			combineCodes(close, ...formats.map(f => f.codes.close)),

@@ -1,12 +1,14 @@
 import {csi}                 from "#utils";
-import {lazy}                from "../lazy";
+import {makeLazyClass}       from "../lazy-class";
 import {buildChannelContext} from "./context";
 import {makeRGB, makeX256}   from "./rgb";
 
-import type {ChainKey}      from "../chain";
-import type {FormatContext} from "../context";
-import type {Format}        from "../format";
-import type {ColorKey}      from "./color";
+import type {ChainKey}               from "../chain";
+import type {FormatContext}          from "../context";
+import type {Format}                 from "../format";
+import type {LazyPropertyDefinition} from "../lazy-class";
+import type {ColorKey}               from "./color";
+import type {ChannelContext}         from "./context";
 
 export interface Channel<Keys extends ChainKey = ChainKey> {
 	black   : Format<Keys>;
@@ -48,26 +50,23 @@ const colors = [
 	"white",
 ] as const;
 
-export function makeChannel<Keys extends ChainKey>(
+const definitions: LazyPropertyDefinition<ChannelContext>[] = [
+	["rgb",     context => makeRGB(context)],
+	["x256",    context => makeX256(context)],
+	["default", context => csi("m", context.close)],
+];
+
+for (let i = 0; i < colors.length; i++) {
+	const color       = colors[i];
+	const brightColor = `bright${color[0].toUpperCase()}${color.slice(1)}`;
+
+	definitions.push([color,       context => context.build(context.offset(i))]);
+	definitions.push([brightColor, context => context.bright(i)]);
+}
+
+const Channel = makeLazyClass(definitions);
+
+export const makeChannel = <Keys extends ChainKey>(
 	formatContext : FormatContext<Keys>,
 	channel       : ColorKey,
-): Channel<Keys> {
-	const channelContext                 = buildChannelContext(formatContext, channel);
-	const {build, bright, close, offset} = channelContext;
-
-	const rtn = {
-		rgb     : makeRGB(channelContext),
-		x256    : makeX256(channelContext),
-		default : csi("m", close),
-	} as unknown as Channel<Keys>;
-
-	for (let i = 0; i < colors.length; i++) {
-		const color       = colors[i];
-		const brightColor = `bright${color[0].toUpperCase()}${color.slice(1)}`;
-
-		lazy.add(rtn, color,       () => build(offset(i)));
-		lazy.add(rtn, brightColor, () => bright(i));
-	}
-
-	return rtn;
-}
+): Channel<Keys> => new Channel(buildChannelContext(formatContext, channel)) as Channel<Keys>;

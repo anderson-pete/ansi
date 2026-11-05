@@ -9,7 +9,7 @@ import type {Format}        from "./format";
 
 type FormatBuilderArgs = [Code, Code, boolean?];
 
-const propParamsObj = {
+const propParams = {
 	bold            : [ 1, 22, true],
 	dim             : [ 2, 22, true],
 	italic          : [ 3, 23],
@@ -23,7 +23,7 @@ const propParamsObj = {
 	overline        : [53, 55],
 } satisfies Record<string, FormatBuilderArgs>;
 
-export const styleKeys = TypedObject.keys(propParamsObj);
+export const styleKeys = TypedObject.keys(propParams);
 
 export type StyleKey = typeof styleKeys[number];
 
@@ -31,10 +31,17 @@ export type Style<Keys extends ChainKey = ChainKey> = {
 	[K in Extract<StyleKey, Keys>]: Format<Exclude<Keys, K>>;
 };
 
-const propParams = Object.entries(propParamsObj) as ReadonlyArray<[StyleKey, FormatBuilderArgs]>;
+const disabledParams = Object.fromEntries(
+	styleKeys.map(key => [key, [Code.disabled, Code.disabled]]),
+) as unknown as Record<StyleKey, FormatBuilderArgs>;
 
-const disabledParams: typeof propParams =
-	propParams.map(([key]) => [key, [Code.disabled, Code.disabled]]);
+export const makeStyleFormat = <Keys extends ChainKey>(
+	context : FormatContext<Keys>,
+	key     : StyleKey,
+): Format<Exclude<Keys, StyleKey>> => makeFormat(
+	context.removeKey(key as Keys),
+	...(context.features.style ? propParams : disabledParams)[key],
+) as Format<Exclude<Keys, StyleKey>>;
 
 export function makeStyle<Keys extends ChainKey, T extends object = object>(
 	context : FormatContext<Keys>,
@@ -42,9 +49,9 @@ export function makeStyle<Keys extends ChainKey, T extends object = object>(
 ): T & Style<Keys> {
 	const rtn = (obj ?? {}) as T & Style<Keys>;
 
-	for (const [key, args] of context.features.style ? propParams : disabledParams) {
+	for (const key of styleKeys) {
 		if (context.keys.has(key as Keys))
-			lazy.add(rtn, key, () => makeFormat(context.removeKey(key as Keys), ...args));
+			lazy.add(rtn, key, () => makeStyleFormat(context, key));
 	}
 
 	return rtn;

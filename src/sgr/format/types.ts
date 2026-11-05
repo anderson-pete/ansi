@@ -7,7 +7,8 @@ export interface FormatBase {
 	open    : string;
 	close   : string;
 	codes   : Codes;
-	combine : (...formats: [FormatBase, ...FormatBase[]]) => FormatBase;
+
+	combine(...formats: [FormatBase, ...FormatBase[]]): FormatBase;
 }
 
 export interface ChainedFormat<Keys extends ChainKey = ChainKey> extends FormatBase {

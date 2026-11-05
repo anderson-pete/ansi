@@ -41,12 +41,12 @@ export class Formatter extends Callable {
 		this.#family = family;
 	}
 
+	combine(...formats: [FormatBase, ...FormatBase[]]): FormatBase {
+		return this.#family.combineFormats(this, formats);
+	}
+
 	static {
 		getFamily = format => #family in format ? (format as Formatter).#family : undefined;
-
-		define(this.prototype, "combine", lazy("combine", function(this: Formatter) {
-			return getFamily(this)!.makeCombine(this);
-		}));
 	}
 }
 
