@@ -1,6 +1,6 @@
 {
 	"name"            : "@peteanderson/ansi",
-	"version"         : "3.8.2",
+	"version"         : "3.8.3",
 	"description"     : "ANSI escape sequence generation with automatic feature detection",
 	"author"          : {
 		"name"  : "Pete Anderson",

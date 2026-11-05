@@ -1,5 +1,58 @@
 # Changelog
 
+## [3.8.3] - 2026-11-05
+### Fixed
+ - Since 3.8.0, formats chained using `.and` lost the parent formats and rendered only the final
+   format in the chain. This is now fixed.
+ - Nested calls to `chain()` could result in an incorrectly determined features, notably color depth
+
+### Changed
+ - Huge performance gains. I've taken steps throughout this library's history to make sure it
+   performed well for common use cases, but some edge cases remained. In particular, `.rgb()` and
+   `.x256()` formats were comparatively slow (~1.5 µs per call), and chaining them with `.and` was
+   **much** slower (~38 µs additional per call). Using `.combine()` was faster, but still cost
+   about 2.5 µs per call.
+
+   I've put a **lot** of work into optimizing these and other cases, and the results are
+   significant. In the following table, `$` represents an `ansi` instance, and the timings are
+   approximated averages over multiple runs. Your results may vary.
+
+   | Expression                               |  Before | After  | Speedup |
+   | ---------------------------------------- | ------- | ------ | ------- |
+   | `$.fg.rgb(…)`                            |  1.5 µs | 145 ns |     10× |
+   | `$.fg.x256(0)`                           |  1.4 µs | 120 ns |     12× |
+   | `$.fg.rgb(…).combine($.style.bold)`      |  3.9 µs | 435 ns |      9× |
+   | `$.fg.rgb(…).and.bold`                   |   39 µs | 735 ns |     53× |
+   | `$.fg.rgb(…).and.bold.and.dim.and.frame` |  108 µs | 2.7 µs |     40× |
+   | `$.style.bold.combine($.fg.rgb(…))`      |    4 µs | 435 ns |      9× |
+   | `$.style.bold.and.fg.rgb(…)`             |  2.2 µs | 200 ns |     11× |
+   | `$.fg.red`                               |  8.9 ns | 4.9 ns |    1.8× |
+   | `$.fg.red.and.bold`                      | 12.5 ns | 5.5 ns |    2.3× |
+
+   The last two entries demonstrate that simple colors were already very fast, because they could be
+   cached, but even those have been further optimized in this release.
+
+   Initial load time of the library has _increased_ slightly, from about 12.5 ms to about 14 ms.
+   This is mostly due to refactor of some modules into multiple files and can be mitigated by using
+   a bundler.
+
+   A lot of implementation details have changed, and if you were relying on any of it, it may cause
+   some issues for you. In particular, you may notice:
+
+    * `.combine` is now a method that needs its `this` context, so you can't destructure it without
+      binding it to its source format or calling it with `.call`
+
+    * Many properties and methods are no longer enumerable and won't show up in object dumps. Some
+      _will_ show up, but only after first use.
+
+    * You may notice new class names in object dumps.
+
+    * Previously, mutating a set after passing it to `chain()` could change the properties present
+      in the immediate `.and` chain. That is no longer possible.
+
+  None of this behavior is documented and relying on it is unsupported. The public API remains
+  unchanged (with the exception of `.combine` now being a method instead of a function property).
+
 ## [3.8.2] - 2026-10-06
 ### Fixed
  - Fixed generic exports for CJS consumers
@@ -254,6 +307,7 @@
  - `stripAnsiSequences()` to remove ANSI codes from a string
  - Auto-detection of color support via TTY state and `NO_COLOR`, `FORCE_COLOR`, etc.
 
+[3.8.3]: https://github.com/anderson-pete/ansi/compare/v3.8.2...v3.8.3
 [3.8.2]: https://github.com/anderson-pete/ansi/compare/v3.8.1...v3.8.2
 [3.8.1]: https://github.com/anderson-pete/ansi/compare/v3.8.0...v3.8.1
 [3.8.0]: https://github.com/anderson-pete/ansi/compare/v3.7.1...v3.8.0
